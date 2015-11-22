@@ -53,6 +53,13 @@ class ViewController: UIViewController {
         touchHandler.touchesMoved(touches)
     }
 
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        super.touchesCancelled(touches, withEvent: event)
+        if let touches = touches {
+            touchHandler.touchesEnded(touches)
+        }
+    }
+
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
         touchHandler.touchesEnded(touches)

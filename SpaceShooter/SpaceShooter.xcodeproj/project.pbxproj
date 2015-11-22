@@ -738,6 +738,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.drtyhbo.SpaceShooter;
 				PRODUCT_NAME = SpaceShooter;
 				SWIFT_OBJC_BRIDGING_HEADER = "SpaceShooter/SpaceShooter-bridging-header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -761,6 +762,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.drtyhbo.SpaceShooter;
 				PRODUCT_NAME = SpaceShooter;
 				SWIFT_OBJC_BRIDGING_HEADER = "SpaceShooter/SpaceShooter-bridging-header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
