@@ -80,10 +80,20 @@ class ViewController: UIViewController {
     private func getJoypadSpriteInstanceFromTouchType(touchType: TouchHandler.TouchType) -> SpriteInstance {
         return touchType == .Movement ? movementJoypad : shootingJoypad
     }
+
+    private func showJoypadForTouchType(touchType: TouchHandler.TouchType, atLocation location: float2) {
+        let joypadSpriteInstance = getJoypadSpriteInstanceFromTouchType(touchType)
+        joypadSpriteInstance.position = location - (joypadSpriteInstance.size * 0.5)
+        joypadSpriteInstance.hidden = false
+    }
 }
 
 extension ViewController: TouchHandlerDelegate {
-    func touchHandler(touchHandler: TouchHandler, center: float2, direction: float2, forTouchType touchType: TouchHandler.TouchType) {
+    func touchHandler(touchHandler: TouchHandler, didBeginTouchWithLocation location: float2, forTouchType touchType: TouchHandler.TouchType) {
+        showJoypadForTouchType(touchType, atLocation: location)
+    }
+
+    func touchHandler(touchHandler: TouchHandler, didMoveWithLocation location: float2, direction: float2, forTouchType touchType: TouchHandler.TouchType) {
         if let player = GameManager.sharedManager.player {
             if touchType == .Movement {
                 player.setVelocity(float3(direction, 0))
@@ -91,9 +101,7 @@ extension ViewController: TouchHandlerDelegate {
                 player.setShootingDirection(float3(direction, 0))
             }
 
-            let joypadSpriteInstance = getJoypadSpriteInstanceFromTouchType(touchType)
-            joypadSpriteInstance.position = float2(center[0] - joypadSpriteInstance.size[0] / 2, center[1] - joypadSpriteInstance.size[1] / 2)
-            joypadSpriteInstance.hidden = false
+            showJoypadForTouchType(touchType, atLocation: location)
         }
     }
 

@@ -9,7 +9,8 @@
 import Foundation
 
 protocol TouchHandlerDelegate: class {
-    func touchHandler(touchHandler: TouchHandler, center: float2, direction: float2, forTouchType touchType: TouchHandler.TouchType)
+    func touchHandler(touchHandler: TouchHandler, didBeginTouchWithLocation location: float2, forTouchType touchType: TouchHandler.TouchType)
+    func touchHandler(touchHandler: TouchHandler, didMoveWithLocation location: float2, direction: float2, forTouchType touchType: TouchHandler.TouchType)
     func touchHandler(touchHandler: TouchHandler, didEndForTouchType touchType: TouchHandler.TouchType)
 }
 
@@ -43,6 +44,7 @@ class TouchHandler {
             if touchesByType[touchType] == nil {
                 self.touches[touch] = Touch(touchType: touchType, initialLocation: location)
                 touchesByType[touchType] = self.touches[touch]
+                delegate?.touchHandler(self, didBeginTouchWithLocation: location, forTouchType: touchType)
             }
         }
     }
@@ -63,7 +65,7 @@ class TouchHandler {
             if let touch = self.touches[touch] {
                 let direction = location - touch.initialLocation
                 var magnitude = length(direction)
-                let normalizedDirection = float2(direction[0] / magnitude, direction[1] / magnitude)
+                let normalizedDirection = direction * (1 / magnitude)
 
                 if magnitude > maxDistance {
                     magnitude = maxDistance
@@ -71,7 +73,7 @@ class TouchHandler {
                 }
 
                 let finalDirection = normalizedDirection * magnitude
-                delegate?.touchHandler(self, center: touch.initialLocation, direction: float2(finalDirection[0], -finalDirection[1]), forTouchType: touch.touchType)
+                delegate?.touchHandler(self, didMoveWithLocation: touch.initialLocation, direction: float2(finalDirection[0], -finalDirection[1]), forTouchType: touch.touchType)
             }
         }
     }
