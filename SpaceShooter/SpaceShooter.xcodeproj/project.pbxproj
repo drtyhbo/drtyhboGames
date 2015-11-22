@@ -20,7 +20,6 @@
 		901775511BD44CDB00097B53 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901775461BD44CDB00097B53 /* ViewController.swift */; };
 		901775551BD44CEE00097B53 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = 901775531BD44CEE00097B53 /* cube.obj */; };
 		901775591BD44CFF00097B53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 901775561BD44CFF00097B53 /* Assets.xcassets */; };
-		9017755A1BD44CFF00097B53 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 901775571BD44CFF00097B53 /* Info.plist */; };
 		9017755C1BD44D0B00097B53 /* EntityShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9017755B1BD44D0B00097B53 /* EntityShader.metal */; };
 		901775621BD44D5D00097B53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9017755E1BD44D5D00097B53 /* LaunchScreen.storyboard */; };
 		901775631BD44D5D00097B53 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 901775601BD44D5D00097B53 /* Main.storyboard */; };
@@ -468,7 +467,7 @@
 		DD3410521BBED4FE00638CAC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "drtyhbo productions";
 				TargetAttributes = {
 					DD3410591BBED4FE00638CAC = {
@@ -501,7 +500,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				901775551BD44CEE00097B53 /* cube.obj in Resources */,
-				9017755A1BD44CFF00097B53 /* Info.plist in Resources */,
 				908943311BE87A7800BC42D7 /* seeker.obj in Resources */,
 				9003E3CD1BFA3836001E3D33 /* gem.obj in Resources */,
 				9089434C1BE89CED00BC42D7 /* gravity.obj in Resources */,
