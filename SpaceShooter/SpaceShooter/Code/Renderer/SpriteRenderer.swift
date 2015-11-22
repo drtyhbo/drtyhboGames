@@ -61,10 +61,15 @@ class SpriteRenderer: Renderer {
 
             var instanceCount = 0
             for instance in sprite.instances {
-                if instance.hidden {
+                if instance.alpha < 0.01 {
                     continue
                 }
+
+                // This is going to be horribly inefficient should we dramatically increase the
+                // number of sprites.
                 perInstanceUniformsBuffer.copyData(instance.modelMatrix.raw(), size: Matrix4.size())
+                perInstanceUniformsBuffer.copyData(&instance.alpha, size: sizeof(Float))
+
                 instanceCount++
             }
 

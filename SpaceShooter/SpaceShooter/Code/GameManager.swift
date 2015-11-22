@@ -14,6 +14,7 @@ class GameManager {
     let camera = Camera()
     let gameState: GameState
     var player: Ship?
+
     var isPaused: Bool = false {
         didSet {
             if isPaused == oldValue {
@@ -23,6 +24,7 @@ class GameManager {
             GameTimer.sharedTimer.pause(isPaused)
         }
     }
+    private var timeSincePaused = NSDate()
 
     private var labels: Labels = Labels()
     private var renderManager: RenderManager!

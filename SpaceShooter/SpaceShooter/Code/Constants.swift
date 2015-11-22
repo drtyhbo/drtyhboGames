@@ -95,6 +95,10 @@ class Constants {
         }
     }
 
+    struct UI {
+        static let gamePauseHelperTime: Float = 1
+    }
+
     struct World {
         static let spawnPadding: Float = 2
     }

@@ -16,6 +16,7 @@ class ViewController: UIViewController {
 
     private var movementJoypad: SpriteInstance!
     private var shootingJoypad: SpriteInstance!
+    private var pauseDate: NSDate?
 
     lazy private var touchHandler: TouchHandler = {
         [unowned self] in
@@ -37,9 +38,7 @@ class ViewController: UIViewController {
 
         let sprite = SpriteManager.sharedManager.createSpriteWithSize(float2(100, 100))
         movementJoypad = sprite.createInstance()
-        movementJoypad.hidden = true
         shootingJoypad = sprite.createInstance()
-        shootingJoypad.hidden = true
 
         view.multipleTouchEnabled = true
     }
@@ -73,8 +72,34 @@ class ViewController: UIViewController {
     }
     
     @objc private func nextFrame(displayLink: CADisplayLink) {
-        GameManager.sharedManager.isPaused = movementJoypad.hidden && shootingJoypad.hidden && GameManager.sharedManager.gameState.state == .Playing
+        let isPaused = touchHandler.numTouches == 0 && GameManager.sharedManager.gameState.state == .Playing
+        handlePause(isPaused)
+
         GameManager.sharedManager.nextFrameWithTimestamp(displayLink.timestamp)
+    }
+
+    private func handlePause(isPaused: Bool) {
+        GameManager.sharedManager.isPaused = isPaused
+
+        if !isPaused {
+            pauseDate = nil
+            return
+        }
+
+        if let pauseDate = pauseDate {
+            let timeSincePause = Float(NSDate().timeIntervalSinceDate(pauseDate))
+            if timeSincePause > Constants.UI.gamePauseHelperTime {
+                let screenSize = float2(Float(UIScreen.mainScreen().bounds.width), Float(UIScreen.mainScreen().bounds.height))
+                movementJoypad.position = float2(20, screenSize[1] - 20 - movementJoypad.size[1])
+                shootingJoypad.position = float2(screenSize[0] - 20 - movementJoypad.size[0], screenSize[1] - 20 - movementJoypad.size[1])
+
+                let alpha = Float(abs(sin(timeSincePause - Constants.UI.gamePauseHelperTime)))
+                movementJoypad.alpha = alpha
+                shootingJoypad.alpha = alpha
+            }
+        } else {
+            pauseDate = NSDate()
+        }
     }
 
     private func getJoypadSpriteInstanceFromTouchType(touchType: TouchHandler.TouchType) -> SpriteInstance {
@@ -84,7 +109,7 @@ class ViewController: UIViewController {
     private func showJoypadForTouchType(touchType: TouchHandler.TouchType, atLocation location: float2) {
         let joypadSpriteInstance = getJoypadSpriteInstanceFromTouchType(touchType)
         joypadSpriteInstance.position = location - (joypadSpriteInstance.size * 0.5)
-        joypadSpriteInstance.hidden = false
+        joypadSpriteInstance.alpha = 1
     }
 }
 
@@ -113,7 +138,7 @@ extension ViewController: TouchHandlerDelegate {
                 player.stopShooting()
             }
 
-            getJoypadSpriteInstanceFromTouchType(touchType).hidden = true
+            getJoypadSpriteInstanceFromTouchType(touchType).alpha = 0
         }
     }
 }

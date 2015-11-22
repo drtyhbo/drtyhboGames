@@ -32,6 +32,8 @@ class TouchHandler {
 
     weak var delegate: TouchHandlerDelegate?
 
+    var numTouches = 0
+
     private let maxDistance: Float = 30
 
     private var touches: [UITouch:Touch] = [:]
@@ -45,6 +47,8 @@ class TouchHandler {
                 self.touches[touch] = Touch(touchType: touchType, initialLocation: location)
                 touchesByType[touchType] = self.touches[touch]
                 delegate?.touchHandler(self, didBeginTouchWithLocation: location, forTouchType: touchType)
+
+                numTouches++
             }
         }
     }
@@ -55,6 +59,8 @@ class TouchHandler {
                 touchesByType.removeValueForKey(touchType)
                 self.touches.removeValueForKey(touch)
                 delegate?.touchHandler(self, didEndForTouchType: touchType)
+
+                numTouches--
             }
         }
     }

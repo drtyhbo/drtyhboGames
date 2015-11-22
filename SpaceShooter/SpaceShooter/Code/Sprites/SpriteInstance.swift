@@ -13,7 +13,7 @@ class SpriteInstance {
 
     var position: float2 = float2(0)
     var size: float2 = float2(0)
-    var hidden: Bool = false
+    var alpha: Float = 0
 
     var modelMatrix: Matrix4 {
         let matrix = Matrix4()
