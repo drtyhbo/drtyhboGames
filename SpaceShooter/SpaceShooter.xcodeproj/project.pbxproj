@@ -55,7 +55,7 @@
 		90932C4A1BEBB45000FBD4E5 /* BufferQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C491BEBB45000FBD4E5 /* BufferQueue.swift */; };
 		90932C4C1BEBB45800FBD4E5 /* TextureQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C4B1BEBB45800FBD4E5 /* TextureQueue.swift */; };
 		90932C591BEBBB7C00FBD4E5 /* UnaryImageFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C571BEBBB7C00FBD4E5 /* UnaryImageFilter.swift */; };
-		90932C5F1BEBBBD600FBD4E5 /* CopyFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C5E1BEBBBD600FBD4E5 /* CopyFilter.swift */; };
+		90932C5F1BEBBBD600FBD4E5 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C5E1BEBBBD600FBD4E5 /* Filter.swift */; };
 		90932C611BEBBF9700FBD4E5 /* BloomFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C601BEBBF9700FBD4E5 /* BloomFilter.swift */; };
 		90932C631BEBBFB300FBD4E5 /* BloomShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 90932C621BEBBFB300FBD4E5 /* BloomShader.metal */; };
 		90A0E5B11BD7489E00D32723 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5B01BD7489E00D32723 /* Camera.swift */; };
@@ -134,7 +134,7 @@
 		90932C491BEBB45000FBD4E5 /* BufferQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BufferQueue.swift; sourceTree = "<group>"; };
 		90932C4B1BEBB45800FBD4E5 /* TextureQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextureQueue.swift; sourceTree = "<group>"; };
 		90932C571BEBBB7C00FBD4E5 /* UnaryImageFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnaryImageFilter.swift; sourceTree = "<group>"; };
-		90932C5E1BEBBBD600FBD4E5 /* CopyFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CopyFilter.swift; sourceTree = "<group>"; };
+		90932C5E1BEBBBD600FBD4E5 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		90932C601BEBBF9700FBD4E5 /* BloomFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloomFilter.swift; sourceTree = "<group>"; };
 		90932C621BEBBFB300FBD4E5 /* BloomShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = BloomShader.metal; path = SpaceShooter/Code/Renderer/Filters/BloomShader.metal; sourceTree = SOURCE_ROOT; };
 		90A0E5B01BD7489E00D32723 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camera.swift; path = SpaceShooter/Code/Camera.swift; sourceTree = SOURCE_ROOT; };
@@ -255,7 +255,7 @@
 		90932C551BEBBB7C00FBD4E5 /* Filters */ = {
 			isa = PBXGroup;
 			children = (
-				90932C5E1BEBBBD600FBD4E5 /* CopyFilter.swift */,
+				90932C5E1BEBBBD600FBD4E5 /* Filter.swift */,
 				90932C601BEBBF9700FBD4E5 /* BloomFilter.swift */,
 				90932C571BEBBB7C00FBD4E5 /* UnaryImageFilter.swift */,
 			);
@@ -581,7 +581,7 @@
 				9003E3CF1BFAEEAA001E3D33 /* Random.swift in Sources */,
 				901775501BD44CDB00097B53 /* Vertex.swift in Sources */,
 				9089434E1BE89CF500BC42D7 /* Gravity.swift in Sources */,
-				90932C5F1BEBBBD600FBD4E5 /* CopyFilter.swift in Sources */,
+				90932C5F1BEBBBD600FBD4E5 /* Filter.swift in Sources */,
 				90A0E5C31BDA840B00D32723 /* ParticleManager.swift in Sources */,
 				9017756D1BD45CA500097B53 /* RenderManager.swift in Sources */,
 				9089434A1BE89ACD00BC42D7 /* PhysicsManager.swift in Sources */,
@@ -737,6 +737,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.drtyhbo.SpaceShooter;
 				PRODUCT_NAME = SpaceShooter;
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SpaceShooter/SpaceShooter-bridging-header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -747,7 +748,7 @@
 			baseConfigurationReference = 67F922FF32923BB5D444C69A /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				GCC_OPTIMIZATION_LEVEL = fast;
 				INFOPLIST_FILE = SpaceShooter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -761,6 +762,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.drtyhbo.SpaceShooter;
 				PRODUCT_NAME = SpaceShooter;
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SpaceShooter/SpaceShooter-bridging-header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

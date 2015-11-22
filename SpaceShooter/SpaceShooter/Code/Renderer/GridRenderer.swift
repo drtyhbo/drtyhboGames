@@ -40,9 +40,9 @@ class GridRenderer: Renderer {
         setup()
     }
 
-    func renderGrid(grid: Grid, sharedUniformsBuffer: Buffer, lights: [Light]) {
+    func renderGrid(grid: Grid, sharedUniformsBuffer: Buffer, lights: [Light], toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
-        renderPassDescriptor.colorAttachments[0].texture = drawable.texture
+        renderPassDescriptor.colorAttachments[0].texture = outputTexture
         renderPassDescriptor.colorAttachments[0].loadAction = .Clear
         renderPassDescriptor.colorAttachments[0].clearColor = clearColor
         renderPassDescriptor.colorAttachments[0].storeAction = .Store

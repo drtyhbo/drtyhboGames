@@ -81,9 +81,9 @@ class TextRenderer: Renderer {
         setup()
     }
 
-    func renderText(sharedUniformsBuffer: Buffer) {
+    func renderText(sharedUniformsBuffer: Buffer, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
-        renderPassDescriptor.colorAttachments[0].texture = drawable.texture
+        renderPassDescriptor.colorAttachments[0].texture = outputTexture
         renderPassDescriptor.colorAttachments[0].loadAction = .Load
         renderPassDescriptor.colorAttachments[0].storeAction = .Store
 

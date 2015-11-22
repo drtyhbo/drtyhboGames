@@ -17,7 +17,6 @@ class EntityRenderer: Renderer {
     private let indexBufferQueue: BufferQueue
 
     private var pipelineState: MTLRenderPipelineState!
-    private var renderPassDescriptor: MTLRenderPassDescriptor!
     private var depthStencilState: MTLDepthStencilState!
 
     override init(device: MTLDevice, commandQueue: MTLCommandQueue) {
@@ -30,19 +29,15 @@ class EntityRenderer: Renderer {
         setup()
     }
 
-    override func beginFrameWithDrawable(drawable: CAMetalDrawable, commandBuffer: MTLCommandBuffer) {
-        super.beginFrameWithDrawable(drawable, commandBuffer: commandBuffer)
-
-        renderPassDescriptor = MTLRenderPassDescriptor()
-        renderPassDescriptor.colorAttachments[0].texture = drawable.texture
-        renderPassDescriptor.colorAttachments[0].loadAction = .Load
-        renderPassDescriptor.colorAttachments[0].storeAction = .Store
-    }
-
-    func renderEntities(entities: [Entity], sharedUniformsBuffer: Buffer) {
+    func renderEntities(entities: [Entity], sharedUniformsBuffer: Buffer, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         if entities.count == 0 {
             return
         }
+
+        let renderPassDescriptor = MTLRenderPassDescriptor()
+        renderPassDescriptor.colorAttachments[0].texture = outputTexture
+        renderPassDescriptor.colorAttachments[0].loadAction = .Load
+        renderPassDescriptor.colorAttachments[0].storeAction = .Store
 
         let perInstanceUniformsBuffer = perInstanceUniformsBufferQueue.nextBuffer
         let vertexBuffer = vertexBufferQueue.nextBuffer
@@ -75,7 +70,11 @@ class EntityRenderer: Renderer {
                 vertexBuffer.copyData(currentModel!.vertexData, size: currentModel!.vertices.count * Vertex.size)
                 indexBuffer.copyData(currentModel!.indices, size: currentModel!.indices.count * sizeof(UInt16))
 
-                let commandEncoder = createRenderCommandEncoder()
+                let commandEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)
+                commandEncoder.setCullMode(.Back)
+                commandEncoder.setFrontFacingWinding(.CounterClockwise)
+                commandEncoder.setDepthStencilState(depthStencilState)
+                commandEncoder.setRenderPipelineState(pipelineState)
                 commandEncoder.setVertexBuffer(vertexBuffer.buffer, offset: vertexBufferOffset, atIndex: 0)
                 commandEncoder.setVertexBuffer(sharedUniformsBuffer.buffer, offset: 0, atIndex: 1)
                 commandEncoder.setVertexBuffer(perInstanceUniformsBuffer.buffer, offset: perInstanceUniformsBufferOffset, atIndex: 2)
@@ -86,15 +85,6 @@ class EntityRenderer: Renderer {
                 perInstanceUniformsBufferOffset = perInstanceUniformsBuffer.currentOffset
             }
         }
-    }
-
-    func createRenderCommandEncoder() -> MTLRenderCommandEncoder {
-        let commandEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)
-        commandEncoder.setCullMode(.Back)
-        commandEncoder.setFrontFacingWinding(.CounterClockwise)
-        commandEncoder.setDepthStencilState(depthStencilState)
-        commandEncoder.setRenderPipelineState(pipelineState)
-        return commandEncoder
     }
 
     private func setup() {

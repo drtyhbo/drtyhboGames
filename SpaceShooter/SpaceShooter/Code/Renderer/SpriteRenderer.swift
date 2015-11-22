@@ -49,9 +49,9 @@ class SpriteRenderer: Renderer {
         setup()
     }
 
-    func renderSprites() {
+    func renderSpritesToCommandBuffer(commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
-        renderPassDescriptor.colorAttachments[0].texture = drawable.texture
+        renderPassDescriptor.colorAttachments[0].texture = outputTexture
         renderPassDescriptor.colorAttachments[0].loadAction = .Load
         renderPassDescriptor.colorAttachments[0].storeAction = .Store
 

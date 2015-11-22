@@ -42,7 +42,7 @@ class ParticleRenderer: Renderer {
         setup()
     }
 
-    func renderParticlesWithSharedUniformsBuffer(sharedUniformsBuffer: Buffer) {
+    func renderParticlesWithSharedUniformsBuffer(sharedUniformsBuffer: Buffer, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         if ParticleManager.sharedManager.particles.count == 0 {
             return
         }
@@ -54,21 +54,21 @@ class ParticleRenderer: Renderer {
         let particlesBuffer = particlesBufferQueue.nextBuffer
         particlesBuffer.copyData(ParticleManager.sharedManager.particles, size: sizeof(Particle) * ParticleManager.sharedManager.particles.count)
 
-        renderParticlesWithBuffer(particlesBuffer, particleRendererUniformsBuffer: particleRendererUniformsBuffer, sharedUniformsBuffer: sharedUniformsBuffer, numberOfParticles: ParticleManager.sharedManager.particles.count)
+        renderParticlesWithBuffer(particlesBuffer, particleRendererUniformsBuffer: particleRendererUniformsBuffer, sharedUniformsBuffer: sharedUniformsBuffer, numberOfParticles: ParticleManager.sharedManager.particles.count, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
 
         let laserParticlesBuffer = laserParticlesBufferQueue.nextBuffer
         laserParticlesBuffer.copyData(ParticleManager.sharedManager.laserParticles, size: sizeof(Particle) * ParticleManager.sharedManager.laserParticles.count)
 
-        renderParticlesWithBuffer(laserParticlesBuffer, particleRendererUniformsBuffer: particleRendererUniformsBuffer, sharedUniformsBuffer: sharedUniformsBuffer, numberOfParticles: ParticleManager.sharedManager.laserParticles.count)
+        renderParticlesWithBuffer(laserParticlesBuffer, particleRendererUniformsBuffer: particleRendererUniformsBuffer, sharedUniformsBuffer: sharedUniformsBuffer, numberOfParticles: ParticleManager.sharedManager.laserParticles.count, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
     }
 
-    private func renderParticlesWithBuffer(particlesBuffer: Buffer, particleRendererUniformsBuffer: Buffer, sharedUniformsBuffer: Buffer, numberOfParticles: Int) {
+    private func renderParticlesWithBuffer(particlesBuffer: Buffer, particleRendererUniformsBuffer: Buffer, sharedUniformsBuffer: Buffer, numberOfParticles: Int, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         if numberOfParticles == 0 {
             return
         }
 
         let renderPassDescriptor = MTLRenderPassDescriptor()
-        renderPassDescriptor.colorAttachments[0].texture = drawable.texture
+        renderPassDescriptor.colorAttachments[0].texture = outputTexture
         renderPassDescriptor.colorAttachments[0].loadAction = .Load
         renderPassDescriptor.colorAttachments[0].storeAction = .Store
 

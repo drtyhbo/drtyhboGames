@@ -12,17 +12,9 @@ class Renderer {
     let device: MTLDevice!
     let commandQueue: MTLCommandQueue!
 
-    private(set) var drawable: CAMetalDrawable!
-    private(set) var commandBuffer: MTLCommandBuffer!
-
     init(device: MTLDevice, commandQueue: MTLCommandQueue) {
         self.device = device
         self.commandQueue = commandQueue
-    }
-
-    func beginFrameWithDrawable(drawable: CAMetalDrawable, commandBuffer: MTLCommandBuffer) {
-        self.drawable = drawable
-        self.commandBuffer = commandBuffer
     }
 
     func pipelineDescriptorWithVertexFunction(vertexFunction: MTLFunction, fragmentFunction: MTLFunction, vertexDescriptor: MTLVertexDescriptor, alphaBlending: Bool) -> MTLRenderPipelineDescriptor {

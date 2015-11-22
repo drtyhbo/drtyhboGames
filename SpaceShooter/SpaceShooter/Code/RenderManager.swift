@@ -23,8 +23,6 @@ class RenderManager {
     private let textRenderer: TextRenderer
     private let spriteRenderer: SpriteRenderer
 
-    private let bloomFilter: BloomFilter
-    private let copyFilter: CopyFilter
     private let inputTextureQueue: TextureQueue
 
     init(device: MTLDevice, metalLayer: CAMetalLayer!) {
@@ -37,9 +35,6 @@ class RenderManager {
         gridRenderer = GridRenderer(device: device, commandQueue: commandQueue)
         textRenderer = TextRenderer(device: device, commandQueue: commandQueue)
         spriteRenderer = SpriteRenderer(device: device, commandQueue: commandQueue)
-
-        bloomFilter = BloomFilter(device: device)
-        copyFilter = CopyFilter()
 
         let screenSize = UIScreen.mainScreen().bounds.size
         inputTextureQueue = TextureQueue(device: device, width: Int(screenSize.width), height: Int(screenSize.height))
@@ -60,12 +55,6 @@ class RenderManager {
             }
             return
         }
-
-        entityRenderer.beginFrameWithDrawable(drawable, commandBuffer: commandBuffer)
-        particleRenderer.beginFrameWithDrawable(drawable, commandBuffer: commandBuffer)
-        gridRenderer.beginFrameWithDrawable(drawable, commandBuffer: commandBuffer)
-        textRenderer.beginFrameWithDrawable(drawable, commandBuffer: commandBuffer)
-        spriteRenderer.beginFrameWithDrawable(drawable, commandBuffer: commandBuffer)
     }
 
     func endFrame() {
@@ -74,31 +63,10 @@ class RenderManager {
     }
 
     func renderWithLights(lights: [Light], sharedUniformsBuffer: Buffer) {
-        renderGrid(GridManager.sharedManager.grid, sharedUniformsBuffer: sharedUniformsBuffer, lights: lights)
-        renderEntities(EntityManager.sharedManager.entities, sharedUniformsBuffer: sharedUniformsBuffer)
-        renderParticlesWithSharedUniformsBuffer(sharedUniformsBuffer)
-        spriteRenderer.renderSprites()
-//        applyBloomFilter()
-
-        textRenderer.renderText(sharedUniformsBuffer)
-    }
-
-    private func renderEntities(entities: [Entity], sharedUniformsBuffer: Buffer) {
-        entityRenderer.renderEntities(entities, sharedUniformsBuffer: sharedUniformsBuffer)
-    }
-
-    private func renderParticlesWithSharedUniformsBuffer(sharedUniformsBuffer: Buffer) {
-        particleRenderer.renderParticlesWithSharedUniformsBuffer(sharedUniformsBuffer)
-    }
-
-    private func renderGrid(grid: Grid, sharedUniformsBuffer: Buffer, lights: [Light]) {
-        gridRenderer.renderGrid(grid, sharedUniformsBuffer: sharedUniformsBuffer, lights: lights)
-    }
-
-    private func applyBloomFilter() {
-        let inputTexture = inputTextureQueue.nextTexture.texture
-        bloomFilter.encodeToCommandBuffer(commandBuffer, sourceTexture: drawable.texture, destinationTexture: inputTexture)
-        copyFilter.encodeToCommandBuffer(commandBuffer, sourceTexture: inputTexture, destinationTexture: drawable.texture)
-
+        gridRenderer.renderGrid(GridManager.sharedManager.grid, sharedUniformsBuffer: sharedUniformsBuffer, lights: lights, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
+        entityRenderer.renderEntities(EntityManager.sharedManager.entities, sharedUniformsBuffer: sharedUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
+        particleRenderer.renderParticlesWithSharedUniformsBuffer(sharedUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
+        spriteRenderer.renderSpritesToCommandBuffer(commandBuffer, outputTexture: drawable.texture)
+        textRenderer.renderText(sharedUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
     }
 }
