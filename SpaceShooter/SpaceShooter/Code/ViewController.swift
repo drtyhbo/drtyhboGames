@@ -89,6 +89,10 @@ class ViewController: UIViewController {
         GameManager.sharedManager.isPaused = isPaused
 
         if !isPaused {
+            if pauseDate != nil {
+                movementJoypad.alpha = 0
+                shootingJoypad.alpha = 0
+            }
             pauseDate = nil
             return
         }
