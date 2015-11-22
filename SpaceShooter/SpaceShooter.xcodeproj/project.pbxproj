@@ -1,0 +1,793 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		374C72F98A964A493092E6D7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CBEB218B9767EBFAEE993A4B /* libPods.a */; };
+		9003E3C91BFA3145001E3D33 /* Gem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9003E3C81BFA3145001E3D33 /* Gem.swift */; };
+		9003E3CB1BFA3465001E3D33 /* CollisionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9003E3CA1BFA3465001E3D33 /* CollisionManager.swift */; };
+		9003E3CD1BFA3836001E3D33 /* gem.obj in Resources */ = {isa = PBXBuildFile; fileRef = 9003E3CC1BFA3836001E3D33 /* gem.obj */; };
+		9003E3CF1BFAEEAA001E3D33 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9003E3CE1BFAEEAA001E3D33 /* Random.swift */; };
+		9017753B1BD44CC700097B53 /* Matrix4.m in Sources */ = {isa = PBXBuildFile; fileRef = 9017753A1BD44CC700097B53 /* Matrix4.m */; };
+		901775471BD44CDB00097B53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9017753C1BD44CDB00097B53 /* AppDelegate.swift */; };
+		901775491BD44CDB00097B53 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9017753E1BD44CDB00097B53 /* Constants.swift */; };
+		9017754D1BD44CDB00097B53 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901775421BD44CDB00097B53 /* GameManager.swift */; };
+		901775501BD44CDB00097B53 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901775451BD44CDB00097B53 /* Vertex.swift */; };
+		901775511BD44CDB00097B53 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901775461BD44CDB00097B53 /* ViewController.swift */; };
+		901775551BD44CEE00097B53 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = 901775531BD44CEE00097B53 /* cube.obj */; };
+		901775591BD44CFF00097B53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 901775561BD44CFF00097B53 /* Assets.xcassets */; };
+		9017755A1BD44CFF00097B53 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 901775571BD44CFF00097B53 /* Info.plist */; };
+		9017755C1BD44D0B00097B53 /* EntityShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9017755B1BD44D0B00097B53 /* EntityShader.metal */; };
+		901775621BD44D5D00097B53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9017755E1BD44D5D00097B53 /* LaunchScreen.storyboard */; };
+		901775631BD44D5D00097B53 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 901775601BD44D5D00097B53 /* Main.storyboard */; };
+		901775651BD44E5100097B53 /* TouchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901775641BD44E5100097B53 /* TouchHandler.swift */; };
+		9017756B1BD458F100097B53 /* ship.obj in Resources */ = {isa = PBXBuildFile; fileRef = 901775691BD458F100097B53 /* ship.obj */; };
+		9017756D1BD45CA500097B53 /* RenderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9017756C1BD45CA500097B53 /* RenderManager.swift */; };
+		901EE7421BFCDF33008D92F2 /* FontAtlas.data in Resources */ = {isa = PBXBuildFile; fileRef = 901EE7411BFCDF33008D92F2 /* FontAtlas.data */; };
+		901EE7441BFF7149008D92F2 /* SpriteRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EE7431BFF7149008D92F2 /* SpriteRenderer.swift */; };
+		901EE74A1BFF7439008D92F2 /* Matrix4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EE7491BFF7439008D92F2 /* Matrix4.swift */; };
+		901EE74D1BFF884F008D92F2 /* SpriteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EE74C1BFF884F008D92F2 /* SpriteManager.swift */; };
+		901EE74F1BFF8873008D92F2 /* Sprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EE74E1BFF8873008D92F2 /* Sprite.swift */; };
+		901EE7511BFF88B7008D92F2 /* SpriteInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EE7501BFF88B7008D92F2 /* SpriteInstance.swift */; };
+		901EE7531BFF8B8C008D92F2 /* SpriteShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 901EE7521BFF8B8C008D92F2 /* SpriteShader.metal */; };
+		901EE7551C00E637008D92F2 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EE7541C00E636008D92F2 /* UIImage.swift */; };
+		9077E6F31BE864BA005A1478 /* EntitySpawner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9077E6F21BE864BA005A1478 /* EntitySpawner.swift */; };
+		908943271BE86BF700BC42D7 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908943261BE86BF700BC42D7 /* GameState.swift */; };
+		9089432B1BE8723200BC42D7 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9089432A1BE8723200BC42D7 /* Enemy.swift */; };
+		9089432D1BE87A3300BC42D7 /* Seeker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9089432C1BE87A3300BC42D7 /* Seeker.swift */; };
+		908943311BE87A7800BC42D7 /* seeker.obj in Resources */ = {isa = PBXBuildFile; fileRef = 9089432F1BE87A7800BC42D7 /* seeker.obj */; };
+		908943331BE8931200BC42D7 /* Flyer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908943321BE8931200BC42D7 /* Flyer.swift */; };
+		908943481BE8934500BC42D7 /* flyer.obj in Resources */ = {isa = PBXBuildFile; fileRef = 908943471BE8934500BC42D7 /* flyer.obj */; };
+		9089434A1BE89ACD00BC42D7 /* PhysicsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908943491BE89ACD00BC42D7 /* PhysicsManager.swift */; };
+		9089434C1BE89CED00BC42D7 /* gravity.obj in Resources */ = {isa = PBXBuildFile; fileRef = 9089434B1BE89CED00BC42D7 /* gravity.obj */; };
+		9089434E1BE89CF500BC42D7 /* Gravity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9089434D1BE89CF500BC42D7 /* Gravity.swift */; };
+		908D77DB1BF648940069F2F9 /* MBEFontAtlas.m in Sources */ = {isa = PBXBuildFile; fileRef = 908D77D71BF648940069F2F9 /* MBEFontAtlas.m */; };
+		908D77DC1BF648940069F2F9 /* MBETextMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 908D77D91BF648940069F2F9 /* MBETextMesh.m */; };
+		908D77DD1BF648940069F2F9 /* TextRendererShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 908D77DA1BF648940069F2F9 /* TextRendererShader.metal */; };
+		908D77E01BF649120069F2F9 /* MBEMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 908D77DF1BF649120069F2F9 /* MBEMesh.m */; };
+		908D77E31BF64AD00069F2F9 /* TextRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908D77E21BF64AD00069F2F9 /* TextRenderer.swift */; };
+		908D77E71BF64D900069F2F9 /* TextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908D77E61BF64D900069F2F9 /* TextManager.swift */; };
+		908D77E91BF64DB10069F2F9 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908D77E81BF64DB10069F2F9 /* Label.swift */; };
+		908D77EC1BF7C21F0069F2F9 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908D77EB1BF7C21F0069F2F9 /* Labels.swift */; };
+		90932C4A1BEBB45000FBD4E5 /* BufferQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C491BEBB45000FBD4E5 /* BufferQueue.swift */; };
+		90932C4C1BEBB45800FBD4E5 /* TextureQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C4B1BEBB45800FBD4E5 /* TextureQueue.swift */; };
+		90932C591BEBBB7C00FBD4E5 /* UnaryImageFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C571BEBBB7C00FBD4E5 /* UnaryImageFilter.swift */; };
+		90932C5F1BEBBBD600FBD4E5 /* CopyFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C5E1BEBBBD600FBD4E5 /* CopyFilter.swift */; };
+		90932C611BEBBF9700FBD4E5 /* BloomFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C601BEBBF9700FBD4E5 /* BloomFilter.swift */; };
+		90932C631BEBBFB300FBD4E5 /* BloomShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 90932C621BEBBFB300FBD4E5 /* BloomShader.metal */; };
+		90A0E5B11BD7489E00D32723 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5B01BD7489E00D32723 /* Camera.swift */; };
+		90A0E5B31BD74B1B00D32723 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5B21BD74B1B00D32723 /* World.swift */; };
+		90A0E5BE1BD9F3F100D32723 /* EntityRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5BB1BD9F3F100D32723 /* EntityRenderer.swift */; };
+		90A0E5BF1BD9F3F100D32723 /* ParticleRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5BC1BD9F3F100D32723 /* ParticleRenderer.swift */; };
+		90A0E5C01BD9F3F100D32723 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5BD1BD9F3F100D32723 /* Renderer.swift */; };
+		90A0E5C31BDA840B00D32723 /* ParticleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5C21BDA840B00D32723 /* ParticleManager.swift */; };
+		90A0E5C51BDA841500D32723 /* Particle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5C41BDA841500D32723 /* Particle.swift */; };
+		90A0E5CC1BDA845200D32723 /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5C71BDA845200D32723 /* Cube.swift */; };
+		90A0E5CD1BDA845200D32723 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5C81BDA845200D32723 /* Entity.swift */; };
+		90A0E5CE1BDA845200D32723 /* EntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5C91BDA845200D32723 /* EntityManager.swift */; };
+		90A0E5CF1BDA845200D32723 /* ModelLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5CA1BDA845200D32723 /* ModelLoader.swift */; };
+		90A0E5D01BDA845200D32723 /* Ship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5CB1BDA845200D32723 /* Ship.swift */; };
+		90A0E5D81BDC6AEC00D32723 /* PointMass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5D71BDC6AEC00D32723 /* PointMass.swift */; };
+		90A0E5DC1BDC6EBB00D32723 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5DB1BDC6EBB00D32723 /* Grid.swift */; };
+		90A0E5DE1BDC71A800D32723 /* GridRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5DD1BDC71A800D32723 /* GridRenderer.swift */; };
+		90A0E5E01BDDB57D00D32723 /* ParticleShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5DF1BDDB57D00D32723 /* ParticleShader.metal */; };
+		90A0E5E31BDDF37000D32723 /* GridShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5E21BDDF37000D32723 /* GridShader.metal */; };
+		90A1ED591C013B9A0057DE0F /* GameTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A1ED581C013B9A0057DE0F /* GameTimer.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		67F922FF32923BB5D444C69A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		9003E3C81BFA3145001E3D33 /* Gem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gem.swift; sourceTree = "<group>"; };
+		9003E3CA1BFA3465001E3D33 /* CollisionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollisionManager.swift; path = SpaceShooter/Code/CollisionManager.swift; sourceTree = SOURCE_ROOT; };
+		9003E3CC1BFA3836001E3D33 /* gem.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = gem.obj; path = SpaceShooter/Resources/Models/gem.obj; sourceTree = SOURCE_ROOT; };
+		9003E3CE1BFAEEAA001E3D33 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Random.swift; path = SpaceShooter/Code/Random.swift; sourceTree = SOURCE_ROOT; };
+		901775391BD44CC700097B53 /* Matrix4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix4.h; path = SpaceShooter/Frameworks/Matrix/Matrix4.h; sourceTree = SOURCE_ROOT; };
+		9017753A1BD44CC700097B53 /* Matrix4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Matrix4.m; path = SpaceShooter/Frameworks/Matrix/Matrix4.m; sourceTree = SOURCE_ROOT; };
+		9017753C1BD44CDB00097B53 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = SpaceShooter/Code/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
+		9017753E1BD44CDB00097B53 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = SpaceShooter/Code/Constants.swift; sourceTree = SOURCE_ROOT; };
+		901775421BD44CDB00097B53 /* GameManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameManager.swift; path = SpaceShooter/Code/GameManager.swift; sourceTree = SOURCE_ROOT; };
+		901775451BD44CDB00097B53 /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vertex.swift; path = SpaceShooter/Code/Vertex.swift; sourceTree = SOURCE_ROOT; };
+		901775461BD44CDB00097B53 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = SpaceShooter/Code/ViewController.swift; sourceTree = SOURCE_ROOT; };
+		901775531BD44CEE00097B53 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = cube.obj; path = SpaceShooter/Resources/Models/cube.obj; sourceTree = SOURCE_ROOT; };
+		901775561BD44CFF00097B53 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = SpaceShooter/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		901775571BD44CFF00097B53 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SpaceShooter/Info.plist; sourceTree = SOURCE_ROOT; };
+		9017755B1BD44D0B00097B53 /* EntityShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = EntityShader.metal; path = SpaceShooter/Shaders/EntityShader.metal; sourceTree = SOURCE_ROOT; };
+		9017755D1BD44D2F00097B53 /* SpaceShooter-bridging-header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SpaceShooter-bridging-header.h"; path = "SpaceShooter/SpaceShooter-bridging-header.h"; sourceTree = SOURCE_ROOT; };
+		9017755F1BD44D5D00097B53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SpaceShooter/Base.lproj/LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
+		901775611BD44D5D00097B53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SpaceShooter/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
+		901775641BD44E5100097B53 /* TouchHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchHandler.swift; path = SpaceShooter/Code/TouchHandler.swift; sourceTree = SOURCE_ROOT; };
+		901775691BD458F100097B53 /* ship.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ship.obj; path = SpaceShooter/Resources/Models/ship.obj; sourceTree = SOURCE_ROOT; };
+		9017756C1BD45CA500097B53 /* RenderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RenderManager.swift; path = SpaceShooter/Code/RenderManager.swift; sourceTree = SOURCE_ROOT; };
+		901EE7411BFCDF33008D92F2 /* FontAtlas.data */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = FontAtlas.data; sourceTree = "<group>"; };
+		901EE7431BFF7149008D92F2 /* SpriteRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteRenderer.swift; sourceTree = "<group>"; };
+		901EE7491BFF7439008D92F2 /* Matrix4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix4.swift; sourceTree = "<group>"; };
+		901EE74C1BFF884F008D92F2 /* SpriteManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteManager.swift; sourceTree = "<group>"; };
+		901EE74E1BFF8873008D92F2 /* Sprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sprite.swift; sourceTree = "<group>"; };
+		901EE7501BFF88B7008D92F2 /* SpriteInstance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteInstance.swift; sourceTree = "<group>"; };
+		901EE7521BFF8B8C008D92F2 /* SpriteShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = SpriteShader.metal; path = SpaceShooter/Shaders/SpriteShader.metal; sourceTree = SOURCE_ROOT; };
+		901EE7541C00E636008D92F2 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		9077E6F21BE864BA005A1478 /* EntitySpawner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntitySpawner.swift; path = SpaceShooter/Code/Entities/EntitySpawner.swift; sourceTree = SOURCE_ROOT; };
+		908943261BE86BF700BC42D7 /* GameState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameState.swift; path = SpaceShooter/Code/GameState.swift; sourceTree = SOURCE_ROOT; };
+		9089432A1BE8723200BC42D7 /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
+		9089432C1BE87A3300BC42D7 /* Seeker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Seeker.swift; sourceTree = "<group>"; };
+		9089432F1BE87A7800BC42D7 /* seeker.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = seeker.obj; path = SpaceShooter/Resources/Models/seeker.obj; sourceTree = SOURCE_ROOT; };
+		908943321BE8931200BC42D7 /* Flyer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flyer.swift; sourceTree = "<group>"; };
+		908943471BE8934500BC42D7 /* flyer.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = flyer.obj; path = SpaceShooter/Resources/Models/flyer.obj; sourceTree = SOURCE_ROOT; };
+		908943491BE89ACD00BC42D7 /* PhysicsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhysicsManager.swift; path = SpaceShooter/Code/PhysicsManager.swift; sourceTree = SOURCE_ROOT; };
+		9089434B1BE89CED00BC42D7 /* gravity.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = gravity.obj; path = SpaceShooter/Resources/Models/gravity.obj; sourceTree = SOURCE_ROOT; };
+		9089434D1BE89CF500BC42D7 /* Gravity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gravity.swift; sourceTree = "<group>"; };
+		908D77D61BF648940069F2F9 /* MBEFontAtlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBEFontAtlas.h; sourceTree = "<group>"; };
+		908D77D71BF648940069F2F9 /* MBEFontAtlas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBEFontAtlas.m; sourceTree = "<group>"; };
+		908D77D81BF648940069F2F9 /* MBETextMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBETextMesh.h; sourceTree = "<group>"; };
+		908D77D91BF648940069F2F9 /* MBETextMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBETextMesh.m; sourceTree = "<group>"; };
+		908D77DA1BF648940069F2F9 /* TextRendererShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = TextRendererShader.metal; sourceTree = "<group>"; };
+		908D77DE1BF649120069F2F9 /* MBEMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBEMesh.h; sourceTree = "<group>"; };
+		908D77DF1BF649120069F2F9 /* MBEMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBEMesh.m; sourceTree = "<group>"; };
+		908D77E11BF649230069F2F9 /* MBETypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBETypes.h; sourceTree = "<group>"; };
+		908D77E21BF64AD00069F2F9 /* TextRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextRenderer.swift; sourceTree = "<group>"; };
+		908D77E61BF64D900069F2F9 /* TextManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextManager.swift; sourceTree = "<group>"; };
+		908D77E81BF64DB10069F2F9 /* Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
+		908D77EB1BF7C21F0069F2F9 /* Labels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
+		90932C491BEBB45000FBD4E5 /* BufferQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BufferQueue.swift; sourceTree = "<group>"; };
+		90932C4B1BEBB45800FBD4E5 /* TextureQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextureQueue.swift; sourceTree = "<group>"; };
+		90932C571BEBBB7C00FBD4E5 /* UnaryImageFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnaryImageFilter.swift; sourceTree = "<group>"; };
+		90932C5E1BEBBBD600FBD4E5 /* CopyFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CopyFilter.swift; sourceTree = "<group>"; };
+		90932C601BEBBF9700FBD4E5 /* BloomFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloomFilter.swift; sourceTree = "<group>"; };
+		90932C621BEBBFB300FBD4E5 /* BloomShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = BloomShader.metal; path = SpaceShooter/Code/Renderer/Filters/BloomShader.metal; sourceTree = SOURCE_ROOT; };
+		90A0E5B01BD7489E00D32723 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camera.swift; path = SpaceShooter/Code/Camera.swift; sourceTree = SOURCE_ROOT; };
+		90A0E5B21BD74B1B00D32723 /* World.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = World.swift; path = SpaceShooter/Code/World.swift; sourceTree = SOURCE_ROOT; };
+		90A0E5BB1BD9F3F100D32723 /* EntityRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityRenderer.swift; sourceTree = "<group>"; };
+		90A0E5BC1BD9F3F100D32723 /* ParticleRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticleRenderer.swift; sourceTree = "<group>"; };
+		90A0E5BD1BD9F3F100D32723 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		90A0E5C21BDA840B00D32723 /* ParticleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticleManager.swift; sourceTree = "<group>"; };
+		90A0E5C41BDA841500D32723 /* Particle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
+		90A0E5C71BDA845200D32723 /* Cube.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
+		90A0E5C81BDA845200D32723 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
+		90A0E5C91BDA845200D32723 /* EntityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityManager.swift; sourceTree = "<group>"; };
+		90A0E5CA1BDA845200D32723 /* ModelLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelLoader.swift; sourceTree = "<group>"; };
+		90A0E5CB1BDA845200D32723 /* Ship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ship.swift; sourceTree = "<group>"; };
+		90A0E5D71BDC6AEC00D32723 /* PointMass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointMass.swift; sourceTree = "<group>"; };
+		90A0E5DB1BDC6EBB00D32723 /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		90A0E5DD1BDC71A800D32723 /* GridRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridRenderer.swift; sourceTree = "<group>"; };
+		90A0E5DF1BDDB57D00D32723 /* ParticleShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = ParticleShader.metal; path = SpaceShooter/Shaders/ParticleShader.metal; sourceTree = SOURCE_ROOT; };
+		90A0E5E11BDDB5B400D32723 /* Shared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Shared.h; path = SpaceShooter/Shaders/Shared.h; sourceTree = SOURCE_ROOT; };
+		90A0E5E21BDDF37000D32723 /* GridShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = GridShader.metal; path = SpaceShooter/Shaders/GridShader.metal; sourceTree = SOURCE_ROOT; };
+		90A1ED581C013B9A0057DE0F /* GameTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameTimer.swift; path = SpaceShooter/Code/GameTimer.swift; sourceTree = SOURCE_ROOT; };
+		CBEB218B9767EBFAEE993A4B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD34105A1BBED4FE00638CAC /* SpaceShooter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceShooter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FBD7D7931B909184E586AF86 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DD3410571BBED4FE00638CAC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				374C72F98A964A493092E6D7 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		901065241BC2413100A8D7CB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9003E3CC1BFA3836001E3D33 /* gem.obj */,
+				9089434B1BE89CED00BC42D7 /* gravity.obj */,
+				908943471BE8934500BC42D7 /* flyer.obj */,
+				9089432F1BE87A7800BC42D7 /* seeker.obj */,
+				901775531BD44CEE00097B53 /* cube.obj */,
+				901775691BD458F100097B53 /* ship.obj */,
+			);
+			name = Models;
+			path = Resources/Models;
+			sourceTree = "<group>";
+		};
+		901EE7401BFCDF33008D92F2 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				901EE7411BFCDF33008D92F2 /* FontAtlas.data */,
+			);
+			name = Font;
+			path = SpaceShooter/Resources/Font;
+			sourceTree = SOURCE_ROOT;
+		};
+		901EE7481BFF7432008D92F2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				901EE7491BFF7439008D92F2 /* Matrix4.swift */,
+				901EE7541C00E636008D92F2 /* UIImage.swift */,
+			);
+			name = Extensions;
+			path = SpaceShooter/Code/Extensions;
+			sourceTree = SOURCE_ROOT;
+		};
+		901EE74B1BFF8844008D92F2 /* Sprites */ = {
+			isa = PBXGroup;
+			children = (
+				901EE74C1BFF884F008D92F2 /* SpriteManager.swift */,
+				901EE74E1BFF8873008D92F2 /* Sprite.swift */,
+				901EE7501BFF88B7008D92F2 /* SpriteInstance.swift */,
+			);
+			name = Sprites;
+			path = SpaceShooter/Code/Sprites;
+			sourceTree = SOURCE_ROOT;
+		};
+		908D77D51BF648940069F2F9 /* TextRendering */ = {
+			isa = PBXGroup;
+			children = (
+				908D77E11BF649230069F2F9 /* MBETypes.h */,
+				908D77DE1BF649120069F2F9 /* MBEMesh.h */,
+				908D77DF1BF649120069F2F9 /* MBEMesh.m */,
+				908D77D61BF648940069F2F9 /* MBEFontAtlas.h */,
+				908D77D71BF648940069F2F9 /* MBEFontAtlas.m */,
+				908D77D81BF648940069F2F9 /* MBETextMesh.h */,
+				908D77D91BF648940069F2F9 /* MBETextMesh.m */,
+				908D77DA1BF648940069F2F9 /* TextRendererShader.metal */,
+			);
+			name = TextRendering;
+			path = SpaceShooter/Frameworks/TextRendering;
+			sourceTree = SOURCE_ROOT;
+		};
+		908D77E51BF64D890069F2F9 /* Text */ = {
+			isa = PBXGroup;
+			children = (
+				908D77E61BF64D900069F2F9 /* TextManager.swift */,
+				908D77E81BF64DB10069F2F9 /* Label.swift */,
+			);
+			name = Text;
+			path = SpaceShooter/Code/Text;
+			sourceTree = SOURCE_ROOT;
+		};
+		908D77EA1BF7C2080069F2F9 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				908D77EB1BF7C21F0069F2F9 /* Labels.swift */,
+			);
+			name = UI;
+			path = SpaceShooter/Code/UI;
+			sourceTree = SOURCE_ROOT;
+		};
+		90932C551BEBBB7C00FBD4E5 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				90932C5E1BEBBBD600FBD4E5 /* CopyFilter.swift */,
+				90932C601BEBBF9700FBD4E5 /* BloomFilter.swift */,
+				90932C571BEBBB7C00FBD4E5 /* UnaryImageFilter.swift */,
+			);
+			path = Filters;
+			sourceTree = "<group>";
+		};
+		90A0E5BA1BD9F3F100D32723 /* Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				90932C551BEBBB7C00FBD4E5 /* Filters */,
+				90932C491BEBB45000FBD4E5 /* BufferQueue.swift */,
+				90A0E5BB1BD9F3F100D32723 /* EntityRenderer.swift */,
+				90A0E5BC1BD9F3F100D32723 /* ParticleRenderer.swift */,
+				90A0E5BD1BD9F3F100D32723 /* Renderer.swift */,
+				9017756C1BD45CA500097B53 /* RenderManager.swift */,
+				90A0E5DD1BDC71A800D32723 /* GridRenderer.swift */,
+				90932C4B1BEBB45800FBD4E5 /* TextureQueue.swift */,
+				908D77E21BF64AD00069F2F9 /* TextRenderer.swift */,
+				901EE7431BFF7149008D92F2 /* SpriteRenderer.swift */,
+			);
+			name = Renderer;
+			path = SpaceShooter/Code/Renderer;
+			sourceTree = SOURCE_ROOT;
+		};
+		90A0E5C11BDA840B00D32723 /* Particle */ = {
+			isa = PBXGroup;
+			children = (
+				90A0E5C21BDA840B00D32723 /* ParticleManager.swift */,
+				90A0E5C41BDA841500D32723 /* Particle.swift */,
+			);
+			name = Particle;
+			path = SpaceShooter/Code/Particle;
+			sourceTree = SOURCE_ROOT;
+		};
+		90A0E5C61BDA845200D32723 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				90A0E5C71BDA845200D32723 /* Cube.swift */,
+				9089432A1BE8723200BC42D7 /* Enemy.swift */,
+				90A0E5C81BDA845200D32723 /* Entity.swift */,
+				90A0E5C91BDA845200D32723 /* EntityManager.swift */,
+				90A0E5CA1BDA845200D32723 /* ModelLoader.swift */,
+				9089432C1BE87A3300BC42D7 /* Seeker.swift */,
+				90A0E5CB1BDA845200D32723 /* Ship.swift */,
+				908943321BE8931200BC42D7 /* Flyer.swift */,
+				9089434D1BE89CF500BC42D7 /* Gravity.swift */,
+				9003E3C81BFA3145001E3D33 /* Gem.swift */,
+			);
+			name = Entities;
+			path = SpaceShooter/Code/Entities;
+			sourceTree = SOURCE_ROOT;
+		};
+		90A0E5D61BDC6AE400D32723 /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				90A0E5D71BDC6AEC00D32723 /* PointMass.swift */,
+				90A0E5DB1BDC6EBB00D32723 /* Grid.swift */,
+			);
+			name = Grid;
+			path = SpaceShooter/Code/Grid;
+			sourceTree = SOURCE_ROOT;
+		};
+		90E4F22D1BC1772F0025A770 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9017755D1BD44D2F00097B53 /* SpaceShooter-bridging-header.h */,
+				901775571BD44CFF00097B53 /* Info.plist */,
+				901775561BD44CFF00097B53 /* Assets.xcassets */,
+				901EE7401BFCDF33008D92F2 /* Font */,
+				9017755E1BD44D5D00097B53 /* LaunchScreen.storyboard */,
+				901775601BD44D5D00097B53 /* Main.storyboard */,
+				901065241BC2413100A8D7CB /* Models */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		90E4F2301BC1778D0025A770 /* Code */ = {
+			isa = PBXGroup;
+			children = (
+				901EE74B1BFF8844008D92F2 /* Sprites */,
+				9017753C1BD44CDB00097B53 /* AppDelegate.swift */,
+				90A0E5B01BD7489E00D32723 /* Camera.swift */,
+				9003E3CA1BFA3465001E3D33 /* CollisionManager.swift */,
+				9017753E1BD44CDB00097B53 /* Constants.swift */,
+				9077E6F21BE864BA005A1478 /* EntitySpawner.swift */,
+				901775421BD44CDB00097B53 /* GameManager.swift */,
+				908943261BE86BF700BC42D7 /* GameState.swift */,
+				908943491BE89ACD00BC42D7 /* PhysicsManager.swift */,
+				9003E3CE1BFAEEAA001E3D33 /* Random.swift */,
+				901775641BD44E5100097B53 /* TouchHandler.swift */,
+				901775451BD44CDB00097B53 /* Vertex.swift */,
+				901775461BD44CDB00097B53 /* ViewController.swift */,
+				90A0E5B21BD74B1B00D32723 /* World.swift */,
+				90A0E5C61BDA845200D32723 /* Entities */,
+				901EE7481BFF7432008D92F2 /* Extensions */,
+				90A0E5D61BDC6AE400D32723 /* Grid */,
+				90A0E5C11BDA840B00D32723 /* Particle */,
+				90A0E5BA1BD9F3F100D32723 /* Renderer */,
+				908D77E51BF64D890069F2F9 /* Text */,
+				908D77EA1BF7C2080069F2F9 /* UI */,
+				90A1ED581C013B9A0057DE0F /* GameTimer.swift */,
+			);
+			path = Code;
+			sourceTree = "<group>";
+		};
+		90E4F2331BC1778D0025A770 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				9017755B1BD44D0B00097B53 /* EntityShader.metal */,
+				90A0E5E21BDDF37000D32723 /* GridShader.metal */,
+				90932C621BEBBFB300FBD4E5 /* BloomShader.metal */,
+				90A0E5DF1BDDB57D00D32723 /* ParticleShader.metal */,
+				90A0E5E11BDDB5B400D32723 /* Shared.h */,
+				901EE7521BFF8B8C008D92F2 /* SpriteShader.metal */,
+			);
+			path = Shaders;
+			sourceTree = "<group>";
+		};
+		90E4F2401BC185720025A770 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				908D77D51BF648940069F2F9 /* TextRendering */,
+				90E4F2411BC185720025A770 /* Matrix */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		90E4F2411BC185720025A770 /* Matrix */ = {
+			isa = PBXGroup;
+			children = (
+				901775391BD44CC700097B53 /* Matrix4.h */,
+				9017753A1BD44CC700097B53 /* Matrix4.m */,
+			);
+			path = Matrix;
+			sourceTree = "<group>";
+		};
+		A66A83788AB05B57EFF115FF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FBD7D7931B909184E586AF86 /* Pods.debug.xcconfig */,
+				67F922FF32923BB5D444C69A /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		DB6EC20ED62BBCC6840155CE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CBEB218B9767EBFAEE993A4B /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DD3410511BBED4FE00638CAC = {
+			isa = PBXGroup;
+			children = (
+				DD34105C1BBED4FE00638CAC /* SpaceShooter */,
+				DD34105B1BBED4FE00638CAC /* Products */,
+				A66A83788AB05B57EFF115FF /* Pods */,
+				DB6EC20ED62BBCC6840155CE /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		DD34105B1BBED4FE00638CAC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DD34105A1BBED4FE00638CAC /* SpaceShooter.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DD34105C1BBED4FE00638CAC /* SpaceShooter */ = {
+			isa = PBXGroup;
+			children = (
+				90E4F2401BC185720025A770 /* Frameworks */,
+				90E4F2301BC1778D0025A770 /* Code */,
+				90E4F22D1BC1772F0025A770 /* Resources */,
+				90E4F2331BC1778D0025A770 /* Shaders */,
+			);
+			name = SpaceShooter;
+			path = MetalTutorial;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DD3410591BBED4FE00638CAC /* SpaceShooter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD34106C1BBED4FE00638CAC /* Build configuration list for PBXNativeTarget "SpaceShooter" */;
+			buildPhases = (
+				C58E2D106304C30AA46B63D0 /* Check Pods Manifest.lock */,
+				DD3410561BBED4FE00638CAC /* Sources */,
+				DD3410571BBED4FE00638CAC /* Frameworks */,
+				DD3410581BBED4FE00638CAC /* Resources */,
+				695D638FF05097C20A862787 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SpaceShooter;
+			productName = MetalTutorial;
+			productReference = DD34105A1BBED4FE00638CAC /* SpaceShooter.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DD3410521BBED4FE00638CAC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "drtyhbo productions";
+				TargetAttributes = {
+					DD3410591BBED4FE00638CAC = {
+						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = S4Y2T39EMH;
+					};
+				};
+			};
+			buildConfigurationList = DD3410551BBED4FE00638CAC /* Build configuration list for PBXProject "SpaceShooter" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DD3410511BBED4FE00638CAC;
+			productRefGroup = DD34105B1BBED4FE00638CAC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DD3410591BBED4FE00638CAC /* SpaceShooter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DD3410581BBED4FE00638CAC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				901775551BD44CEE00097B53 /* cube.obj in Resources */,
+				9017755A1BD44CFF00097B53 /* Info.plist in Resources */,
+				908943311BE87A7800BC42D7 /* seeker.obj in Resources */,
+				9003E3CD1BFA3836001E3D33 /* gem.obj in Resources */,
+				9089434C1BE89CED00BC42D7 /* gravity.obj in Resources */,
+				901EE7421BFCDF33008D92F2 /* FontAtlas.data in Resources */,
+				901775631BD44D5D00097B53 /* Main.storyboard in Resources */,
+				9017756B1BD458F100097B53 /* ship.obj in Resources */,
+				901775621BD44D5D00097B53 /* LaunchScreen.storyboard in Resources */,
+				901775591BD44CFF00097B53 /* Assets.xcassets in Resources */,
+				908943481BE8934500BC42D7 /* flyer.obj in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		695D638FF05097C20A862787 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C58E2D106304C30AA46B63D0 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DD3410561BBED4FE00638CAC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				901EE7511BFF88B7008D92F2 /* SpriteInstance.swift in Sources */,
+				90A1ED591C013B9A0057DE0F /* GameTimer.swift in Sources */,
+				908943331BE8931200BC42D7 /* Flyer.swift in Sources */,
+				908D77E31BF64AD00069F2F9 /* TextRenderer.swift in Sources */,
+				9003E3CB1BFA3465001E3D33 /* CollisionManager.swift in Sources */,
+				90A0E5B31BD74B1B00D32723 /* World.swift in Sources */,
+				90A0E5E01BDDB57D00D32723 /* ParticleShader.metal in Sources */,
+				90A0E5BE1BD9F3F100D32723 /* EntityRenderer.swift in Sources */,
+				9077E6F31BE864BA005A1478 /* EntitySpawner.swift in Sources */,
+				901EE7441BFF7149008D92F2 /* SpriteRenderer.swift in Sources */,
+				901775491BD44CDB00097B53 /* Constants.swift in Sources */,
+				90932C611BEBBF9700FBD4E5 /* BloomFilter.swift in Sources */,
+				908D77EC1BF7C21F0069F2F9 /* Labels.swift in Sources */,
+				9089432D1BE87A3300BC42D7 /* Seeker.swift in Sources */,
+				9017754D1BD44CDB00097B53 /* GameManager.swift in Sources */,
+				90932C631BEBBFB300FBD4E5 /* BloomShader.metal in Sources */,
+				908D77DD1BF648940069F2F9 /* TextRendererShader.metal in Sources */,
+				90A0E5B11BD7489E00D32723 /* Camera.swift in Sources */,
+				901EE7531BFF8B8C008D92F2 /* SpriteShader.metal in Sources */,
+				90A0E5DE1BDC71A800D32723 /* GridRenderer.swift in Sources */,
+				908D77DC1BF648940069F2F9 /* MBETextMesh.m in Sources */,
+				9017755C1BD44D0B00097B53 /* EntityShader.metal in Sources */,
+				901775471BD44CDB00097B53 /* AppDelegate.swift in Sources */,
+				908D77E71BF64D900069F2F9 /* TextManager.swift in Sources */,
+				90932C4A1BEBB45000FBD4E5 /* BufferQueue.swift in Sources */,
+				90A0E5E31BDDF37000D32723 /* GridShader.metal in Sources */,
+				9003E3CF1BFAEEAA001E3D33 /* Random.swift in Sources */,
+				901775501BD44CDB00097B53 /* Vertex.swift in Sources */,
+				9089434E1BE89CF500BC42D7 /* Gravity.swift in Sources */,
+				90932C5F1BEBBBD600FBD4E5 /* CopyFilter.swift in Sources */,
+				90A0E5C31BDA840B00D32723 /* ParticleManager.swift in Sources */,
+				9017756D1BD45CA500097B53 /* RenderManager.swift in Sources */,
+				9089434A1BE89ACD00BC42D7 /* PhysicsManager.swift in Sources */,
+				901EE74D1BFF884F008D92F2 /* SpriteManager.swift in Sources */,
+				90A0E5CE1BDA845200D32723 /* EntityManager.swift in Sources */,
+				901775651BD44E5100097B53 /* TouchHandler.swift in Sources */,
+				9003E3C91BFA3145001E3D33 /* Gem.swift in Sources */,
+				9089432B1BE8723200BC42D7 /* Enemy.swift in Sources */,
+				908D77DB1BF648940069F2F9 /* MBEFontAtlas.m in Sources */,
+				90A0E5CF1BDA845200D32723 /* ModelLoader.swift in Sources */,
+				90A0E5D81BDC6AEC00D32723 /* PointMass.swift in Sources */,
+				901775511BD44CDB00097B53 /* ViewController.swift in Sources */,
+				90A0E5C01BD9F3F100D32723 /* Renderer.swift in Sources */,
+				908D77E91BF64DB10069F2F9 /* Label.swift in Sources */,
+				90932C4C1BEBB45800FBD4E5 /* TextureQueue.swift in Sources */,
+				901EE74A1BFF7439008D92F2 /* Matrix4.swift in Sources */,
+				908D77E01BF649120069F2F9 /* MBEMesh.m in Sources */,
+				90A0E5BF1BD9F3F100D32723 /* ParticleRenderer.swift in Sources */,
+				90A0E5DC1BDC6EBB00D32723 /* Grid.swift in Sources */,
+				901EE74F1BFF8873008D92F2 /* Sprite.swift in Sources */,
+				90A0E5CC1BDA845200D32723 /* Cube.swift in Sources */,
+				90932C591BEBBB7C00FBD4E5 /* UnaryImageFilter.swift in Sources */,
+				90A0E5D01BDA845200D32723 /* Ship.swift in Sources */,
+				90A0E5C51BDA841500D32723 /* Particle.swift in Sources */,
+				90A0E5CD1BDA845200D32723 /* Entity.swift in Sources */,
+				901EE7551C00E637008D92F2 /* UIImage.swift in Sources */,
+				908943271BE86BF700BC42D7 /* GameState.swift in Sources */,
+				9017753B1BD44CC700097B53 /* Matrix4.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9017755E1BD44D5D00097B53 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9017755F1BD44D5D00097B53 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		901775601BD44D5D00097B53 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				901775611BD44D5D00097B53 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DD34106A1BBED4FE00638CAC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DD34106B1BBED4FE00638CAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DD34106D1BBED4FE00638CAC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FBD7D7931B909184E586AF86 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				INFOPLIST_FILE = SpaceShooter/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RegExCategories\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.drtyhbo.SpaceShooter;
+				PRODUCT_NAME = SpaceShooter;
+				SWIFT_OBJC_BRIDGING_HEADER = "SpaceShooter/SpaceShooter-bridging-header.h";
+			};
+			name = Debug;
+		};
+		DD34106E1BBED4FE00638CAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 67F922FF32923BB5D444C69A /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_OPTIMIZATION_LEVEL = fast;
+				INFOPLIST_FILE = SpaceShooter/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RegExCategories\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.drtyhbo.SpaceShooter;
+				PRODUCT_NAME = SpaceShooter;
+				SWIFT_OBJC_BRIDGING_HEADER = "SpaceShooter/SpaceShooter-bridging-header.h";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DD3410551BBED4FE00638CAC /* Build configuration list for PBXProject "SpaceShooter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD34106A1BBED4FE00638CAC /* Debug */,
+				DD34106B1BBED4FE00638CAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DD34106C1BBED4FE00638CAC /* Build configuration list for PBXNativeTarget "SpaceShooter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD34106D1BBED4FE00638CAC /* Debug */,
+				DD34106E1BBED4FE00638CAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DD3410521BBED4FE00638CAC /* Project object */;
+}
