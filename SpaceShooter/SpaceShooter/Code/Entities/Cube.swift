@@ -20,7 +20,7 @@ class Cube: Enemy {
     init() {
         super.init(name: "cube", pointValue: 1, gemCount: 1)
 
-        color = float4(1, 0, 0, 1)
+        color = Constants.Cube.color
         velocity = float3(Float(arc4random_uniform(16)) - 8, Float(arc4random_uniform(16)) - 8, 0)
         rotationSpeed = float3((Float(arc4random_uniform(32)) - 16) / 16, (Float(arc4random_uniform(32)) - 16) / 16, 0)
     }

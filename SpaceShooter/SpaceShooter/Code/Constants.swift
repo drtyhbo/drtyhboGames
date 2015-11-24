@@ -8,6 +8,10 @@
 
 import Foundation
 
+func float4FromRed(red: Float, green: Float, blue: Float) -> float4 {
+    return float4(red / 255, green / 255, blue / 255, 1)
+}
+
 class Constants {
     static let numberOfInflightFrames = 3
 
@@ -27,20 +31,24 @@ class Constants {
     }
 
     struct Gem {
-        static let color = float4(0.9176, 0.1529, 0.7608, 1)
+        static let color = float4FromRed(177, green: 53, blue: 208)
         static let rotationSpeed = float3(2, 2, 2)
         static let scale: Float = 0.5
         static let lifespan: Float = 10
         static let fadeOutOver: Float = 2
     }
 
+    struct Cube {
+        static let color = float4FromRed(246, green: 0, blue: 84)
+    }
+
     struct Seeker {
-        static let color = float4(0, 1, 0, 1)
+        static let color = float4FromRed(192, green: 184, blue: 27)
         static let speed: Float = 15
     }
 
     struct Flyer {
-        static let color = float4(1, 0.6, 0.2, 1)
+        static let color = float4FromRed(4, green: 202, blue: 254)
         static let speed: Float = 15
     }
 
