@@ -23,6 +23,20 @@ extension UIImage {
         return image
     }
 
+    static func MTLTextureToUIImage(texture: MTLTexture) -> UIImage {
+        let bytesPerPixel = 4
+        let bytesPerRow = bytesPerPixel * texture.width
+        var imageBytes = [UInt8](count: texture.width * texture.height * bytesPerPixel, repeatedValue: 0)
+        let region = MTLRegionMake2D(0, 0, texture.width, texture.height)
+        texture.getBytes(&imageBytes, bytesPerRow: bytesPerRow, fromRegion: region, mipmapLevel: 0)
+
+        let providerRef = CGDataProviderCreateWithCFData(NSData(bytes: &imageBytes, length: imageBytes.count * sizeof(UInt8)))
+        let bitmapInfo = CGBitmapInfo(rawValue: CGBitmapInfo.ByteOrder32Big.rawValue | CGImageAlphaInfo.PremultipliedLast.rawValue)
+        let imageRef = CGImageCreate(texture.width, texture.height, 8, bytesPerPixel * 8, bytesPerRow, CGColorSpaceCreateDeviceRGB(), bitmapInfo, providerRef, nil, false, .RenderingIntentDefault)!
+
+        return UIImage(CGImage: imageRef)
+    }
+
     func createMTLTextureForDevice(device: MTLDevice) -> MTLTexture {
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let width = CGImageGetWidth(CGImage)

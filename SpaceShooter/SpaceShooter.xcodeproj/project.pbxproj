@@ -54,10 +54,13 @@
 		908D77EC1BF7C21F0069F2F9 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908D77EB1BF7C21F0069F2F9 /* Labels.swift */; };
 		90932C4A1BEBB45000FBD4E5 /* BufferQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C491BEBB45000FBD4E5 /* BufferQueue.swift */; };
 		90932C4C1BEBB45800FBD4E5 /* TextureQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C4B1BEBB45800FBD4E5 /* TextureQueue.swift */; };
-		90932C591BEBBB7C00FBD4E5 /* UnaryImageFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C571BEBBB7C00FBD4E5 /* UnaryImageFilter.swift */; };
 		90932C5F1BEBBBD600FBD4E5 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C5E1BEBBBD600FBD4E5 /* Filter.swift */; };
-		90932C611BEBBF9700FBD4E5 /* BloomFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90932C601BEBBF9700FBD4E5 /* BloomFilter.swift */; };
-		90932C631BEBBFB300FBD4E5 /* BloomShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 90932C621BEBBFB300FBD4E5 /* BloomShader.metal */; };
+		909E971A1C02654B008375FB /* HighPassFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909E97191C02654B008375FB /* HighPassFilter.swift */; };
+		909E971C1C026576008375FB /* HighPassFilterShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 909E971B1C026576008375FB /* HighPassFilterShader.metal */; };
+		909E971F1C0267C7008375FB /* GaussianFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909E971E1C0267C7008375FB /* GaussianFilter.swift */; };
+		909E97211C026D83008375FB /* GaussianFilterShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 909E97201C026D83008375FB /* GaussianFilterShader.metal */; };
+		909E97231C027080008375FB /* BlendFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909E97221C027080008375FB /* BlendFilter.swift */; };
+		909E97251C0270AC008375FB /* BlendFilterShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 909E97241C0270AC008375FB /* BlendFilterShader.metal */; };
 		90A0E5B11BD7489E00D32723 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5B01BD7489E00D32723 /* Camera.swift */; };
 		90A0E5B31BD74B1B00D32723 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5B21BD74B1B00D32723 /* World.swift */; };
 		90A0E5BE1BD9F3F100D32723 /* EntityRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5BB1BD9F3F100D32723 /* EntityRenderer.swift */; };
@@ -133,10 +136,14 @@
 		908D77EB1BF7C21F0069F2F9 /* Labels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
 		90932C491BEBB45000FBD4E5 /* BufferQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BufferQueue.swift; sourceTree = "<group>"; };
 		90932C4B1BEBB45800FBD4E5 /* TextureQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextureQueue.swift; sourceTree = "<group>"; };
-		90932C571BEBBB7C00FBD4E5 /* UnaryImageFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnaryImageFilter.swift; sourceTree = "<group>"; };
 		90932C5E1BEBBBD600FBD4E5 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
-		90932C601BEBBF9700FBD4E5 /* BloomFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloomFilter.swift; sourceTree = "<group>"; };
-		90932C621BEBBFB300FBD4E5 /* BloomShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = BloomShader.metal; path = SpaceShooter/Code/Renderer/Filters/BloomShader.metal; sourceTree = SOURCE_ROOT; };
+		909E97191C02654B008375FB /* HighPassFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HighPassFilter.swift; sourceTree = "<group>"; };
+		909E971B1C026576008375FB /* HighPassFilterShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = HighPassFilterShader.metal; path = SpaceShooter/Shaders/HighPassFilterShader.metal; sourceTree = SOURCE_ROOT; };
+		909E971D1C026594008375FB /* FilterShared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FilterShared.h; path = SpaceShooter/Shaders/FilterShared.h; sourceTree = SOURCE_ROOT; };
+		909E971E1C0267C7008375FB /* GaussianFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GaussianFilter.swift; sourceTree = "<group>"; };
+		909E97201C026D83008375FB /* GaussianFilterShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = GaussianFilterShader.metal; path = SpaceShooter/Shaders/GaussianFilterShader.metal; sourceTree = SOURCE_ROOT; };
+		909E97221C027080008375FB /* BlendFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlendFilter.swift; sourceTree = "<group>"; };
+		909E97241C0270AC008375FB /* BlendFilterShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = BlendFilterShader.metal; path = SpaceShooter/Shaders/BlendFilterShader.metal; sourceTree = SOURCE_ROOT; };
 		90A0E5B01BD7489E00D32723 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camera.swift; path = SpaceShooter/Code/Camera.swift; sourceTree = SOURCE_ROOT; };
 		90A0E5B21BD74B1B00D32723 /* World.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = World.swift; path = SpaceShooter/Code/World.swift; sourceTree = SOURCE_ROOT; };
 		90A0E5BB1BD9F3F100D32723 /* EntityRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityRenderer.swift; sourceTree = "<group>"; };
@@ -256,8 +263,9 @@
 			isa = PBXGroup;
 			children = (
 				90932C5E1BEBBBD600FBD4E5 /* Filter.swift */,
-				90932C601BEBBF9700FBD4E5 /* BloomFilter.swift */,
-				90932C571BEBBB7C00FBD4E5 /* UnaryImageFilter.swift */,
+				909E97191C02654B008375FB /* HighPassFilter.swift */,
+				909E971E1C0267C7008375FB /* GaussianFilter.swift */,
+				909E97221C027080008375FB /* BlendFilter.swift */,
 			);
 			path = Filters;
 			sourceTree = "<group>";
@@ -366,10 +374,13 @@
 			children = (
 				9017755B1BD44D0B00097B53 /* EntityShader.metal */,
 				90A0E5E21BDDF37000D32723 /* GridShader.metal */,
-				90932C621BEBBFB300FBD4E5 /* BloomShader.metal */,
 				90A0E5DF1BDDB57D00D32723 /* ParticleShader.metal */,
 				90A0E5E11BDDB5B400D32723 /* Shared.h */,
 				901EE7521BFF8B8C008D92F2 /* SpriteShader.metal */,
+				909E971B1C026576008375FB /* HighPassFilterShader.metal */,
+				909E971D1C026594008375FB /* FilterShared.h */,
+				909E97201C026D83008375FB /* GaussianFilterShader.metal */,
+				909E97241C0270AC008375FB /* BlendFilterShader.metal */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -563,11 +574,10 @@
 				9077E6F31BE864BA005A1478 /* EntitySpawner.swift in Sources */,
 				901EE7441BFF7149008D92F2 /* SpriteRenderer.swift in Sources */,
 				901775491BD44CDB00097B53 /* Constants.swift in Sources */,
-				90932C611BEBBF9700FBD4E5 /* BloomFilter.swift in Sources */,
 				908D77EC1BF7C21F0069F2F9 /* Labels.swift in Sources */,
 				9089432D1BE87A3300BC42D7 /* Seeker.swift in Sources */,
+				909E971A1C02654B008375FB /* HighPassFilter.swift in Sources */,
 				9017754D1BD44CDB00097B53 /* GameManager.swift in Sources */,
-				90932C631BEBBFB300FBD4E5 /* BloomShader.metal in Sources */,
 				908D77DD1BF648940069F2F9 /* TextRendererShader.metal in Sources */,
 				90A0E5B11BD7489E00D32723 /* Camera.swift in Sources */,
 				901EE7531BFF8B8C008D92F2 /* SpriteShader.metal in Sources */,
@@ -580,13 +590,16 @@
 				90A0E5E31BDDF37000D32723 /* GridShader.metal in Sources */,
 				9003E3CF1BFAEEAA001E3D33 /* Random.swift in Sources */,
 				901775501BD44CDB00097B53 /* Vertex.swift in Sources */,
+				909E97231C027080008375FB /* BlendFilter.swift in Sources */,
 				9089434E1BE89CF500BC42D7 /* Gravity.swift in Sources */,
 				90932C5F1BEBBBD600FBD4E5 /* Filter.swift in Sources */,
 				90A0E5C31BDA840B00D32723 /* ParticleManager.swift in Sources */,
+				909E97251C0270AC008375FB /* BlendFilterShader.metal in Sources */,
 				9017756D1BD45CA500097B53 /* RenderManager.swift in Sources */,
 				9089434A1BE89ACD00BC42D7 /* PhysicsManager.swift in Sources */,
 				901EE74D1BFF884F008D92F2 /* SpriteManager.swift in Sources */,
 				90A0E5CE1BDA845200D32723 /* EntityManager.swift in Sources */,
+				909E97211C026D83008375FB /* GaussianFilterShader.metal in Sources */,
 				901775651BD44E5100097B53 /* TouchHandler.swift in Sources */,
 				9003E3C91BFA3145001E3D33 /* Gem.swift in Sources */,
 				9089432B1BE8723200BC42D7 /* Enemy.swift in Sources */,
@@ -599,11 +612,12 @@
 				90932C4C1BEBB45800FBD4E5 /* TextureQueue.swift in Sources */,
 				901EE74A1BFF7439008D92F2 /* Matrix4.swift in Sources */,
 				908D77E01BF649120069F2F9 /* MBEMesh.m in Sources */,
+				909E971C1C026576008375FB /* HighPassFilterShader.metal in Sources */,
 				90A0E5BF1BD9F3F100D32723 /* ParticleRenderer.swift in Sources */,
+				909E971F1C0267C7008375FB /* GaussianFilter.swift in Sources */,
 				90A0E5DC1BDC6EBB00D32723 /* Grid.swift in Sources */,
 				901EE74F1BFF8873008D92F2 /* Sprite.swift in Sources */,
 				90A0E5CC1BDA845200D32723 /* Cube.swift in Sources */,
-				90932C591BEBBB7C00FBD4E5 /* UnaryImageFilter.swift in Sources */,
 				90A0E5D01BDA845200D32723 /* Ship.swift in Sources */,
 				90A0E5C51BDA841500D32723 /* Particle.swift in Sources */,
 				90A0E5CD1BDA845200D32723 /* Entity.swift in Sources */,
@@ -737,7 +751,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.drtyhbo.SpaceShooter;
 				PRODUCT_NAME = SpaceShooter;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "263c1426-8187-4f88-8611-b23fc5afb732";
 				SWIFT_OBJC_BRIDGING_HEADER = "SpaceShooter/SpaceShooter-bridging-header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -749,7 +763,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				GCC_OPTIMIZATION_LEVEL = fast;
+				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = SpaceShooter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -762,7 +776,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.drtyhbo.SpaceShooter;
 				PRODUCT_NAME = SpaceShooter;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "263c1426-8187-4f88-8611-b23fc5afb732";
 				SWIFT_OBJC_BRIDGING_HEADER = "SpaceShooter/SpaceShooter-bridging-header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

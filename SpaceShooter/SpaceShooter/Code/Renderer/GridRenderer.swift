@@ -19,7 +19,7 @@ class GridRenderer: Renderer {
         }
     }
 
-    private let clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 1.0)
+    private let clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 1)
 
     private var pipelineState: MTLRenderPipelineState!
     private var depthStencilState: MTLDepthStencilState!

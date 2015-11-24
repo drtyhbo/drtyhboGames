@@ -9,8 +9,6 @@
 #include <metal_stdlib>
 using namespace metal;
 
-using namespace metal;
-
 struct VertexIn {
     float3 position [[ attribute(0) ]];
     float2 texCoords [[ attribute(1) ]];

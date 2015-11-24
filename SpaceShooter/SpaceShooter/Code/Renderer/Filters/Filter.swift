@@ -24,7 +24,7 @@ class Filter: Renderer {
     private let indexBuffer: MTLBuffer
     private let sharedUniformsBuffer: MTLBuffer
 
-    init(device: MTLDevice, commandQueue: MTLCommandQueue, vertexFunction: String, fragmentFunction: String) {
+    init(device: MTLDevice, commandQueue: MTLCommandQueue, vertexFunction: String, fragmentFunction: String, alphaBlending: Bool) {
         let vertices: [FilterVertex] = [
             FilterVertex(position: float3(0, 0, 0), texCoords: float2(0, 0)),
             FilterVertex(position: float3(1, 0, 0), texCoords: float2(1, 0)),
@@ -35,18 +35,30 @@ class Filter: Renderer {
         let indices: [UInt16] = [0, 1, 2, 0, 2, 3]
         indexBuffer = device.newBufferWithBytes(indices, length: sizeof(UInt16) * 6, options: MTLResourceOptions(rawValue: 0))
 
-        sharedUniformsBuffer = device.newBufferWithBytes(Matrix4.makeOrthoWithScreenSize().raw(), length: Matrix4.size(), options: MTLResourceOptions(rawValue: 0))
+        sharedUniformsBuffer = device.newBufferWithBytes(Matrix4.makeOrthoLeft(0, right: 1, bottom: 1, top: 0, nearZ: -1, farZ: 1).raw(), length: Matrix4.size(), options: MTLResourceOptions(rawValue: 0))
 
         super.init(device: device, commandQueue: commandQueue)
 
-        setupWithVertexFunction(vertexFunction, fragmentFunction: fragmentFunction)
+        setupWithVertexFunction(vertexFunction, fragmentFunction: fragmentFunction, alphaBlending: alphaBlending)
     }
 
-    func renderToCommandEncoder(commandBuffer: MTLCommandBuffer, inputTexture: MTLTexture, outputTexture: MTLTexture) {
+    func customizeCommandEncoder(commandEncoder: MTLRenderCommandEncoder, inputTexture: MTLTexture) {
+    }
+
+    func customizeRenderPassDescriptor(renderPassDescriptor: MTLRenderPassDescriptor) {
+    }
+
+    func renderToCommandEncoder(commandBuffer: MTLCommandBuffer, inputTexture: MTLTexture) -> MTLTexture {
+        let textureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(MTLPixelFormat.BGRA8Unorm, width: inputTexture.width, height: inputTexture.height, mipmapped: false)
+        return renderToCommandEncoder(commandBuffer, inputTexture: inputTexture, outputTexture: device.newTextureWithDescriptor(textureDescriptor))
+    }
+
+    func renderToCommandEncoder(commandBuffer: MTLCommandBuffer, inputTexture: MTLTexture, outputTexture: MTLTexture) -> MTLTexture {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = outputTexture
-        renderPassDescriptor.colorAttachments[0].loadAction = .DontCare
+        renderPassDescriptor.colorAttachments[0].loadAction = .Load
         renderPassDescriptor.colorAttachments[0].storeAction = .Store
+        customizeRenderPassDescriptor(renderPassDescriptor)
 
         let commandEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)
         commandEncoder.setRenderPipelineState(pipelineState)
@@ -55,12 +67,15 @@ class Filter: Renderer {
         commandEncoder.setVertexBuffer(sharedUniformsBuffer, offset: 0, atIndex: 1)
         commandEncoder.setFragmentTexture(inputTexture, atIndex: 0)
         commandEncoder.setFragmentSamplerState(samplerState, atIndex: 0)
+        customizeCommandEncoder(commandEncoder, inputTexture: inputTexture)
         commandEncoder.drawIndexedPrimitives(.Triangle, indexCount: 6, indexType: .UInt16, indexBuffer: indexBuffer, indexBufferOffset: 0, instanceCount: 1)
 
         commandEncoder.endEncoding()
+
+        return outputTexture
     }
 
-    private func setupWithVertexFunction(vertexFunction: String, fragmentFunction: String) {
+    private func setupWithVertexFunction(vertexFunction: String, fragmentFunction: String, alphaBlending: Bool) {
         let defaultLibrary = device.newDefaultLibrary()!
         let vertexFunction = defaultLibrary.newFunctionWithName(vertexFunction)!
         let fragmentFunction = defaultLibrary.newFunctionWithName(fragmentFunction)!
@@ -77,7 +92,7 @@ class Filter: Renderer {
         vertexDescriptor.layouts[0].stride = FilterVertex.size
         vertexDescriptor.layouts[0].stepFunction = .PerVertex
 
-        let pipelineDescriptor = pipelineDescriptorWithVertexFunction(vertexFunction, fragmentFunction: fragmentFunction, vertexDescriptor: vertexDescriptor, alphaBlending: true)
+        let pipelineDescriptor = pipelineDescriptorWithVertexFunction(vertexFunction, fragmentFunction: fragmentFunction, vertexDescriptor: vertexDescriptor, alphaBlending: alphaBlending)
         do {
             pipelineState = try device.newRenderPipelineStateWithDescriptor(pipelineDescriptor)
         } catch let error {
@@ -85,7 +100,7 @@ class Filter: Renderer {
         }
 
         let samplerDescriptor = MTLSamplerDescriptor()
-        samplerDescriptor.minFilter = .Nearest;
+        samplerDescriptor.minFilter = .Linear;
         samplerDescriptor.magFilter = .Linear;
         samplerDescriptor.sAddressMode = .ClampToZero;
         samplerDescriptor.tAddressMode = .ClampToZero;

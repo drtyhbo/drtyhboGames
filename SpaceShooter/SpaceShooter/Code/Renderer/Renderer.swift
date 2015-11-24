@@ -17,6 +17,9 @@ class Renderer {
         self.commandQueue = commandQueue
     }
 
+    func customizePipelineDescriptor(pipelineDescriptor: MTLRenderPipelineDescriptor) {
+    }
+
     func pipelineDescriptorWithVertexFunction(vertexFunction: MTLFunction, fragmentFunction: MTLFunction, vertexDescriptor: MTLVertexDescriptor, alphaBlending: Bool) -> MTLRenderPipelineDescriptor {
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
         pipelineDescriptor.vertexFunction = vertexFunction
@@ -24,6 +27,7 @@ class Renderer {
         pipelineDescriptor.colorAttachments[0].pixelFormat = .BGRA8Unorm
         if alphaBlending {
             pipelineDescriptor.colorAttachments[0].blendingEnabled = true
+            pipelineDescriptor.colorAttachments[0].writeMask = .All
             pipelineDescriptor.colorAttachments[0].sourceRGBBlendFactor = .SourceAlpha
             pipelineDescriptor.colorAttachments[0].destinationRGBBlendFactor = .OneMinusSourceAlpha
             pipelineDescriptor.colorAttachments[0].rgbBlendOperation = .Add
@@ -32,6 +36,8 @@ class Renderer {
             pipelineDescriptor.colorAttachments[0].alphaBlendOperation = .Add
         }
         pipelineDescriptor.vertexDescriptor = vertexDescriptor
+
+        customizePipelineDescriptor(pipelineDescriptor)
 
         return pipelineDescriptor
     }
