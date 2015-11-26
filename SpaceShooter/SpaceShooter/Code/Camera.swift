@@ -33,6 +33,11 @@ class Camera {
         position[1] = entity.position[1]
     }
 
+    func constrainToWorld() {
+        position[0] = min(10, max(-10, position[0]))
+        position[1] = min(10, max(-10, position[1]))
+    }
+
     func sharedUniforms() -> SharedUniforms {
         let projectionViewMatrix = viewMatrix.copy()
         projectionViewMatrix.multiplyLeft(projectionMatrix)

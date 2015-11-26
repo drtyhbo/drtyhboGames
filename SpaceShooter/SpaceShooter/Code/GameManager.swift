@@ -87,6 +87,7 @@ class GameManager {
 
             if let player = player {
                 camera.pointToEntity(player)
+                camera.constrainToWorld()
             }
 
             labels.updateWithGameState(gameState)

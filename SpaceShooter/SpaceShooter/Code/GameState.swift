@@ -35,6 +35,8 @@ class GameState {
             if state == .MainPlayerDestroyed {
                 entitySpawner.makeEasier()
                 multiplier = 1
+            } else if state == .GameOver {
+                entitySpawner.reset()
             }
         }
     }

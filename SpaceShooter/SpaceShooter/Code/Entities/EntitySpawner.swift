@@ -55,6 +55,10 @@ class EntitySpawner {
         totalEntitiesSpawned = 0
     }
 
+    func reset() {
+        difficulty = 30
+    }
+
     private func spawn() {
         entitiesToSpawn = Int(difficulty)
         totalEntitiesSpawned = 0
