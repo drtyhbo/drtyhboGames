@@ -8,13 +8,6 @@
 
 import Foundation
 
-private struct TextRendererUniforms {
-    static let size = Matrix4.size() * 2
-
-    let projectionMatrix: Matrix4
-    let worldMatrix: Matrix4
-}
-
 private class TextRendererData {
     weak var label: Label!
     var text = "" {
@@ -24,34 +17,51 @@ private class TextRendererData {
             }
         }
     }
-    private(set) var mesh: MBETextMesh?
-    private(set) var textRendererUniformsBuffer: MTLBuffer!
 
+    private(set) var mesh: MBETextMesh?
+    private(set) var textRendererUniformsBufferQueue: BufferQueue!
+
+    private let textRendererUniformsSize: Int = Matrix4.size() * 2 + sizeof(Float)
     private let device: MTLDevice
     private let fontAtlas: MBEFontAtlas
+    private let orthoProjectionMatrix = Matrix4.makeOrthoWithScreenSizeAndScale()
 
     init(device: MTLDevice, fontAtlas: MBEFontAtlas, label: Label) {
         self.device = device
         self.fontAtlas = fontAtlas
         self.label = label
+        textRendererUniformsBufferQueue = BufferQueue(device: device, length: textRendererUniformsSize)
+    }
+
+    func getNextTextRendererUniformsBuffer() -> Buffer {
+        var xTranslation = label.position[0]
+        if label.alignment.contains(.Right) {
+            xTranslation = label.position[0] - Float(mesh!.rect.size.width)
+        } else if label.alignment.contains(.Center) {
+            xTranslation = label.position[0] - Float(mesh!.rect.size.width) / 2
+        }
+
+        var yTranslation = label.position[1]
+        if label.alignment.contains(.Bottom) {
+            yTranslation = label.position[1] + Float(mesh!.rect.size.height)
+        } else if label.alignment.contains(.Middle) {
+            yTranslation = label.position[1] - Float(mesh!.rect.size.height)
+        }
+
+        let worldMatrix = Matrix4()
+        worldMatrix.translate(xTranslation, y: yTranslation, z: 0)
+
+        let textRendererUniformsBuffer = textRendererUniformsBufferQueue.nextBuffer
+        textRendererUniformsBuffer.copyData(orthoProjectionMatrix.raw(), size: Matrix4.size())
+        textRendererUniformsBuffer.copyData(worldMatrix.raw(), size: Matrix4.size())
+        textRendererUniformsBuffer.copyData(&label.alpha, size: sizeof(Float))
+
+        return textRendererUniformsBuffer
     }
 
     private func updateMesh() {
         let size = UIScreen.mainScreen().bounds.size
-        mesh = MBETextMesh(string: text, inRect: CGRect(x: CGFloat(label.position.x), y: CGFloat(label.position.y), width: size.width, height: size.height), withFontAtlas: fontAtlas, atSize: 32, device: device)
-
-        textRendererUniformsBuffer = device.newBufferWithLength(TextRendererUniforms.size, options: MTLResourceOptions(rawValue: 0))
-
-        let orthoProjectionMatrix = Matrix4.makeOrthoWithScreenSizeAndScale()
-        let worldMatrix = Matrix4()
-        if label.alignment == .Left {
-            worldMatrix.translate(label.position[0], y: label.position[1], z: 0)
-        } else {
-            worldMatrix.translate(label.position[0] - Float(mesh!.rect.size.width), y: label.position[1], z: 0)
-        }
-
-        memcpy(textRendererUniformsBuffer.contents(), orthoProjectionMatrix.raw(), Matrix4.size())
-        memcpy(textRendererUniformsBuffer.contents() + Matrix4.size(), worldMatrix.raw(), Matrix4.size())
+        mesh = MBETextMesh(string: text, inRect: CGRect(x: CGFloat(label.position.x), y: CGFloat(label.position.y), width: size.width, height: size.height), withFontAtlas: fontAtlas, atSize: CGFloat(label.fontSize), device: device)
     }
 }
 
@@ -88,6 +98,10 @@ class TextRenderer: Renderer {
         renderPassDescriptor.colorAttachments[0].storeAction = .Store
 
         for label in TextManager.sharedManager.labels {
+            if label.alpha < 0.01 {
+                continue
+            }
+
             if label.textRendererData == nil {
                 label.textRendererData = TextRendererData(device: device, fontAtlas: fontAtlas, label: label)
             }
@@ -99,10 +113,12 @@ class TextRenderer: Renderer {
                 let commandEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)
                 commandEncoder.setRenderPipelineState(pipelineState)
 
-                commandEncoder.setVertexBuffer(mesh.vertexBuffer, offset: 0, atIndex: 0)
-                commandEncoder.setVertexBuffer(textRendererData.textRendererUniformsBuffer, offset: 0, atIndex: 1)
+                let textRendererUniformsBuffer = textRendererData.getNextTextRendererUniformsBuffer()
 
-                commandEncoder.setFragmentBuffer(textRendererData.textRendererUniformsBuffer, offset: 0, atIndex: 0)
+                commandEncoder.setVertexBuffer(mesh.vertexBuffer, offset: 0, atIndex: 0)
+                commandEncoder.setVertexBuffer(textRendererUniformsBuffer.buffer, offset: 0, atIndex: 1)
+
+                commandEncoder.setFragmentBuffer(textRendererUniformsBuffer.buffer, offset: 0, atIndex: 0)
                 commandEncoder.setFragmentTexture(fontTexture, atIndex: 0)
                 commandEncoder.setFragmentSamplerState(samplerState, atIndex: 0)
                 commandEncoder.drawIndexedPrimitives(.Triangle, indexCount: textRendererData.mesh!.indexBuffer.length / sizeof(UInt16), indexType: .UInt16, indexBuffer: mesh.indexBuffer, indexBufferOffset: 0)

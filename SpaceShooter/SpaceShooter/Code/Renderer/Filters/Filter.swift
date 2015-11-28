@@ -24,6 +24,8 @@ class Filter: Renderer {
     private let indexBuffer: MTLBuffer
     private let sharedUniformsBuffer: MTLBuffer
 
+    private var outputTextureQueue: TextureQueue!
+
     init(device: MTLDevice, commandQueue: MTLCommandQueue, vertexFunction: String, fragmentFunction: String, alphaBlending: Bool) {
         let vertices: [FilterVertex] = [
             FilterVertex(position: float3(0, 0, 0), texCoords: float2(0, 0)),
@@ -49,8 +51,10 @@ class Filter: Renderer {
     }
 
     func renderToCommandEncoder(commandBuffer: MTLCommandBuffer, inputTexture: MTLTexture) -> MTLTexture {
-        let textureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(MTLPixelFormat.BGRA8Unorm, width: inputTexture.width, height: inputTexture.height, mipmapped: false)
-        return renderToCommandEncoder(commandBuffer, inputTexture: inputTexture, outputTexture: device.newTextureWithDescriptor(textureDescriptor))
+        if outputTextureQueue == nil {
+            outputTextureQueue = TextureQueue(device: device, width: inputTexture.width, height: inputTexture.height)
+        }
+        return renderToCommandEncoder(commandBuffer, inputTexture: inputTexture, outputTexture: outputTextureQueue.nextTexture.texture)
     }
 
     func renderToCommandEncoder(commandBuffer: MTLCommandBuffer, inputTexture: MTLTexture, outputTexture: MTLTexture) -> MTLTexture {

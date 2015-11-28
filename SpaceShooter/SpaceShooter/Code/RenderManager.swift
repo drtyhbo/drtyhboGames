@@ -29,8 +29,6 @@ class RenderManager {
     private let gaussianBlendFilter: BlendFilter
     private let bloomBlendFilter: BlendFilter
 
-    private let inputTextureQueue: TextureQueue
-
     init(device: MTLDevice, metalLayer: CAMetalLayer!) {
         self.device = device
         self.metalLayer = metalLayer
@@ -47,9 +45,6 @@ class RenderManager {
         gaussianFilter = GaussianFilter(device: device, commandQueue: commandQueue)
         gaussianBlendFilter = BlendFilter(device: device, commandQueue: commandQueue, blendType: .Additive)
         bloomBlendFilter = BlendFilter(device: device, commandQueue: commandQueue, blendType: .Default)
-
-        let screenSize = UIScreen.mainScreen().bounds.size
-        inputTextureQueue = TextureQueue(device: device, width: Int(screenSize.width), height: Int(screenSize.height))
     }
 
     func beginFrame() {

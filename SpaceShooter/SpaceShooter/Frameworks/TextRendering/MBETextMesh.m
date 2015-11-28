@@ -75,7 +75,7 @@ typedef void (^MBEGlyphPositionEnumerationBlock)(CGGlyph glyph,
         float maxY = CGRectGetMaxY(glyphBounds);
 
         minPoint = CGPointMake(MIN(minPoint.x, minX), MIN(minPoint.y, minY));
-        maxPoint = CGPointMake(MAX(maxPoint.x, maxX), MIN(maxPoint.y, maxY));
+        maxPoint = CGPointMake(MAX(maxPoint.x, maxX), MAX(maxPoint.y, maxY));
 
         float minS = glyphInfo.topLeftTexCoord.x;
         float maxS = glyphInfo.bottomRightTexCoord.x;

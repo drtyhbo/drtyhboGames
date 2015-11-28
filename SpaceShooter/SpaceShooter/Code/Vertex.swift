@@ -106,3 +106,13 @@ struct Light {
         return [position[0], position[1], position[2], color[0], color[1], color[2], intensity]
     }
 }
+
+struct Size {
+    var width: Float
+    var height: Float
+
+    init(size: CGSize) {
+        width = Float(size.width)
+        height = Float(size.height)
+    }
+}

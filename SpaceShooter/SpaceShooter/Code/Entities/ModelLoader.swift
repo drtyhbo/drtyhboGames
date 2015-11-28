@@ -12,18 +12,17 @@ import Metal
 class Model {
     let vertices: [Vertex]
     let indices: [UInt16]
-
-    var vertexData: [Float] {
-        var vertexData: [Float] = []
-        for vertex in vertices {
-            vertexData += vertex.floatBuffer
-        }
-        return vertexData
-    }
+    let vertexData: [Float]
 
     init(vertices: [Vertex], indices: [UInt16]) {
         self.vertices = vertices
         self.indices = indices
+
+        var vertexData: [Float] = []
+        for vertex in vertices {
+            vertexData += vertex.floatBuffer
+        }
+        self.vertexData = vertexData
     }
 }
 

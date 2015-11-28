@@ -164,7 +164,7 @@
 		90A0E5E21BDDF37000D32723 /* GridShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = GridShader.metal; path = SpaceShooter/Shaders/GridShader.metal; sourceTree = SOURCE_ROOT; };
 		90A1ED581C013B9A0057DE0F /* GameTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameTimer.swift; path = SpaceShooter/Code/GameTimer.swift; sourceTree = SOURCE_ROOT; };
 		CBEB218B9767EBFAEE993A4B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD34105A1BBED4FE00638CAC /* SpaceShooter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceShooter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD34105A1BBED4FE00638CAC /* Galaxy Blast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Galaxy Blast.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD7D7931B909184E586AF86 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -433,7 +433,7 @@
 		DD34105B1BBED4FE00638CAC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DD34105A1BBED4FE00638CAC /* SpaceShooter.app */,
+				DD34105A1BBED4FE00638CAC /* Galaxy Blast.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -469,7 +469,7 @@
 			);
 			name = SpaceShooter;
 			productName = MetalTutorial;
-			productReference = DD34105A1BBED4FE00638CAC /* SpaceShooter.app */;
+			productReference = DD34105A1BBED4FE00638CAC /* Galaxy Blast.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -750,7 +750,7 @@
 					"\"${PODS_ROOT}/Headers/Public/RegExCategories\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.drtyhbo.SpaceShooter;
-				PRODUCT_NAME = SpaceShooter;
+				PRODUCT_NAME = "Galaxy Blast";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SpaceShooter/SpaceShooter-bridging-header.h";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -775,7 +775,7 @@
 					"\"${PODS_ROOT}/Headers/Public/RegExCategories\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.drtyhbo.SpaceShooter;
-				PRODUCT_NAME = SpaceShooter;
+				PRODUCT_NAME = "Galaxy Blast";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SpaceShooter/SpaceShooter-bridging-header.h";
 				TARGETED_DEVICE_FAMILY = 1;
