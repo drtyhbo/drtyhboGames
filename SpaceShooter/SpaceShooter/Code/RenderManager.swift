@@ -78,18 +78,20 @@ class RenderManager {
         let cameraUniformsBuffer = cameraUniformsBufferQueue.nextBuffer
         cameraUniformsBuffer.copyData(cameraUniforms.projectionMatrix.raw(), size: Matrix4.size())
         cameraUniformsBuffer.copyData(cameraUniforms.worldMatrix.raw(), size: Matrix4.size())
+        scene.cameraUniformsBuffer = cameraUniformsBuffer
 
         let textureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(MTLPixelFormat.BGRA8Unorm, width: drawable.texture.width, height: drawable.texture.height, mipmapped: false)
         let outputTexture = device.newTextureWithDescriptor(textureDescriptor)
+        clearTexture(drawable.texture)
 
-        gridRenderer.renderGrid(GridManager.sharedManager.grid, sharedUniformsBuffer: cameraUniformsBuffer, lights: scene.lights, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
-        entityRenderer.renderEntities(EntityManager.sharedManager.entities, sharedUniformsBuffer: cameraUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
-        particleRenderer.renderParticlesWithSharedUniformsBuffer(cameraUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
+        gridRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
+        entityRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
+        particleRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
 
         applyBloomFilterToTexture(outputTexture, outputTexture: drawable.texture, commandBuffer: commandBuffer)
 
-        spriteRenderer.renderSpritesToCommandBuffer(commandBuffer, outputTexture: drawable.texture)
-        textRenderer.renderText(cameraUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
+        spriteRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
+        textRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
     }
 
     private func clearTexture(texture: MTLTexture) {

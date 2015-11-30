@@ -9,8 +9,11 @@
 import Foundation
 
 class Scene {
-    var camera: Camera
-    var lights: [Light] = []
+    let camera: Camera
+    private(set) var lights: [Light] = []
+
+    // I'm not sure where else to put this.
+    var cameraUniformsBuffer: Buffer?
 
     init(camera: Camera) {
         self.camera = camera

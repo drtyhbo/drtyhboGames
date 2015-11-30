@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HighPassFilter: Filter {
+class HighPassFilter: FilterRenderer {
     init(device: MTLDevice, commandQueue: MTLCommandQueue) {
         super.init(device: device, commandQueue: commandQueue, vertexFunction: "highPassFilterVertex", fragmentFunction: "highPassFilterFragment", alphaBlending: false)
     }

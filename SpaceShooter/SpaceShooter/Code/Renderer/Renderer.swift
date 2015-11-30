@@ -42,3 +42,9 @@ class Renderer {
         return pipelineDescriptor
     }
 }
+
+class SceneRenderer: Renderer {
+    func renderScene(scene: Scene, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
+        fatalError("Subclasses must provide an implementation for this function.")
+    }
+}

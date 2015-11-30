@@ -15,16 +15,17 @@ private struct FilterVertex {
     let texCoords: float2
 }
 
-class Filter: Renderer {
-    private var pipelineState: MTLRenderPipelineState!
-    private var depthStencilState: MTLDepthStencilState!
-    private var samplerState: MTLSamplerState!
-
+class FilterRenderer: Renderer {
     private let vertexBuffer: MTLBuffer
     private let indexBuffer: MTLBuffer
     private let sharedUniformsBuffer: MTLBuffer
 
+    private var pipelineState: MTLRenderPipelineState!
+    private var depthStencilState: MTLDepthStencilState!
+    private var samplerState: MTLSamplerState!
     private var outputTextureQueue: TextureQueue!
+
+    // MARK: init
 
     init(device: MTLDevice, commandQueue: MTLCommandQueue, vertexFunction: String, fragmentFunction: String, alphaBlending: Bool) {
         let vertices: [FilterVertex] = [
@@ -44,20 +45,20 @@ class Filter: Renderer {
         setupWithVertexFunction(vertexFunction, fragmentFunction: fragmentFunction, alphaBlending: alphaBlending)
     }
 
-    func customizeCommandEncoder(commandEncoder: MTLRenderCommandEncoder, inputTexture: MTLTexture) {
-    }
-
-    func customizeRenderPassDescriptor(renderPassDescriptor: MTLRenderPassDescriptor) {
-    }
+    // MARK: Public
 
     func renderToCommandEncoder(commandBuffer: MTLCommandBuffer, inputTexture: MTLTexture) -> MTLTexture {
         if outputTextureQueue == nil {
             outputTextureQueue = TextureQueue(device: device, width: inputTexture.width, height: inputTexture.height)
         }
-        return renderToCommandEncoder(commandBuffer, inputTexture: inputTexture, outputTexture: outputTextureQueue.nextTexture.texture)
+
+        let outputTexture = outputTextureQueue.nextTexture.texture
+        renderToCommandEncoder(commandBuffer, inputTexture: inputTexture, outputTexture: outputTexture)
+
+        return outputTexture
     }
 
-    func renderToCommandEncoder(commandBuffer: MTLCommandBuffer, inputTexture: MTLTexture, outputTexture: MTLTexture) -> MTLTexture {
+    func renderToCommandEncoder(commandBuffer: MTLCommandBuffer, inputTexture: MTLTexture, outputTexture: MTLTexture) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = outputTexture
         renderPassDescriptor.colorAttachments[0].loadAction = .Load
@@ -71,13 +72,23 @@ class Filter: Renderer {
         commandEncoder.setVertexBuffer(sharedUniformsBuffer, offset: 0, atIndex: 1)
         commandEncoder.setFragmentTexture(inputTexture, atIndex: 0)
         commandEncoder.setFragmentSamplerState(samplerState, atIndex: 0)
+
         customizeCommandEncoder(commandEncoder, inputTexture: inputTexture)
+
         commandEncoder.drawIndexedPrimitives(.Triangle, indexCount: 6, indexType: .UInt16, indexBuffer: indexBuffer, indexBufferOffset: 0, instanceCount: 1)
 
         commandEncoder.endEncoding()
-
-        return outputTexture
     }
+
+    // MARK: Override
+
+    func customizeCommandEncoder(commandEncoder: MTLRenderCommandEncoder, inputTexture: MTLTexture) {
+    }
+
+    func customizeRenderPassDescriptor(renderPassDescriptor: MTLRenderPassDescriptor) {
+    }
+
+    // MARK: Private
 
     private func setupWithVertexFunction(vertexFunction: String, fragmentFunction: String, alphaBlending: Bool) {
         let defaultLibrary = device.newDefaultLibrary()!

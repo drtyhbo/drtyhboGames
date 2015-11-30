@@ -8,7 +8,7 @@
 
 import Foundation
 
-private class DirectionalBlurFilter: Filter {
+private class DirectionalBlurFilter: FilterRenderer {
     enum BlurDirection {
         case Horizontal
         case Vertical
@@ -17,12 +17,16 @@ private class DirectionalBlurFilter: Filter {
     private let direction: BlurDirection
     private let offsetsBufferQueue: BufferQueue
 
+    // MARK: init
+
     init(device: MTLDevice, commandQueue: MTLCommandQueue, direction: BlurDirection) {
         self.direction = direction
         offsetsBufferQueue = BufferQueue(device: device, length: sizeof(Float) * 2)
 
         super.init(device: device, commandQueue: commandQueue, vertexFunction: "gaussianFilterVertex", fragmentFunction: "gaussianFilterFragment", alphaBlending: false)
     }
+
+    // MARK: Overrides
 
     override func customizeCommandEncoder(commandEncoder: MTLRenderCommandEncoder, inputTexture: MTLTexture) {
         let offsetsBuffer = offsetsBufferQueue.nextBuffer
@@ -32,16 +36,22 @@ private class DirectionalBlurFilter: Filter {
     }
 }
 
-class GaussianFilter {
+class GaussianFilter: MultipassFilterRenderer {
     private let horizontalBlurFilter: DirectionalBlurFilter
     private let verticalBlurFilter: DirectionalBlurFilter
 
-    init(device: MTLDevice, commandQueue: MTLCommandQueue) {
+    // MARK: init
+
+    override init(device: MTLDevice, commandQueue: MTLCommandQueue) {
         horizontalBlurFilter = DirectionalBlurFilter(device: device, commandQueue: commandQueue, direction: .Horizontal)
         verticalBlurFilter = DirectionalBlurFilter(device: device, commandQueue: commandQueue, direction: .Vertical)
+
+        super.init(device: device, commandQueue: commandQueue)
     }
 
-    func renderToCommandEncoder(commandBuffer: MTLCommandBuffer, inputTexture: MTLTexture) -> MTLTexture {
+    // MARK: Overrides
+
+    override func renderToCommandEncoder(commandBuffer: MTLCommandBuffer, inputTexture: MTLTexture) -> MTLTexture {
         let horizontalBlurTexture = horizontalBlurFilter.renderToCommandEncoder(commandBuffer, inputTexture: inputTexture)
         return verticalBlurFilter.renderToCommandEncoder(commandBuffer, inputTexture: horizontalBlurTexture)
     }

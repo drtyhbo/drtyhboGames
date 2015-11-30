@@ -65,7 +65,7 @@ private class TextRendererData {
     }
 }
 
-class TextRenderer: Renderer {
+class TextRenderer: SceneRenderer {
     private var pipelineState: MTLRenderPipelineState!
     private var depthStencilState: MTLDepthStencilState!
     private var samplerState: MTLSamplerState!
@@ -91,7 +91,7 @@ class TextRenderer: Renderer {
         setup()
     }
 
-    func renderText(sharedUniformsBuffer: Buffer, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
+    override func renderScene(scene: Scene, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = outputTexture
         renderPassDescriptor.colorAttachments[0].loadAction = .Load

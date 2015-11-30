@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GridRenderer: Renderer {
+class GridRenderer: SceneRenderer {
     private struct GridUniforms {
         static let size = sizeof(Int)
 
@@ -40,16 +40,17 @@ class GridRenderer: Renderer {
         setup()
     }
 
-    func renderGrid(grid: Grid, sharedUniformsBuffer: Buffer, lights: [Light], toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
+    override func renderScene(scene: Scene, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = outputTexture
-        renderPassDescriptor.colorAttachments[0].loadAction = .Clear
-        renderPassDescriptor.colorAttachments[0].clearColor = clearColor
+        renderPassDescriptor.colorAttachments[0].loadAction = .Load
         renderPassDescriptor.colorAttachments[0].storeAction = .Store
 
         let commandEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)
         commandEncoder.setDepthStencilState(depthStencilState)
         commandEncoder.setRenderPipelineState(pipelineState)
+
+        let grid = GridManager.sharedManager.grid
 
         let vertexBuffer = gridVertexBufferQueue.nextBuffer
         vertexBuffer.copyData(grid.pointMasses, size: sizeof(PointMass) * grid.pointMasses.count)
@@ -58,16 +59,16 @@ class GridRenderer: Renderer {
         indexBuffer.copyData(grid.indices, size: sizeof(UInt16) * grid.indices.count)
 
         let gridUniformsBuffer = gridUniformsBufferQueue.nextBuffer
-        let gridUniforms = GridUniforms(numLights: lights.count)
+        let gridUniforms = GridUniforms(numLights: scene.lights.count)
         gridUniformsBuffer.copyData(gridUniforms.raw(), size: GridUniforms.size)
 
         let lightsBuffer = lightsBufferQueue.nextBuffer
-        for light in lights {
+        for light in scene.lights {
             lightsBuffer.copyData(light.floatBuffer, size: Light.size)
         }
 
         commandEncoder.setVertexBuffer(vertexBuffer.buffer, offset: 0, atIndex: 0)
-        commandEncoder.setVertexBuffer(sharedUniformsBuffer.buffer, offset: 0, atIndex: 1)
+        commandEncoder.setVertexBuffer(scene.cameraUniformsBuffer!.buffer, offset: 0, atIndex: 1)
         commandEncoder.setVertexBuffer(gridUniformsBuffer.buffer, offset: 0, atIndex: 2)
         commandEncoder.setVertexBuffer(lightsBuffer.buffer, offset: 0, atIndex: 3)
         commandEncoder.drawIndexedPrimitives(.Line, indexCount: grid.indices.count, indexType: .UInt16, indexBuffer: indexBuffer.buffer, indexBufferOffset: 0)
