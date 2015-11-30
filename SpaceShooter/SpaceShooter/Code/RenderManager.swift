@@ -103,19 +103,11 @@ class RenderManager {
         commandEncoder.endEncoding()
     }
 
-    var startTime = NSDate()
-
     private func applyBloomFilterToTexture(texture: MTLTexture, outputTexture: MTLTexture, commandBuffer: MTLCommandBuffer) {
         let highPassTexture = highPassFilter.renderToCommandEncoder(commandBuffer, inputTexture: texture)
         let gaussianTexture = gaussianFilter.renderToCommandEncoder(commandBuffer, inputTexture: highPassTexture)
 
         gaussianBlendFilter.renderToCommandEncoder(commandBuffer, inputTexture: gaussianTexture, outputTexture: texture)
         bloomBlendFilter.renderToCommandEncoder(commandBuffer, inputTexture: texture, outputTexture: outputTexture)
-    }
-
-    private func saveTexture(texture: MTLTexture, toFileWithName name: String) {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let image = UIImage.MTLTextureToUIImage(texture)
-        UIImagePNGRepresentation(image)?.writeToFile(documentsPath + "/\(name).png", atomically: true)
     }
 }
