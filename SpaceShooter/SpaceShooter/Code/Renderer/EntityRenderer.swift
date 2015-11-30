@@ -58,7 +58,7 @@ class EntityRenderer: SceneRenderer {
                 currentModel = entity.model
             }
 
-            let perInstanceUniforms = entity.perInstanceUniforms
+            let perInstanceUniforms = entity.calculatePerInstanceMatricesWithWorldMatrix(scene.camera.worldMatrix)
             perInstanceUniformsBuffer.copyData(perInstanceUniforms.modelViewMatrix.raw(), size: Matrix4.size())
             perInstanceUniformsBuffer.copyData(perInstanceUniforms.normalMatrix.raw(), size: Matrix4.size())
             perInstanceUniformsBuffer.copyData(perInstanceUniforms.color.raw(), size: float4.size)

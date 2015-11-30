@@ -50,7 +50,6 @@ class EntityManager {
                 }
 
                 entity.updateWithDelta(delta)
-                entity.calculatePerInstanceMatricesWithWorldMatrix(worldMatrix)
                 if entity.state == .Dead {
                     entities.removeAtIndex(i)
                 }

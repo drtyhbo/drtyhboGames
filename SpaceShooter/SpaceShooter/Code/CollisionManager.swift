@@ -41,6 +41,18 @@ class CollisionManager {
                 }
             }
         }
+
+        for laserParticle in ParticleManager.sharedManager.laserParticles {
+            let entities = EntityManager.sharedManager.entities
+            for entity in entities {
+                if let enemy = entity as? Enemy where enemy.state == .Alive && length(laserParticle.position - entity.position) < 2 {
+                    enemy.damage()
+                    if enemy.isDead {
+                        gameState.incrementScoreBy(enemy.pointValue)
+                    }
+                }
+            }
+        }
     }
 
     private func gravityFromEntities(entities: [Entity]) -> Gravity? {

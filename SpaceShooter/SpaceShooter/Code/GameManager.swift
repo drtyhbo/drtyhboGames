@@ -54,29 +54,11 @@ class GameManager {
         renderManager.endFrame()
     }
 
-    private var lastUpdate: NSTimeInterval = 0
-
     private func gameUpdate(delta: Float) {
         autoreleasepool {
             gameState.updateWithDelta(delta)
 
             collisionManager.testCollisionsWithPlayer(player, gameState: gameState)
-
-            for entity in EntityManager.sharedManager.entities {
-                if let enemy = entity as? Enemy where enemy.isDead {
-                    if enemy.health <= 0 {
-                        gameState.incrementScoreBy(enemy.pointValue)
-
-                        for _ in 0..<enemy.gemCount {
-                            let randomOffset = float3(Random.randomNumberBetween(-3, and: 3), Random.randomNumberBetween(-3, and: 3), 0)
-                            let gem = Gem(position: enemy.position + randomOffset)
-                            gem.load()
-                            gem.spawn()
-                            EntityManager.sharedManager.addEntity(gem)
-                        }
-                    }
-                }
-            }
 
             EntityManager.sharedManager.updateWithDelta(delta, worldMatrix: camera.worldMatrix)
             ParticleManager.sharedManager.updateWithDelta(delta)
