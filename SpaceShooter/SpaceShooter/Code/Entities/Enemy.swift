@@ -47,6 +47,16 @@ class Enemy: Entity {
         super.die()
         GridManager.sharedManager.grid.applyExplosiveForce(Constants.Enemy.Die.gravityForce, atPosition: position, withRadius: Constants.Enemy.Die.gravityRadius)
         ParticleManager.sharedManager.createExplosionAroundPosition(position, particleCount: Constants.Enemy.Die.particleCount, color: float3(color[0], color[1], color[2]), speed: Constants.Enemy.Die.particleSpeed)
+
+        if health <= 0 {
+            for _ in 0..<gemCount {
+                let randomOffset = float3(Random.randomNumberBetween(-3, and: 3), Random.randomNumberBetween(-3, and: 3), 0)
+                let gem = Gem(position: position + randomOffset)
+                gem.load()
+                gem.spawn()
+                EntityManager.sharedManager.addEntity(gem)
+            }
+        }
     }
 
     func damage() {

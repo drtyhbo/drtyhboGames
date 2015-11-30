@@ -46,10 +46,6 @@ class Entity {
         return GameTimer.sharedTimer.currentTime - lastStateTime
     }
 
-    // MARK: Matrices
-
-    private(set) var perInstanceUniforms: PerInstanceUniforms!
-
     private var modelMatrix: Matrix4 {
         let matrix = Matrix4()
         matrix.translate(position[0], y: position[1], z: position[2])
@@ -74,14 +70,14 @@ class Entity {
     func updateWithDelta(delta: Float) {
     }
 
-    func calculatePerInstanceMatricesWithSharedUniforms(sharedUniforms: SharedUniforms) {
+    func calculatePerInstanceMatricesWithWorldMatrix(worldMatrix: Matrix4) -> PerInstanceUniforms {
         let modelViewMatrix = modelMatrix
-        modelViewMatrix.multiplyLeft(sharedUniforms.worldMatrix)
+        modelViewMatrix.multiplyLeft(worldMatrix)
 
         let normalMatrix = modelViewMatrix.copy()
         normalMatrix.invertAndTranspose()
 
-        perInstanceUniforms = PerInstanceUniforms(modelViewMatrix: modelViewMatrix, normalMatrix: normalMatrix, color: color)
+        return PerInstanceUniforms(modelViewMatrix: modelViewMatrix, normalMatrix: normalMatrix, color: color)
     }
 
     func spawn() {

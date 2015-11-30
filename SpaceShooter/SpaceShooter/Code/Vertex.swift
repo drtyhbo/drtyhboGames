@@ -79,14 +79,6 @@ struct Vertex {
     }
 }
 
-struct SharedUniforms {
-    static let size = Matrix4.size() * 3
-
-    let projectionMatrix: Matrix4
-    let worldMatrix: Matrix4
-    let projectionWorldMatrix: Matrix4
-}
-
 struct PerInstanceUniforms {
     static let size = Matrix4.size() * 2 + float4.size
 
@@ -104,5 +96,15 @@ struct Light {
 
     var floatBuffer: [Float] {
         return [position[0], position[1], position[2], color[0], color[1], color[2], intensity]
+    }
+}
+
+struct Size {
+    var width: Float
+    var height: Float
+
+    init(size: CGSize) {
+        width = Float(size.width)
+        height = Float(size.height)
     }
 }

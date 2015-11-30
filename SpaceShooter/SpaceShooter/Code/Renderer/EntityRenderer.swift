@@ -9,7 +9,7 @@
 import Foundation
 import Metal
 
-class EntityRenderer: Renderer {
+class EntityRenderer: SceneRenderer {
     private let maxVerticesPerEntity = 100
 
     private let perInstanceUniformsBufferQueue: BufferQueue
@@ -29,7 +29,8 @@ class EntityRenderer: Renderer {
         setup()
     }
 
-    func renderEntities(entities: [Entity], sharedUniformsBuffer: Buffer, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
+    override func renderScene(scene: Scene, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
+        let entities = EntityManager.sharedManager.entities
         if entities.count == 0 {
             return
         }
@@ -57,7 +58,7 @@ class EntityRenderer: Renderer {
                 currentModel = entity.model
             }
 
-            let perInstanceUniforms = entity.perInstanceUniforms
+            let perInstanceUniforms = entity.calculatePerInstanceMatricesWithWorldMatrix(scene.camera.worldMatrix)
             perInstanceUniformsBuffer.copyData(perInstanceUniforms.modelViewMatrix.raw(), size: Matrix4.size())
             perInstanceUniformsBuffer.copyData(perInstanceUniforms.normalMatrix.raw(), size: Matrix4.size())
             perInstanceUniformsBuffer.copyData(perInstanceUniforms.color.raw(), size: float4.size)
@@ -76,7 +77,7 @@ class EntityRenderer: Renderer {
                 commandEncoder.setDepthStencilState(depthStencilState)
                 commandEncoder.setRenderPipelineState(pipelineState)
                 commandEncoder.setVertexBuffer(vertexBuffer.buffer, offset: vertexBufferOffset, atIndex: 0)
-                commandEncoder.setVertexBuffer(sharedUniformsBuffer.buffer, offset: 0, atIndex: 1)
+                commandEncoder.setVertexBuffer(scene.cameraUniformsBuffer!.buffer, offset: 0, atIndex: 1)
                 commandEncoder.setVertexBuffer(perInstanceUniformsBuffer.buffer, offset: perInstanceUniformsBufferOffset, atIndex: 2)
                 commandEncoder.drawIndexedPrimitives(.Triangle, indexCount: currentModel!.indices.count, indexType: .UInt16, indexBuffer: indexBuffer.buffer, indexBufferOffset: indexBufferOffset, instanceCount: entityCount)
                 commandEncoder.endEncoding()

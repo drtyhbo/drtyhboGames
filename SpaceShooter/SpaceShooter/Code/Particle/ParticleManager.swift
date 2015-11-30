@@ -33,19 +33,7 @@ class ParticleManager {
 
         for var i = laserParticles.count - 1; i >= 0; i-- {
             laserParticles[i].updateWithDelta(delta)
-
-            var isParticleDestroyed = false
-            for entity in EntityManager.sharedManager.entities {
-                let laserParticle = laserParticles[i]
-                if let enemy = entity as? Enemy where enemy.state == .Alive && length(laserParticle.position - entity.position) < 2 {
-                    enemy.damage()
-                    if enemy.absorbsBullets {
-                        isParticleDestroyed = true
-                    }
-                }
-            }
-
-            if isParticleDestroyed || !World.isPositionInside(laserParticles[i].position) {
+            if !World.isPositionInside(laserParticles[i].position) {
                 createExplosionAroundPosition(laserParticles[i].position, particleCount: Constants.Particle.LaserParticle.Explosion.particleCount, color: float3(1, 1, 1), speed: Constants.Particle.LaserParticle.Explosion.particleSpeed)
                 laserParticles.removeAtIndex(i)
             }

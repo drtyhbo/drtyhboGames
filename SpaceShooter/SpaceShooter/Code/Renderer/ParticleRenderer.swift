@@ -9,7 +9,7 @@
 import Foundation
 import Metal
 
-class ParticleRenderer: Renderer {
+class ParticleRenderer: SceneRenderer {
     private struct ParticleRendererUniforms {
         var currentTime: Float
     }
@@ -42,31 +42,27 @@ class ParticleRenderer: Renderer {
         setup()
     }
 
-    func renderParticlesWithSharedUniformsBuffer(sharedUniformsBuffer: Buffer, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
-        if ParticleManager.sharedManager.particles.count == 0 {
-            return
-        }
-
+    override func renderScene(scene: Scene, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         var particleRendererUniforms = ParticleRendererUniforms(currentTime: GameTimer.sharedTimer.currentTime)
         let particleRendererUniformsBuffer = particleRendererUniformsQueue.nextBuffer
         particleRendererUniformsBuffer.copyData(&particleRendererUniforms, size: sizeof(ParticleRendererUniforms))
 
-        let particlesBuffer = particlesBufferQueue.nextBuffer
-        particlesBuffer.copyData(ParticleManager.sharedManager.particles, size: sizeof(Particle) * ParticleManager.sharedManager.particles.count)
+        if ParticleManager.sharedManager.particles.count > 0 {
+            let particlesBuffer = particlesBufferQueue.nextBuffer
+            particlesBuffer.copyData(ParticleManager.sharedManager.particles, size: sizeof(Particle) * ParticleManager.sharedManager.particles.count)
 
-        renderParticlesWithBuffer(particlesBuffer, particleRendererUniformsBuffer: particleRendererUniformsBuffer, sharedUniformsBuffer: sharedUniformsBuffer, numberOfParticles: ParticleManager.sharedManager.particles.count, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
-
-        let laserParticlesBuffer = laserParticlesBufferQueue.nextBuffer
-        laserParticlesBuffer.copyData(ParticleManager.sharedManager.laserParticles, size: sizeof(Particle) * ParticleManager.sharedManager.laserParticles.count)
-
-        renderParticlesWithBuffer(laserParticlesBuffer, particleRendererUniformsBuffer: particleRendererUniformsBuffer, sharedUniformsBuffer: sharedUniformsBuffer, numberOfParticles: ParticleManager.sharedManager.laserParticles.count, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
-    }
-
-    private func renderParticlesWithBuffer(particlesBuffer: Buffer, particleRendererUniformsBuffer: Buffer, sharedUniformsBuffer: Buffer, numberOfParticles: Int, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
-        if numberOfParticles == 0 {
-            return
+            renderParticlesWithBuffer(particlesBuffer, particleRendererUniformsBuffer: particleRendererUniformsBuffer, cameraUniformsBuffer: scene.cameraUniformsBuffer!, numberOfParticles: ParticleManager.sharedManager.particles.count, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
         }
 
+        if ParticleManager.sharedManager.laserParticles.count > 0 {
+            let laserParticlesBuffer = laserParticlesBufferQueue.nextBuffer
+            laserParticlesBuffer.copyData(ParticleManager.sharedManager.laserParticles, size: sizeof(Particle) * ParticleManager.sharedManager.laserParticles.count)
+
+            renderParticlesWithBuffer(laserParticlesBuffer, particleRendererUniformsBuffer: particleRendererUniformsBuffer, cameraUniformsBuffer: scene.cameraUniformsBuffer!, numberOfParticles: ParticleManager.sharedManager.laserParticles.count, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
+        }
+    }
+
+    private func renderParticlesWithBuffer(particlesBuffer: Buffer, particleRendererUniformsBuffer: Buffer, cameraUniformsBuffer: Buffer, numberOfParticles: Int, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = outputTexture
         renderPassDescriptor.colorAttachments[0].loadAction = .Load
@@ -77,7 +73,7 @@ class ParticleRenderer: Renderer {
         commandEncoder.setRenderPipelineState(pipelineState)
 
         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, atIndex: 0)
-        commandEncoder.setVertexBuffer(sharedUniformsBuffer.buffer, offset: 0, atIndex: 1)
+        commandEncoder.setVertexBuffer(cameraUniformsBuffer.buffer, offset: 0, atIndex: 1)
         commandEncoder.setVertexBuffer(particlesBuffer.buffer, offset: 0, atIndex: 2)
         commandEncoder.setVertexBuffer(particleRendererUniformsBuffer.buffer, offset: 0, atIndex: 3)
         commandEncoder.drawIndexedPrimitives(.Triangle, indexCount: 6, indexType: .UInt16, indexBuffer: indexBuffer, indexBufferOffset: 0, instanceCount: numberOfParticles)

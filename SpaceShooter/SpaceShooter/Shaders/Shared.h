@@ -14,7 +14,6 @@ using namespace metal;
 struct SharedUniforms {
     float4x4 projectionMatrix;
     float4x4 worldMatrix;
-    float4x4 projectionWorldMatrix;
 };
 
 #endif /* Shared_h */

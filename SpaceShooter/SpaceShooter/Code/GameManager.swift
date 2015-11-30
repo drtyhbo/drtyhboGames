@@ -21,6 +21,7 @@ class GameManager {
                 return
             }
 
+            labels.pausedLabel.alpha = isPaused ? 1 : 0
             GameTimer.sharedTimer.pause(isPaused)
         }
     }
@@ -29,7 +30,6 @@ class GameManager {
     private var labels: Labels = Labels()
     private var renderManager: RenderManager!
     private var collisionManager: CollisionManager = CollisionManager()
-    private var sharedUniformsBufferQueue: BufferQueue!
     private var lastFrameTimestamp: CFTimeInterval!
 
     init() {
@@ -39,7 +39,6 @@ class GameManager {
 
     func setupWithDevice(device: MTLDevice, renderManager: RenderManager) {
         self.renderManager = renderManager
-        sharedUniformsBufferQueue = BufferQueue(device: device, length: SharedUniforms.size)
     }
 
     func nextFrameWithTimestamp(timestamp: CFTimeInterval) {
@@ -55,33 +54,13 @@ class GameManager {
         renderManager.endFrame()
     }
 
-    private var lastUpdate: NSTimeInterval = 0
-
     private func gameUpdate(delta: Float) {
         autoreleasepool {
             gameState.updateWithDelta(delta)
 
             collisionManager.testCollisionsWithPlayer(player, gameState: gameState)
 
-            let sharedUniforms = camera.sharedUniforms()
-
-            for entity in EntityManager.sharedManager.entities {
-                if let enemy = entity as? Enemy where enemy.isDead {
-                    if enemy.health <= 0 {
-                        gameState.incrementScoreBy(enemy.pointValue)
-
-                        for _ in 0..<enemy.gemCount {
-                            let randomOffset = float3(Random.randomNumberBetween(-3, and: 3), Random.randomNumberBetween(-3, and: 3), 0)
-                            let gem = Gem(position: enemy.position + randomOffset)
-                            gem.load()
-                            gem.spawn()
-                            EntityManager.sharedManager.addEntity(gem)
-                        }
-                    }
-                }
-            }
-
-            EntityManager.sharedManager.updateWithDelta(Float(delta), sharedUniforms: sharedUniforms)
+            EntityManager.sharedManager.updateWithDelta(delta, worldMatrix: camera.worldMatrix)
             ParticleManager.sharedManager.updateWithDelta(delta)
             GridManager.sharedManager.grid.updateWithDelta(delta)
 
@@ -92,28 +71,14 @@ class GameManager {
 
             labels.updateWithGameState(gameState)
 
-            renderWithSharedUniforms(sharedUniforms)
+            render()
         }
     }
 
-    private func renderWithSharedUniforms(sharedUniforms: SharedUniforms) {
-        let sharedUniformsBuffer = sharedUniformsBufferQueue.nextBuffer
-        sharedUniformsBuffer.copyData(sharedUniforms.projectionMatrix.raw(), size: Matrix4.size())
-        sharedUniformsBuffer.copyData(sharedUniforms.worldMatrix.raw(), size: Matrix4.size())
-        sharedUniformsBuffer.copyData(sharedUniforms.projectionWorldMatrix.raw(), size: Matrix4.size())
-
-        var lights: [Light] = []
-
-        let entities = EntityManager.sharedManager.entities
-        for i in 0..<min(entities.count, 300) {
-            let entity = entities[i]
-            lights.append(Light(position: entity.position, color: float3(entity.color[0], entity.color[1], entity.color[2]), intensity: entity.intensity))
-        }
-        for particle in ParticleManager.sharedManager.laserParticles {
-            lights.append(Light(position: particle.position, color: float3(1, 1, 1), intensity: 5))
-        }
-
-        renderManager.renderWithLights(lights, sharedUniformsBuffer: sharedUniformsBuffer)
+    private func render() {
+        let scene = Scene(camera: camera)
+        scene.calculateLightsFromEntities(EntityManager.sharedManager.entities, laserParticles: ParticleManager.sharedManager.laserParticles)
+        renderManager.renderScene(scene)
     }
 }
 

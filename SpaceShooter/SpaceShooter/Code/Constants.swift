@@ -103,6 +103,10 @@ class Constants {
         }
     }
 
+    struct Scene {
+        static let maxLights = 200
+    }
+
     struct UI {
         static let gamePauseHelperTime: Float = 1
     }

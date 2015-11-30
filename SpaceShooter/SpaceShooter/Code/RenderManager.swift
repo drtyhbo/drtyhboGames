@@ -18,6 +18,8 @@ class RenderManager {
     private var drawable: CAMetalDrawable!
     private var commandBuffer: MTLCommandBuffer!
 
+    private var cameraUniformsBufferQueue: BufferQueue!
+
     private let entityRenderer: EntityRenderer
     private let particleRenderer: ParticleRenderer
     private let gridRenderer: GridRenderer
@@ -29,13 +31,13 @@ class RenderManager {
     private let gaussianBlendFilter: BlendFilter
     private let bloomBlendFilter: BlendFilter
 
-    private let inputTextureQueue: TextureQueue
-
     init(device: MTLDevice, metalLayer: CAMetalLayer!) {
         self.device = device
         self.metalLayer = metalLayer
 
         commandQueue = device.newCommandQueue()
+
+        cameraUniformsBufferQueue = BufferQueue(device: device, length: CameraUniforms.size)
 
         entityRenderer = EntityRenderer(device: device, commandQueue: commandQueue)
         particleRenderer = ParticleRenderer(device: device, commandQueue: commandQueue)
@@ -47,9 +49,6 @@ class RenderManager {
         gaussianFilter = GaussianFilter(device: device, commandQueue: commandQueue)
         gaussianBlendFilter = BlendFilter(device: device, commandQueue: commandQueue, blendType: .Additive)
         bloomBlendFilter = BlendFilter(device: device, commandQueue: commandQueue, blendType: .Default)
-
-        let screenSize = UIScreen.mainScreen().bounds.size
-        inputTextureQueue = TextureQueue(device: device, width: Int(screenSize.width), height: Int(screenSize.height))
     }
 
     func beginFrame() {
@@ -74,18 +73,25 @@ class RenderManager {
         commandBuffer.commit()
     }
 
-    func renderWithLights(lights: [Light], sharedUniformsBuffer: Buffer) {
+    func renderScene(scene: Scene) {
+        let cameraUniforms = scene.camera.cameraUniforms
+        let cameraUniformsBuffer = cameraUniformsBufferQueue.nextBuffer
+        cameraUniformsBuffer.copyData(cameraUniforms.projectionMatrix.raw(), size: Matrix4.size())
+        cameraUniformsBuffer.copyData(cameraUniforms.worldMatrix.raw(), size: Matrix4.size())
+        scene.cameraUniformsBuffer = cameraUniformsBuffer
+
         let textureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(MTLPixelFormat.BGRA8Unorm, width: drawable.texture.width, height: drawable.texture.height, mipmapped: false)
         let outputTexture = device.newTextureWithDescriptor(textureDescriptor)
+        clearTexture(drawable.texture)
 
-        gridRenderer.renderGrid(GridManager.sharedManager.grid, sharedUniformsBuffer: sharedUniformsBuffer, lights: lights, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
-        entityRenderer.renderEntities(EntityManager.sharedManager.entities, sharedUniformsBuffer: sharedUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
-        particleRenderer.renderParticlesWithSharedUniformsBuffer(sharedUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
+        gridRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
+        entityRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
+        particleRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
 
         applyBloomFilterToTexture(outputTexture, outputTexture: drawable.texture, commandBuffer: commandBuffer)
 
-        spriteRenderer.renderSpritesToCommandBuffer(commandBuffer, outputTexture: drawable.texture)
-        textRenderer.renderText(sharedUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
+        spriteRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
+        textRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
     }
 
     private func clearTexture(texture: MTLTexture) {
@@ -99,19 +105,11 @@ class RenderManager {
         commandEncoder.endEncoding()
     }
 
-    var startTime = NSDate()
-
     private func applyBloomFilterToTexture(texture: MTLTexture, outputTexture: MTLTexture, commandBuffer: MTLCommandBuffer) {
         let highPassTexture = highPassFilter.renderToCommandEncoder(commandBuffer, inputTexture: texture)
         let gaussianTexture = gaussianFilter.renderToCommandEncoder(commandBuffer, inputTexture: highPassTexture)
 
         gaussianBlendFilter.renderToCommandEncoder(commandBuffer, inputTexture: gaussianTexture, outputTexture: texture)
         bloomBlendFilter.renderToCommandEncoder(commandBuffer, inputTexture: texture, outputTexture: outputTexture)
-    }
-
-    private func saveTexture(texture: MTLTexture, toFileWithName name: String) {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let image = UIImage.MTLTextureToUIImage(texture)
-        UIImagePNGRepresentation(image)?.writeToFile(documentsPath + "/\(name).png", atomically: true)
     }
 }

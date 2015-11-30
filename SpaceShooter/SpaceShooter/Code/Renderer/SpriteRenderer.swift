@@ -15,7 +15,7 @@ private struct SpriteVertex {
     var texCoords: float2
 }
 
-class SpriteRenderer: Renderer {
+class SpriteRenderer: SceneRenderer {
     private var pipelineState: MTLRenderPipelineState!
     private var depthStencilState: MTLDepthStencilState!
     private var samplerState: MTLSamplerState!
@@ -49,7 +49,7 @@ class SpriteRenderer: Renderer {
         setup()
     }
 
-    func renderSpritesToCommandBuffer(commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
+    override func renderScene(scene: Scene, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = outputTexture
         renderPassDescriptor.colorAttachments[0].loadAction = .Load

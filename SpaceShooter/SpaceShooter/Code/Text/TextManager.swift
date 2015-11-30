@@ -13,7 +13,7 @@ class TextManager {
 
     private(set) var labels: [Label] = []
 
-    func createLabelAtPosition(position: float2, alignment: Label.Alignment = .Left) -> Label {
+    func createLabelAtPosition(position: float2, alignment: [Label.Alignment] = [.Left]) -> Label {
         let label = Label(position: position, alignment: alignment)
         labels.append(label)
         return label

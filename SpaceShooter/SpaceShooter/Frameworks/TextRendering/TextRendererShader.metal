@@ -21,11 +21,17 @@ struct TransformedVertex
     float2 texCoords;
 };
 
+#pragma pack(push)
+#pragma pack(1)
+
 struct Uniforms
 {
     float4x4 viewProjectionMatrix;
     float4x4 modelMatrix;
+    float alpha;
 };
+
+#pragma pack(pop)
 
 vertex TransformedVertex text_vertex(const Vertex vertexIn [[ stage_in ]],
                                      constant Uniforms &uniforms [[buffer(1)]])
@@ -50,5 +56,5 @@ fragment half4 text_fragment(TransformedVertex vert [[stage_in]],
     float edgeWidth = 0.75 * length(float2(dfdx(sampleDistance), dfdy(sampleDistance)));
     // Smooth the glyph edge by interpolating across the boundary in a band with the width determined above
     float insideness = smoothstep(edgeDistance - edgeWidth, edgeDistance + edgeWidth, sampleDistance);
-    return half4(color.r, color.g, color.b, insideness);
+    return half4(color.r, color.g, color.b, insideness * uniforms.alpha);
 }

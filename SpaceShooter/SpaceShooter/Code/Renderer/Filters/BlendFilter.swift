@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BlendFilter: Filter {
+class BlendFilter: FilterRenderer {
     enum BlendType {
         case Default
         case Additive

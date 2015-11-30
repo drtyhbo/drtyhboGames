@@ -12,15 +12,21 @@ class Label {
     enum Alignment {
         case Left
         case Right
+        case Center
+        case Top
+        case Bottom
+        case Middle
     }
 
     let position: float2
-    let alignment: Alignment
+    let alignment: [Alignment]
     var text: String = ""
+    var alpha: Float = 1
+    var fontSize: Float = 32
 
     var textRendererData: AnyObject?
 
-    init(position: float2, alignment: Alignment) {
+    init(position: float2, alignment: [Alignment]) {
         self.position = position
         self.alignment = alignment
     }
