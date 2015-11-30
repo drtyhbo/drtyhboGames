@@ -74,9 +74,9 @@ class Entity {
     func updateWithDelta(delta: Float) {
     }
 
-    func calculatePerInstanceMatricesWithSharedUniforms(sharedUniforms: SharedUniforms) {
+    func calculatePerInstanceMatricesWithWorldMatrix(worldMatrix: Matrix4) {
         let modelViewMatrix = modelMatrix
-        modelViewMatrix.multiplyLeft(sharedUniforms.worldMatrix)
+        modelViewMatrix.multiplyLeft(worldMatrix)
 
         let normalMatrix = modelViewMatrix.copy()
         normalMatrix.invertAndTranspose()

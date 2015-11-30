@@ -18,6 +18,8 @@ class RenderManager {
     private var drawable: CAMetalDrawable!
     private var commandBuffer: MTLCommandBuffer!
 
+    private var cameraUniformsBufferQueue: BufferQueue!
+
     private let entityRenderer: EntityRenderer
     private let particleRenderer: ParticleRenderer
     private let gridRenderer: GridRenderer
@@ -34,6 +36,8 @@ class RenderManager {
         self.metalLayer = metalLayer
 
         commandQueue = device.newCommandQueue()
+
+        cameraUniformsBufferQueue = BufferQueue(device: device, length: CameraUniforms.size)
 
         entityRenderer = EntityRenderer(device: device, commandQueue: commandQueue)
         particleRenderer = ParticleRenderer(device: device, commandQueue: commandQueue)
@@ -69,18 +73,23 @@ class RenderManager {
         commandBuffer.commit()
     }
 
-    func renderWithLights(lights: [Light], sharedUniformsBuffer: Buffer) {
+    func renderScene(scene: Scene) {
+        let cameraUniforms = scene.camera.cameraUniforms
+        let cameraUniformsBuffer = cameraUniformsBufferQueue.nextBuffer
+        cameraUniformsBuffer.copyData(cameraUniforms.projectionMatrix.raw(), size: Matrix4.size())
+        cameraUniformsBuffer.copyData(cameraUniforms.worldMatrix.raw(), size: Matrix4.size())
+
         let textureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(MTLPixelFormat.BGRA8Unorm, width: drawable.texture.width, height: drawable.texture.height, mipmapped: false)
         let outputTexture = device.newTextureWithDescriptor(textureDescriptor)
 
-        gridRenderer.renderGrid(GridManager.sharedManager.grid, sharedUniformsBuffer: sharedUniformsBuffer, lights: lights, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
-        entityRenderer.renderEntities(EntityManager.sharedManager.entities, sharedUniformsBuffer: sharedUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
-        particleRenderer.renderParticlesWithSharedUniformsBuffer(sharedUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
+        gridRenderer.renderGrid(GridManager.sharedManager.grid, sharedUniformsBuffer: cameraUniformsBuffer, lights: scene.lights, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
+        entityRenderer.renderEntities(EntityManager.sharedManager.entities, sharedUniformsBuffer: cameraUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
+        particleRenderer.renderParticlesWithSharedUniformsBuffer(cameraUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
 
         applyBloomFilterToTexture(outputTexture, outputTexture: drawable.texture, commandBuffer: commandBuffer)
 
         spriteRenderer.renderSpritesToCommandBuffer(commandBuffer, outputTexture: drawable.texture)
-        textRenderer.renderText(sharedUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
+        textRenderer.renderText(cameraUniformsBuffer, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
     }
 
     private func clearTexture(texture: MTLTexture) {

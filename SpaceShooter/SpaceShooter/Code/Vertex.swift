@@ -79,14 +79,6 @@ struct Vertex {
     }
 }
 
-struct SharedUniforms {
-    static let size = Matrix4.size() * 3
-
-    let projectionMatrix: Matrix4
-    let worldMatrix: Matrix4
-    let projectionWorldMatrix: Matrix4
-}
-
 struct PerInstanceUniforms {
     static let size = Matrix4.size() * 2 + float4.size
 

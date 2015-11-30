@@ -34,6 +34,7 @@
 		901EE7511BFF88B7008D92F2 /* SpriteInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EE7501BFF88B7008D92F2 /* SpriteInstance.swift */; };
 		901EE7531BFF8B8C008D92F2 /* SpriteShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 901EE7521BFF8B8C008D92F2 /* SpriteShader.metal */; };
 		901EE7551C00E637008D92F2 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EE7541C00E636008D92F2 /* UIImage.swift */; };
+		90475EED1C0BC5CA004F6E50 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90475EEC1C0BC5CA004F6E50 /* Scene.swift */; };
 		9077E6F31BE864BA005A1478 /* EntitySpawner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9077E6F21BE864BA005A1478 /* EntitySpawner.swift */; };
 		908943271BE86BF700BC42D7 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908943261BE86BF700BC42D7 /* GameState.swift */; };
 		9089432B1BE8723200BC42D7 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9089432A1BE8723200BC42D7 /* Enemy.swift */; };
@@ -112,6 +113,7 @@
 		901EE7501BFF88B7008D92F2 /* SpriteInstance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteInstance.swift; sourceTree = "<group>"; };
 		901EE7521BFF8B8C008D92F2 /* SpriteShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = SpriteShader.metal; path = SpaceShooter/Shaders/SpriteShader.metal; sourceTree = SOURCE_ROOT; };
 		901EE7541C00E636008D92F2 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		90475EEC1C0BC5CA004F6E50 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		9077E6F21BE864BA005A1478 /* EntitySpawner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntitySpawner.swift; path = SpaceShooter/Code/Entities/EntitySpawner.swift; sourceTree = SOURCE_ROOT; };
 		908943261BE86BF700BC42D7 /* GameState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameState.swift; path = SpaceShooter/Code/GameState.swift; sourceTree = SOURCE_ROOT; };
 		9089432A1BE8723200BC42D7 /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 				90932C4B1BEBB45800FBD4E5 /* TextureQueue.swift */,
 				908D77E21BF64AD00069F2F9 /* TextRenderer.swift */,
 				901EE7431BFF7149008D92F2 /* SpriteRenderer.swift */,
+				90475EEC1C0BC5CA004F6E50 /* Scene.swift */,
 			);
 			name = Renderer;
 			path = SpaceShooter/Code/Renderer;
@@ -619,6 +622,7 @@
 				901EE74F1BFF8873008D92F2 /* Sprite.swift in Sources */,
 				90A0E5CC1BDA845200D32723 /* Cube.swift in Sources */,
 				90A0E5D01BDA845200D32723 /* Ship.swift in Sources */,
+				90475EED1C0BC5CA004F6E50 /* Scene.swift in Sources */,
 				90A0E5C51BDA841500D32723 /* Particle.swift in Sources */,
 				90A0E5CD1BDA845200D32723 /* Entity.swift in Sources */,
 				901EE7551C00E637008D92F2 /* UIImage.swift in Sources */,
