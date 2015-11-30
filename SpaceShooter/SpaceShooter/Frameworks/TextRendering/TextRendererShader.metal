@@ -28,7 +28,7 @@ struct Uniforms
 {
     float4x4 viewProjectionMatrix;
     float4x4 modelMatrix;
-    float alpha;
+    float4 color;
 };
 
 #pragma pack(pop)
@@ -47,7 +47,7 @@ fragment half4 text_fragment(TransformedVertex vert [[stage_in]],
                              sampler samplr [[sampler(0)]],
                              texture2d<float, access::sample> texture [[texture(0)]])
 {
-    float4 color = float4(1, 1, 1, 1);//uniforms.foregroundColor;
+    float4 color = uniforms.color;
     // Outline of glyph is the isocontour with value 50%
     float edgeDistance = 0.5;
     // Sample the signed-distance field to find distance from this fragment to the glyph outline
@@ -56,5 +56,5 @@ fragment half4 text_fragment(TransformedVertex vert [[stage_in]],
     float edgeWidth = 0.75 * length(float2(dfdx(sampleDistance), dfdy(sampleDistance)));
     // Smooth the glyph edge by interpolating across the boundary in a band with the width determined above
     float insideness = smoothstep(edgeDistance - edgeWidth, edgeDistance + edgeWidth, sampleDistance);
-    return half4(color.r, color.g, color.b, insideness * uniforms.alpha);
+    return half4(color.r, color.g, color.b, insideness * color.a);
 }

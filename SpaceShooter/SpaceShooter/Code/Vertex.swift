@@ -19,6 +19,10 @@ extension float3 {
         self.init(x: xy.x, y: xy.y, z: z)
     }
 
+    init(_ xyzw: float4) {
+        self.init(x: xyzw.x, y: xyzw.y, z: xyzw.z)
+    }
+
     func rotateAroundY(radians: Float) -> float3 {
         let newX = x * cos(radians) - y * sin(radians)
         let newY = x * sin(radians) + y * cos(radians)

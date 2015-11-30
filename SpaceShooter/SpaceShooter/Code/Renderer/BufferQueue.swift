@@ -17,6 +17,10 @@ class Buffer {
     }
 
     func copyData(data: UnsafePointer<Void>, size: Int) {
+        if currentOffset + size > buffer.length {
+            fatalError("copyData exceeds buffer length.")
+        }
+
         memcpy(buffer.contents() + currentOffset, data, size)
         currentOffset += size
     }

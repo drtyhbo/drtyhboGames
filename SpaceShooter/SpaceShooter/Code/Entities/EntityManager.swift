@@ -40,7 +40,7 @@ class EntityManager {
         entitiesByName[entity.name]?.append(entity)
     }
 
-    func updateWithDelta(delta: Float, worldMatrix: Matrix4) {
+    func updateWithDelta(delta: Float) {
         for (name, var entities) in entitiesByName {
             for var i = entities.count - 1; i >= 0; i-- {
                 let entity = entities[i]

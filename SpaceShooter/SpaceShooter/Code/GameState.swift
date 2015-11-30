@@ -15,6 +15,7 @@ protocol GameStateDelegate: class {
 
 class GameState {
     enum State {
+        case Intro
         case GameStart
         case MainPlayerSpawing
         case Playing
@@ -24,7 +25,7 @@ class GameState {
 
     weak var delegate: GameStateDelegate?
 
-    var state: State = .GameStart {
+    var state: State = .Intro {
         didSet {
             if state == oldValue {
                 return
@@ -42,12 +43,21 @@ class GameState {
     }
 
     var gameTimeRemaining: Float {
-        return max(0, Constants.Game.duration - (GameTimer.sharedTimer.currentTime - gameStartTime))
+        return max(0, Constants.Game.duration - gameTimeElapsed)
+    }
+
+    var gameTimeElapsed: Float {
+        return GameTimer.sharedTimer.currentTime - gameStartTime
+    }
+
+    var timeSinceLastStateChange: Float {
+        return GameTimer.sharedTimer.currentTime - timeOfStateChange
     }
 
     var maxScore: Int {
         return max(score, previousMaxScore)
     }
+
     private(set) var score = 0
     private(set) var multiplier = 1
 
@@ -55,9 +65,6 @@ class GameState {
     private var entitySpawner: EntitySpawner = EntitySpawner()
     private var gameStartTime = GameTimer.sharedTimer.currentTime
     private var timeOfStateChange = GameTimer.sharedTimer.currentTime
-    private var timeSinceLastStateChange: Float {
-        return GameTimer.sharedTimer.currentTime - timeOfStateChange
-    }
 
     init() {
         previousMaxScore = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.maxScoreKey) as? Int ?? 0
@@ -65,6 +72,11 @@ class GameState {
 
     func updateWithDelta(delta: Float) {
         switch (state) {
+            case .Intro:
+                if timeSinceLastStateChange > 3 {
+                    state = .GameStart
+                }
+
             case .GameStart:
                 gameStartTime = GameTimer.sharedTimer.currentTime
                 delegate?.gameStateRespawnPlayer(self)
