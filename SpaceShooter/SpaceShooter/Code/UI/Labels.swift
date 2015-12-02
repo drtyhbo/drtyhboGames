@@ -69,7 +69,7 @@ class Labels {
                 setFinalScoreLabelsAlpha(min(1, (5 - gameState.timeSinceLastStateChange) / 0.5))
 
                 let isHighScore = gameState.score >= gameState.sessionHighScore
-                if gameState.score >= gameState.maxScore {
+                if gameState.score >= gameState.allTimeHighScore {
                     yourScoreLabel.text = "New All-Time High Score!"
                 } else if gameState.score >= gameState.sessionHighScore {
                     yourScoreLabel.text = "New High Score!"
@@ -89,7 +89,7 @@ class Labels {
                 scoreLabel.text = formatNumber(gameState.score)
                 multiplierLabel.text = "x \(formatNumber(gameState.multiplier))"
                 sessionHighScoreLabel.text = formatNumber(gameState.sessionHighScore)
-                allTimeHighScoreLabel.text = formatNumber(gameState.maxScore)
+                allTimeHighScoreLabel.text = formatNumber(gameState.allTimeHighScore)
         }
     }
 

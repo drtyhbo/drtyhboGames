@@ -54,10 +54,6 @@ class GameState {
         return GameTimer.sharedTimer.currentTime - timeOfStateChange
     }
 
-    var maxScore: Int {
-        return max(max(score, allTimeHighScore), sessionHighScore)
-    }
-
     private(set) var score = 0
     private(set) var multiplier = 1
 
@@ -115,7 +111,7 @@ class GameState {
 
         if gameTimeRemaining <= 0 && state != .GameOver && state != .FinalScore {
             sessionHighScore = max(score, sessionHighScore)
-            allTimeHighScore = maxScore
+            allTimeHighScore = max(score, allTimeHighScore)
             NSUserDefaults.standardUserDefaults().setInteger(allTimeHighScore, forKey: Constants.UserDefaults.maxScoreKey)
 
             state = .GameOver
