@@ -27,7 +27,7 @@ class Flyer: Enemy {
     init() {
         type = arc4random() % 2 == 0 ? .Vertical : .Horizontal
 
-        super.init(name: "flyer", pointValue: 3, gemCount: 2)
+        super.init(name: "flyer", pointValue: 3, gemCount: 1)
 
         color = Constants.Flyer.color
 

@@ -9,18 +9,18 @@
 import Foundation
 
 struct PointMass {
-    private(set) var position: float3
-    private(set) var velocity: float3 = float3(0, 0, 0)
+    private(set) var position: float2
+    private(set) var velocity = float2(0, 0)
     private var inverseMass: Float
     private var damping: Float = 0.98
-    private var acceleration: float3 = float3(0, 0, 0)
+    private var acceleration = float2(0, 0)
 
-    init(position: float3, inverseMass: Float) {
+    init(position: float2, inverseMass: Float) {
         self.position = position
         self.inverseMass = inverseMass
     }
 
-    mutating func applyForce(force: float3) {
+    mutating func applyForce(force: float2) {
         acceleration += force * inverseMass
     }
 
@@ -35,10 +35,10 @@ struct PointMass {
 
         velocity += acceleration
         position += velocity * delta
-        acceleration = float3(0, 0, 0)
+        acceleration = float2(0, 0)
 
         if length(velocity) < 0.001 {
-            velocity = float3(0, 0, 0)
+            velocity = float2(0, 0)
         }
 
         velocity -= velocity * (damping * delta)

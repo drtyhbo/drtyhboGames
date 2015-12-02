@@ -20,16 +20,13 @@ class Scene {
     }
 
     func calculateLightsFromEntities(entities: [Entity], laserParticles: [Particle]) {
-        for particle in ParticleManager.sharedManager.laserParticles {
-            lights.append(Light(position: particle.position, color: float3(1, 1, 1), intensity: 5))
-            if lights.count > Constants.Scene.maxLights {
-                return
+        for i in 0..<min(entities.count, Constants.Scene.maxLights - lights.count) {
+            let entity = entities[i]
+            if entity.intensity > 0 {
+                lights.append(Light(position: entity.position, color: float3(entity.color), intensity: entity.intensity))
             }
         }
 
-        for i in 0..<min(entities.count, Constants.Scene.maxLights - lights.count) {
-            let entity = entities[i]
-            lights.append(Light(position: entity.position, color: float3(entity.color[0], entity.color[1], entity.color[2]), intensity: entity.intensity))
-        }
+        lights += LightManager.sharedManager.getLights()
     }
 }

@@ -71,6 +71,7 @@ class GameManager {
 
         collisionManager.testCollisionsWithPlayer(player, gameState: gameState)
 
+        LightManager.sharedManager.updateWithDelta(delta)
         EntityManager.sharedManager.updateWithDelta(delta)
         ParticleManager.sharedManager.updateWithDelta(delta)
         GridManager.sharedManager.grid.updateWithDelta(delta)
@@ -78,6 +79,10 @@ class GameManager {
         if let player = player {
             camera.pointToEntity(player)
             camera.constrainToWorld()
+
+            if gameState.state == .FinalScore && player.isAlive {
+                player.die()
+            }
         }
     }
 

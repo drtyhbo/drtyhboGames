@@ -28,10 +28,14 @@ class Entity {
     var color: float4 = float4(1)
 
     var intensity: Float {
-        return 10
+        return 5
     }
 
     // MARK: State management
+    var isAlive: Bool {
+        return state == .Alive
+    }
+
     var isDead: Bool {
         return state == .Dead
     }

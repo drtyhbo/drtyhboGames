@@ -29,8 +29,8 @@ class GridRenderer: SceneRenderer {
     private var lightsBufferQueue: BufferQueue!
 
     override init(device: MTLDevice, commandQueue: MTLCommandQueue) {
-        gridVertexBufferQueue = BufferQueue(device: device, length: sizeof(PointMass) * 1000)
-        gridIndexBufferQueue = BufferQueue(device: device, length: sizeof(UInt16) * 1500)
+        gridVertexBufferQueue = BufferQueue(device: device, length: sizeof(PointMass) * 4000)
+        gridIndexBufferQueue = BufferQueue(device: device, length: sizeof(UInt16) * 6000)
 
         gridUniformsBufferQueue = BufferQueue(device: device, length: GridUniforms.size)
         lightsBufferQueue = BufferQueue(device: device, length: EntityManager.maxEntities * 3 * sizeof(Float))
@@ -81,7 +81,7 @@ class GridRenderer: SceneRenderer {
         let fragmentFunction = defaultLibrary.newFunctionWithName("grid_fragment")
 
         let vertexDescriptor = MTLVertexDescriptor()
-        vertexDescriptor.attributes[0].format = .Float3
+        vertexDescriptor.attributes[0].format = .Float2
         vertexDescriptor.attributes[0].bufferIndex = 0
         vertexDescriptor.attributes[0].offset = 0
 

@@ -47,6 +47,7 @@ class Enemy: Entity {
         super.die()
         GridManager.sharedManager.grid.applyExplosiveForce(Constants.Enemy.Die.gravityForce, atPosition: position, withRadius: Constants.Enemy.Die.gravityRadius)
         ParticleManager.sharedManager.createExplosionAroundPosition(position, particleCount: Constants.Enemy.Die.particleCount, color: float3(color[0], color[1], color[2]), speed: Constants.Enemy.Die.particleSpeed)
+        LightManager.sharedManager.addLightAtPosition(position, color: float3(color), duration: 1, intensity: 30)
 
         if health <= 0 {
             for _ in 0..<gemCount {

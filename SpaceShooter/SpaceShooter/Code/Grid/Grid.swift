@@ -13,7 +13,7 @@ class GridManager {
 
     let grid: Grid
 
-    private let gridSpacing: Float = 5
+    private let gridSpacing: Float = 2.5
 
     init() {
         grid = Grid(x: World.extents.x, y: World.extents.y, width: World.extents.width, height: World.extents.height, spacing: gridSpacing)
@@ -40,7 +40,7 @@ class Grid {
 
         for row in 0..<numberOfRows {
             for column in 0..<numberOfColumns {
-                let position = float3(x + Float(column) * spacing, y + Float(row) * spacing, 0)
+                let position = float2(x + Float(column) * spacing, y + Float(row) * spacing)
                 let inverseMass: Float = column == 0 || row == 0 || column == numberOfColumns - 1 || row == numberOfRows - 1 ? 0 : 1
                 pointMasses.append(PointMass(position: position, inverseMass: inverseMass))
             }
@@ -75,7 +75,7 @@ class Grid {
             }
 
             let velocityDelta = mass2.velocity - mass1.velocity
-            let force = 2 * normalize(positionDelta) * (currentLength - spacing) - velocityDelta * 0.2
+            let force = 4 * normalize(positionDelta) * (currentLength - spacing) - velocityDelta * 0.05
 
             pointMasses[spring.mass1].applyForce(-force)
             pointMasses[spring.mass2].applyForce(force)
@@ -92,9 +92,11 @@ class Grid {
             let pointMass = pointMasses[i]
             let positionDelta = float2(pointMass.position[0], pointMass.position[1]) - float2(position[0], position[1])
             let distance = length(positionDelta)
+            let normalizedForceVector = positionDelta * (1 / distance)
             let distanceSquared = distance * distance
-            if distanceSquared < radiusSquared {
-                pointMasses[i].applyForce(float3(0, 0, -(100 * force * distance / (1000 + distanceSquared))))
+            if distanceSquared < radiusSquared && distanceSquared > 0 {
+                let appliedForce = force / max(distance, 1)
+                pointMasses[i].applyForce(normalizedForceVector * appliedForce)
             }
         }
     }

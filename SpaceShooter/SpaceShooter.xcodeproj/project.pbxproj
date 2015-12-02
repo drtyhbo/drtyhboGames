@@ -81,6 +81,7 @@
 		90A0E5E01BDDB57D00D32723 /* ParticleShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5DF1BDDB57D00D32723 /* ParticleShader.metal */; };
 		90A0E5E31BDDF37000D32723 /* GridShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5E21BDDF37000D32723 /* GridShader.metal */; };
 		90A1ED591C013B9A0057DE0F /* GameTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A1ED581C013B9A0057DE0F /* GameTimer.swift */; };
+		90C3A5041C0CBFDD00F4A5DD /* LightManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C3A5031C0CBFDD00F4A5DD /* LightManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -167,6 +168,7 @@
 		90A0E5E11BDDB5B400D32723 /* Shared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Shared.h; path = SpaceShooter/Shaders/Shared.h; sourceTree = SOURCE_ROOT; };
 		90A0E5E21BDDF37000D32723 /* GridShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = GridShader.metal; path = SpaceShooter/Shaders/GridShader.metal; sourceTree = SOURCE_ROOT; };
 		90A1ED581C013B9A0057DE0F /* GameTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameTimer.swift; path = SpaceShooter/Code/GameTimer.swift; sourceTree = SOURCE_ROOT; };
+		90C3A5031C0CBFDD00F4A5DD /* LightManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LightManager.swift; path = SpaceShooter/Code/LightManager.swift; sourceTree = SOURCE_ROOT; };
 		CBEB218B9767EBFAEE993A4B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD34105A1BBED4FE00638CAC /* Galaxy Blast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Galaxy Blast.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD7D7931B909184E586AF86 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -349,7 +351,6 @@
 		90E4F2301BC1778D0025A770 /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				901EE74B1BFF8844008D92F2 /* Sprites */,
 				9017753C1BD44CDB00097B53 /* AppDelegate.swift */,
 				90A0E5B01BD7489E00D32723 /* Camera.swift */,
 				9003E3CA1BFA3465001E3D33 /* CollisionManager.swift */,
@@ -357,6 +358,8 @@
 				9077E6F21BE864BA005A1478 /* EntitySpawner.swift */,
 				901775421BD44CDB00097B53 /* GameManager.swift */,
 				908943261BE86BF700BC42D7 /* GameState.swift */,
+				90A1ED581C013B9A0057DE0F /* GameTimer.swift */,
+				90C3A5031C0CBFDD00F4A5DD /* LightManager.swift */,
 				908943491BE89ACD00BC42D7 /* PhysicsManager.swift */,
 				9003E3CE1BFAEEAA001E3D33 /* Random.swift */,
 				901775641BD44E5100097B53 /* TouchHandler.swift */,
@@ -368,9 +371,9 @@
 				90A0E5D61BDC6AE400D32723 /* Grid */,
 				90A0E5C11BDA840B00D32723 /* Particle */,
 				90A0E5BA1BD9F3F100D32723 /* Renderer */,
+				901EE74B1BFF8844008D92F2 /* Sprites */,
 				908D77E51BF64D890069F2F9 /* Text */,
 				908D77EA1BF7C2080069F2F9 /* UI */,
-				90A1ED581C013B9A0057DE0F /* GameTimer.swift */,
 			);
 			path = Code;
 			sourceTree = "<group>";
@@ -601,6 +604,7 @@
 				90932C5F1BEBBBD600FBD4E5 /* Filter.swift in Sources */,
 				90A0E5C31BDA840B00D32723 /* ParticleManager.swift in Sources */,
 				909E97251C0270AC008375FB /* BlendFilterShader.metal in Sources */,
+				90C3A5041C0CBFDD00F4A5DD /* LightManager.swift in Sources */,
 				9017756D1BD45CA500097B53 /* RenderManager.swift in Sources */,
 				9089434A1BE89ACD00BC42D7 /* PhysicsManager.swift in Sources */,
 				901EE74D1BFF884F008D92F2 /* SpriteManager.swift in Sources */,
@@ -759,7 +763,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.drtyhbo.SpaceShooter;
 				PRODUCT_NAME = "Galaxy Blast";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "263c1426-8187-4f88-8611-b23fc5afb732";
 				SWIFT_OBJC_BRIDGING_HEADER = "SpaceShooter/SpaceShooter-bridging-header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -784,7 +788,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.drtyhbo.SpaceShooter;
 				PRODUCT_NAME = "Galaxy Blast";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "263c1426-8187-4f88-8611-b23fc5afb732";
 				SWIFT_OBJC_BRIDGING_HEADER = "SpaceShooter/SpaceShooter-bridging-header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
