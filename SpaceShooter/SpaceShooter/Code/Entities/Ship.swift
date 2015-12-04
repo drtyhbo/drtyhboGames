@@ -16,11 +16,7 @@ class Ship: Entity {
     }
 
     override var intensity: Float {
-        if state == .Alive {
-            return Constants.Player.lightIntensity * min(1, Float(timeSinceLastState) / Constants.Player.Spawn.spawnDuration)
-        } else {
-            return Constants.Player.lightIntensity * max(0, 1 - Float(timeSinceLastState) / 1)
-        }
+        return 0
     }
 
     private(set) var direction = float3(0, 1, 0)
@@ -64,6 +60,7 @@ class Ship: Entity {
         super.spawn()
         GridManager.sharedManager.grid.applyExplosiveForce(Constants.Player.Spawn.gravityForce, atPosition: position, withRadius: Constants.Player.Spawn.gravityRadius)
         ParticleManager.sharedManager.createExplosionAroundPosition(position, particleCount: Constants.Player.Spawn.particleCount, color: float3(1, 1, 1), speed: Constants.Player.Spawn.particleSpeed)
+        LightManager.sharedManager.addLightAtPosition(position, color: float3(1, 1, 1), duration: 1.5, intensity: 50)
     }
 
     override func die() {

@@ -14,14 +14,16 @@ class EntitySpawner {
     private var lastSpawnTime = GameTimer.sharedTimer.currentTime
 
     private let spawnSize: Int = 30
-    private var difficulty: Float = 30
+    private var difficulty: Float = 5
 
     func maybeSpawn() {
         let timeSinceLastSpawn = GameTimer.sharedTimer.currentTime - lastSpawnTime
-        let shouldSpawn = timeSinceLastSpawn > 10 || EntityManager.sharedManager.numberOfEnemies <  totalEntitiesSpawned / 4
-        if entitiesToSpawn == 0 || entitiesToSpawn == totalEntitiesSpawned && shouldSpawn {
-            spawn()
-            difficulty *= 1.5
+
+        let shouldSpawn = totalEntitiesSpawned >= entitiesToSpawn && EntityManager.sharedManager.numberOfEnemies <= totalEntitiesSpawned / 4
+        if shouldSpawn {
+            entitiesToSpawn = Int(difficulty)
+            totalEntitiesSpawned = 0
+            difficulty *= 1.25
         }
 
         if entitiesToSpawn > totalEntitiesSpawned && timeSinceLastSpawn > 1 {
@@ -49,18 +51,16 @@ class EntitySpawner {
     }
 
     func makeEasier() {
-        difficulty = max(20, difficulty / 4)
+        difficulty = max(5, difficulty / 4)
 
         entitiesToSpawn = 0
         totalEntitiesSpawned = 0
     }
 
     func reset() {
-        difficulty = 30
-    }
+        difficulty = 5
 
-    private func spawn() {
-        entitiesToSpawn = Int(difficulty)
+        entitiesToSpawn = 0
         totalEntitiesSpawned = 0
     }
 }

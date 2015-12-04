@@ -19,6 +19,10 @@ extension float3 {
         self.init(x: xy.x, y: xy.y, z: z)
     }
 
+    init(_ xyzw: float4) {
+        self.init(x: xyzw.x, y: xyzw.y, z: xyzw.z)
+    }
+
     func rotateAroundY(radians: Float) -> float3 {
         let newX = x * cos(radians) - y * sin(radians)
         let newY = x * sin(radians) + y * cos(radians)
@@ -85,18 +89,6 @@ struct PerInstanceUniforms {
     let modelViewMatrix: Matrix4
     let normalMatrix: Matrix4
     let color: float4
-}
-
-struct Light {
-    static let size = 7 * sizeof(Float)
-
-    let position: float3
-    let color: float3
-    let intensity: Float
-
-    var floatBuffer: [Float] {
-        return [position[0], position[1], position[2], color[0], color[1], color[2], intensity]
-    }
 }
 
 struct Size {

@@ -21,7 +21,7 @@ private class TextRendererData {
     private(set) var mesh: MBETextMesh?
     private(set) var textRendererUniformsBufferQueue: BufferQueue!
 
-    private let textRendererUniformsSize: Int = Matrix4.size() * 2 + sizeof(Float)
+    private let textRendererUniformsSize: Int = Matrix4.size() * 2 + sizeof(Float) * 4
     private let device: MTLDevice
     private let fontAtlas: MBEFontAtlas
     private let orthoProjectionMatrix = Matrix4.makeOrthoWithScreenSizeAndScale()
@@ -54,7 +54,9 @@ private class TextRendererData {
         let textRendererUniformsBuffer = textRendererUniformsBufferQueue.nextBuffer
         textRendererUniformsBuffer.copyData(orthoProjectionMatrix.raw(), size: Matrix4.size())
         textRendererUniformsBuffer.copyData(worldMatrix.raw(), size: Matrix4.size())
-        textRendererUniformsBuffer.copyData(&label.alpha, size: sizeof(Float))
+
+        var color = float4(label.color, label.alpha)
+        textRendererUniformsBuffer.copyData(&color, size: sizeof(Float) * 4)
 
         return textRendererUniformsBuffer
     }

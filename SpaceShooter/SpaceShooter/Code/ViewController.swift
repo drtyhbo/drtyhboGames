@@ -79,7 +79,7 @@ class ViewController: UIViewController {
     }
     
     @objc private func nextFrame(displayLink: CADisplayLink) {
-        let isPaused = touchHandler.numTouches == 0 && GameManager.sharedManager.gameState.state == .Playing
+        let isPaused = touchHandler.numTouches == 0 && EntityManager.sharedManager.numberOfEnemies > 0
         handlePause(isPaused)
 
         GameManager.sharedManager.nextFrameWithTimestamp(displayLink.timestamp)

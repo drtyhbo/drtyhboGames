@@ -8,8 +8,12 @@
 
 import Foundation
 
+func float3FromRed(red: Float, green: Float, blue: Float) -> float3 {
+    return float3(red / 255, green / 255, blue / 255)
+}
+
 func float4FromRed(red: Float, green: Float, blue: Float) -> float4 {
-    return float4(red / 255, green / 255, blue / 255, 1)
+    return float4(float3FromRed(red, green: green, blue: blue), 1)
 }
 
 class Constants {
@@ -20,10 +24,10 @@ class Constants {
     }
 
     struct Enemy {
-        static let lightIntensity: Float = 20
+        static let lightIntensity: Float = 5
 
         struct Die {
-            static let gravityForce: Float = 100
+            static let gravityForce: Float = 50
             static let gravityRadius: Float = 10
             static let particleCount = 100
             static let particleSpeed: Float = 50
@@ -73,8 +77,8 @@ class Constants {
 
         struct Spawn {
             static let spawnDuration: Float = 0.2
-            static let gravityForce: Float = 300
-            static let gravityRadius: Float = 30
+            static let gravityForce: Float = 400
+            static let gravityRadius: Float = 20
             static let particleCount = 1000
             static let particleSpeed: Float = 150
         }
@@ -109,6 +113,7 @@ class Constants {
 
     struct UI {
         static let gamePauseHelperTime: Float = 1
+        static let newHighScoreLabelColor = float3FromRed(4, green: 202, blue: 254)
     }
 
     struct World {

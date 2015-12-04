@@ -23,6 +23,7 @@ class Label {
     var text: String = ""
     var alpha: Float = 1
     var fontSize: Float = 32
+    var color: float3 = float3(1, 1, 1)
 
     var textRendererData: AnyObject?
 

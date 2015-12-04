@@ -15,16 +15,18 @@ protocol GameStateDelegate: class {
 
 class GameState {
     enum State {
+        case Intro
         case GameStart
         case MainPlayerSpawing
         case Playing
         case MainPlayerDestroyed
         case GameOver
+        case FinalScore
     }
 
     weak var delegate: GameStateDelegate?
 
-    var state: State = .GameStart {
+    var state: State = .Intro {
         didSet {
             if state == oldValue {
                 return
@@ -34,7 +36,6 @@ class GameState {
 
             if state == .MainPlayerDestroyed {
                 entitySpawner.makeEasier()
-                multiplier = 1
             } else if state == .GameOver {
                 entitySpawner.reset()
             }
@@ -42,36 +43,45 @@ class GameState {
     }
 
     var gameTimeRemaining: Float {
-        return max(0, Constants.Game.duration - (GameTimer.sharedTimer.currentTime - gameStartTime))
+        return max(0, Constants.Game.duration - gameTimeElapsed)
     }
 
-    var maxScore: Int {
-        return max(score, previousMaxScore)
+    var gameTimeElapsed: Float {
+        return GameTimer.sharedTimer.currentTime - gameStartTime
     }
-    private(set) var score = 0
-    private(set) var multiplier = 1
 
-    private var previousMaxScore = 0
-    private var entitySpawner: EntitySpawner = EntitySpawner()
-    private var gameStartTime = GameTimer.sharedTimer.currentTime
-    private var timeOfStateChange = GameTimer.sharedTimer.currentTime
-    private var timeSinceLastStateChange: Float {
+    var timeSinceLastStateChange: Float {
         return GameTimer.sharedTimer.currentTime - timeOfStateChange
     }
 
+    private(set) var score = 0
+    private(set) var multiplier = 1
+
+    private(set) var sessionHighScore = 0
+    private(set) var allTimeHighScore = 0
+    
+    private var entitySpawner: EntitySpawner = EntitySpawner()
+    private var gameStartTime = GameTimer.sharedTimer.currentTime
+    private var timeOfStateChange = GameTimer.sharedTimer.currentTime
+
     init() {
-        previousMaxScore = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.maxScoreKey) as? Int ?? 0
+        allTimeHighScore = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.maxScoreKey) as? Int ?? 0
     }
 
     func updateWithDelta(delta: Float) {
         switch (state) {
+            case .Intro:
+                if timeSinceLastStateChange > 3 {
+                    state = .GameStart
+                }
+
             case .GameStart:
                 gameStartTime = GameTimer.sharedTimer.currentTime
                 delegate?.gameStateRespawnPlayer(self)
                 state = .MainPlayerSpawing
 
             case .MainPlayerSpawing:
-                if timeSinceLastStateChange > 1 {
+                if timeSinceLastStateChange > 2 {
                     state = .Playing
                 }
 
@@ -85,18 +95,24 @@ class GameState {
                 }
 
             case .GameOver:
-                if timeSinceLastStateChange > 1 {
+                if timeSinceLastStateChange > 2 {
+                    state = .FinalScore
+                }
+
+            case .FinalScore:
+                if timeSinceLastStateChange > 5 {
                     score = 0
                     multiplier = 1
 
                     gameStartTime = GameTimer.sharedTimer.currentTime
-                    state = .GameStart
+                    state = .Intro
                 }
         }
 
-        if gameTimeRemaining <= 0 && state != .GameOver {
-            previousMaxScore = maxScore
-            NSUserDefaults.standardUserDefaults().setInteger(previousMaxScore, forKey: Constants.UserDefaults.maxScoreKey)
+        if gameTimeRemaining <= 0 && state != .GameOver && state != .FinalScore {
+            sessionHighScore = max(score, sessionHighScore)
+            allTimeHighScore = max(score, allTimeHighScore)
+            NSUserDefaults.standardUserDefaults().setInteger(allTimeHighScore, forKey: Constants.UserDefaults.maxScoreKey)
 
             state = .GameOver
             delegate?.gameStateGameOver(self)

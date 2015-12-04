@@ -16,7 +16,7 @@ struct GridUniforms {
 };
 
 struct VertexIn {
-    float3 position [[ attribute(0) ]];
+    float2 position [[ attribute(0) ]];
 };
 
 struct ProjectedVertex {
@@ -45,15 +45,14 @@ vertex ProjectedVertex grid_vertex(
         const device SharedUniforms* sharedUniforms [[ buffer(1) ]],
         const device GridUniforms* gridUniforms [[ buffer(2) ]],
         const device Light* lights [[ buffer(3) ]]) {
-    float4 position = float4(vertexIn.position, 1);
+    float4 position = float4(vertexIn.position, 0, 1);
 
     ProjectedVertex projectedVertex;
     projectedVertex.position = sharedUniforms->projectionMatrix * sharedUniforms->worldMatrix * position;
 
     float3 color = float3(0.01, 0.01, 0.01);
     for (int i = 0; i < gridUniforms->numLights; i++) {
-        color = max(color, computeLightContribution(lights[i], vertexIn.position));
-
+        color = max(color, computeLightContribution(lights[i], float3(vertexIn.position, 0)));
     }
     projectedVertex.color = float4(color, 0.5);
 

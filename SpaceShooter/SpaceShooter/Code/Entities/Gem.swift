@@ -48,7 +48,7 @@ class Gem: Entity {
         rotation += rotationSpeed * delta
         position += velocity * delta
 
-        if age >= 10 {
+        if age >= 5 {
             die()
         }
     }

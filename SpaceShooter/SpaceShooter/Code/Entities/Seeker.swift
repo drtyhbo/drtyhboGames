@@ -21,7 +21,7 @@ class Seeker: Enemy {
     }
 
     init() {
-        super.init(name: "seeker", pointValue: 1, gemCount: 2)
+        super.init(name: "seeker", pointValue: 1, gemCount: 1)
 
         color = Constants.Seeker.color
         rotation = float3(Float(M_PI) / 2, 0, 0)

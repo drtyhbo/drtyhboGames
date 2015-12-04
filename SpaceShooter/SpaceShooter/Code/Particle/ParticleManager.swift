@@ -35,6 +35,7 @@ class ParticleManager {
             laserParticles[i].updateWithDelta(delta)
             if !World.isPositionInside(laserParticles[i].position) {
                 createExplosionAroundPosition(laserParticles[i].position, particleCount: Constants.Particle.LaserParticle.Explosion.particleCount, color: float3(1, 1, 1), speed: Constants.Particle.LaserParticle.Explosion.particleSpeed)
+                LightManager.sharedManager.addLightAtPosition(laserParticles[i].position, color: float3(1, 1, 1), duration: 0.5, intensity: 10)
                 laserParticles.removeAtIndex(i)
             }
         }

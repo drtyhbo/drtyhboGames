@@ -57,21 +57,32 @@ class GameManager {
     private func gameUpdate(delta: Float) {
         autoreleasepool {
             gameState.updateWithDelta(delta)
-
-            collisionManager.testCollisionsWithPlayer(player, gameState: gameState)
-
-            EntityManager.sharedManager.updateWithDelta(delta, worldMatrix: camera.worldMatrix)
-            ParticleManager.sharedManager.updateWithDelta(delta)
-            GridManager.sharedManager.grid.updateWithDelta(delta)
-
-            if let player = player {
-                camera.pointToEntity(player)
-                camera.constrainToWorld()
+            if gameState.state != .Intro {
+                updateGameWithDelta(delta)
             }
 
             labels.updateWithGameState(gameState)
-
             render()
+        }
+    }
+
+    private func updateGameWithDelta(delta: Float) {
+        gameState.updateWithDelta(delta)
+
+        collisionManager.testCollisionsWithPlayer(player, gameState: gameState)
+
+        LightManager.sharedManager.updateWithDelta(delta)
+        EntityManager.sharedManager.updateWithDelta(delta)
+        ParticleManager.sharedManager.updateWithDelta(delta)
+        GridManager.sharedManager.grid.updateWithDelta(delta)
+
+        if let player = player {
+            camera.pointToEntity(player)
+            camera.constrainToWorld()
+
+            if gameState.state == .FinalScore && player.isAlive {
+                player.die()
+            }
         }
     }
 
