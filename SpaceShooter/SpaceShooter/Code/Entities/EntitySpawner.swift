@@ -23,7 +23,7 @@ class EntitySpawner {
         if shouldSpawn {
             entitiesToSpawn = Int(difficulty)
             totalEntitiesSpawned = 0
-            difficulty *= 1.5
+            difficulty *= 1.25
         }
 
         if entitiesToSpawn > totalEntitiesSpawned && timeSinceLastSpawn > 1 {
@@ -51,7 +51,7 @@ class EntitySpawner {
     }
 
     func makeEasier() {
-        difficulty = max(20, difficulty / 4)
+        difficulty = max(5, difficulty / 4)
 
         entitiesToSpawn = 0
         totalEntitiesSpawned = 0
