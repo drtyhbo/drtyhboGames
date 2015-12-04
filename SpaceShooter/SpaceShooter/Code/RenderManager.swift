@@ -90,8 +90,8 @@ class RenderManager {
 
         applyBloomFilterToTexture(outputTexture, outputTexture: drawable.texture, commandBuffer: commandBuffer)
 
-        spriteRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
         textRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
+        spriteRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
     }
 
     private func clearTexture(texture: MTLTexture) {

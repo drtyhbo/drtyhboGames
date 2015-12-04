@@ -40,8 +40,15 @@ class Grid {
 
         for row in 0..<numberOfRows {
             for column in 0..<numberOfColumns {
-                let position = float2(x + Float(column) * spacing, y + Float(row) * spacing)
-                let inverseMass: Float = column == 0 || row == 0 || column == numberOfColumns - 1 || row == numberOfRows - 1 ? 0 : 1
+                let position = float3(x + Float(column) * spacing, y + Float(row) * spacing, 0)
+                let inverseMass: Float
+                if column == 0 || row == 0 || column == numberOfColumns - 1 || row == numberOfRows - 1 {
+                    inverseMass = 0
+                } else if column % 5 == 0 || row % 5 == 0 {
+                    inverseMass = 0.5
+                } else {
+                    inverseMass = 1
+                }
                 pointMasses.append(PointMass(position: position, inverseMass: inverseMass))
             }
         }
@@ -87,16 +94,13 @@ class Grid {
     }
 
     func applyExplosiveForce(force: Float, atPosition position: float3, withRadius radius: Float) {
-        let radiusSquared = radius * radius
         for i in 0..<pointMasses.count {
             let pointMass = pointMasses[i]
-            let positionDelta = float2(pointMass.position[0], pointMass.position[1]) - float2(position[0], position[1])
-            let distance = length(positionDelta)
-            let normalizedForceVector = positionDelta * (1 / distance)
-            let distanceSquared = distance * distance
-            if distanceSquared < radiusSquared && distanceSquared > 0 {
-                let appliedForce = force / max(distance, 1)
-                pointMasses[i].applyForce(normalizedForceVector * appliedForce)
+            let direction = pointMass.position - position
+            let distanceSquared = length_squared(direction)
+            if distanceSquared < radius * radius {
+                pointMasses[i].applyForce(100 * force * direction * (1 / (10000 + distanceSquared)))
+                pointMasses[i].increaseDampingBy(0.6)
             }
         }
     }

@@ -36,7 +36,7 @@ float3 computeLightContribution(Light light, float3 position) {
     float2 lightPosition2 = float2(light.position[0], light.position[1]);
     float2 position2 = float2(position[0], position[1]);
     float distance = length(lightPosition2 - position2);
-    float intensity = min(0.5, light.intensity / (distance * distance));
+    float intensity = light.intensity / (distance * distance);
     return float3(light.color[0] * intensity, light.color[1] * intensity, light.color[2] * intensity);
 }
 
@@ -54,7 +54,7 @@ vertex ProjectedVertex grid_vertex(
     for (int i = 0; i < gridUniforms->numLights; i++) {
         color = max(color, computeLightContribution(lights[i], float3(vertexIn.position, 0)));
     }
-    projectedVertex.color = float4(color, 0.5);
+    projectedVertex.color = float4(color, 1);
 
     return projectedVertex;
 }

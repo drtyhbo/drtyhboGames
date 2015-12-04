@@ -27,10 +27,10 @@ class Constants {
         static let lightIntensity: Float = 5
 
         struct Die {
-            static let gravityForce: Float = -50
-            static let gravityRadius: Float = 20
+            static let gravityForce: Float = 300
+            static let gravityRadius: Float = 10
             static let particleCount = 200
-            static let particleSpeed: Float = 50
+            static let particleSpeed: Float = 75
         }
     }
 
