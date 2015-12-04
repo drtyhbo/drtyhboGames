@@ -30,7 +30,7 @@ class Constants {
             static let gravityForce: Float = 300
             static let gravityRadius: Float = 10
             static let particleCount = 200
-            static let particleSpeed: Float = 75
+            static let particleSpeed: Float = 50
         }
     }
 

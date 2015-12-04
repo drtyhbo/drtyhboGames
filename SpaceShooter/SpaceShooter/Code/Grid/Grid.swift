@@ -72,16 +72,13 @@ class Grid {
 
     func updateWithDelta(delta: Float) {
         for spring in springs {
-            let mass1 = pointMasses[spring.mass1]
-            let mass2 = pointMasses[spring.mass2]
-
-            let positionDelta = mass1.position - mass2.position
+            let positionDelta = pointMasses[spring.mass1].position - pointMasses[spring.mass2].position
             let currentLength = length(positionDelta)
             if currentLength <= spacing {
                 continue
             }
 
-            let velocityDelta = mass2.velocity - mass1.velocity
+            let velocityDelta = pointMasses[spring.mass2].velocity - pointMasses[spring.mass1].velocity
             let force = 4 * normalize(positionDelta) * (currentLength - spacing) - velocityDelta * 0.05
 
             pointMasses[spring.mass1].applyForce(-force)

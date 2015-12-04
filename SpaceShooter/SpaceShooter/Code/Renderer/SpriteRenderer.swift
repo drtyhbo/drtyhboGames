@@ -42,7 +42,7 @@ class SpriteRenderer: SceneRenderer {
         sharedUniformsBuffer = device.newBufferWithBytes(Matrix4.makeOrthoWithScreenSize().raw(), length: Matrix4.size(), options: MTLResourceOptions(rawValue: 0))
         perInstanceUniformsBufferQueue = BufferQueue(device: device, length: Matrix4.size() * maxSprites)
 
-        spriteTexture = UIImage.circleWithRadius(100, lineWidth: 5, color: UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)).createMTLTextureForDevice(device)
+        spriteTexture = UIImage.circleWithRadius(100, lineWidth: 3, color: UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)).createMTLTextureForDevice(device)
 
         super.init(device: device, commandQueue: commandQueue)
 
