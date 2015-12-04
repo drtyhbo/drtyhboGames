@@ -40,7 +40,7 @@ class Labels {
         pausedLabel.alpha = 0
 
         threeMinutesLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 - 15), alignment: [.Center, .Middle])
-        threeMinutesLabel.text = "3 minutes"
+        threeMinutesLabel.text = "You have 3 minutes"
         threeMinutesLabel.fontSize = 40
 
         getAHighScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 + 15), alignment: [.Center, .Middle])
