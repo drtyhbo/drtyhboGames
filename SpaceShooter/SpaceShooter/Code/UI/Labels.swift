@@ -36,7 +36,7 @@ class Labels {
 
         pausedLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, 10), alignment: [.Center])
         pausedLabel.text = "Paused"
-        pausedLabel.fontSize = 48
+        pausedLabel.fontSize = 30
         pausedLabel.alpha = 0
 
         threeMinutesLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 - 15), alignment: [.Center, .Middle])
