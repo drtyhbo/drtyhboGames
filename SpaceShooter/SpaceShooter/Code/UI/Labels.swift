@@ -41,20 +41,20 @@ class Labels {
 
         threeMinutesLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 - 15), alignment: [.Center, .Middle])
         threeMinutesLabel.text = "You have 3 minutes"
-        threeMinutesLabel.fontSize = 40
+        threeMinutesLabel.fontSize = 25
 
         getAHighScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 + 15), alignment: [.Center, .Middle])
         getAHighScoreLabel.text = "Get a high score"
-        getAHighScoreLabel.fontSize = 40
+        getAHighScoreLabel.fontSize = 25
 
         yourScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 - 15), alignment: [.Center, .Middle])
         yourScoreLabel.text = "Your score"
-        yourScoreLabel.fontSize = 40
+        yourScoreLabel.fontSize = 25
         yourScoreLabel.alpha = 0
 
         finalScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 + 15), alignment: [.Center, .Middle])
         finalScoreLabel.text = "0"
-        finalScoreLabel.fontSize = 40
+        finalScoreLabel.fontSize = 25
         finalScoreLabel.alpha = 0
     }
 

@@ -13,8 +13,8 @@ class EntitySpawner {
     private var totalEntitiesSpawned: Int = 0
     private var lastSpawnTime = GameTimer.sharedTimer.currentTime
 
-    private let spawnSize: Int = 30
-    private var difficulty: Float = 5
+    private let spawnSize: Int = 100
+    private var difficulty: Float = 300
 
     func maybeSpawn() {
         let timeSinceLastSpawn = GameTimer.sharedTimer.currentTime - lastSpawnTime

@@ -14,14 +14,13 @@ class Cube: Enemy {
         return [2, 2, 2]
     }
 
-    private var velocity: float3 = float3(0, 0, 0)
+    private var velocity: float3!
     private var rotationSpeed: float3 = float3(0, 0, 0)
 
     init() {
         super.init(name: "cube", pointValue: 1, gemCount: 1)
 
         color = Constants.Cube.color
-        velocity = float3(Float(arc4random_uniform(16)) - 8, Float(arc4random_uniform(16)) - 8, 0)
         rotationSpeed = float3((Float(arc4random_uniform(32)) - 16) / 16, (Float(arc4random_uniform(32)) - 16) / 16, 0)
     }
 
@@ -29,13 +28,22 @@ class Cube: Enemy {
         color[3] = state == .Alive ? Float(min(1, timeSinceLastState / 2)) : Float(0)
 
         if isActive {
+            if velocity == nil {
+                if let player = GameManager.sharedManager.player {
+                    velocity = Constants.Cube.speed * normalize(player.position - position)
+                } else {
+                    velocity = normalize(float3(Float(arc4random_uniform(16)) - 8, Float(arc4random_uniform(16)) - 8, 0)) * Constants.Cube.speed
+                }
+            }
+
             position += velocity * delta
+
             let collision = World.doesCollide(self)
             if collision.contains(.Left) || collision.contains(.Right) {
-                self.velocity[0] *= -1
+                velocity = float3(velocity[0] * -1, velocity[1], 0)
             }
             if collision.contains(.Top) || collision.contains(.Bottom) {
-                self.velocity[1] *= -1
+                velocity = float3(velocity[0], velocity[1] * -1, 0)
             }
         }
 

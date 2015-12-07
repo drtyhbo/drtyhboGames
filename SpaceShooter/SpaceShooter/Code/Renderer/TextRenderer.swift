@@ -63,7 +63,7 @@ private class TextRendererData {
 
     private func updateMesh() {
         let size = UIScreen.mainScreen().bounds.size
-        mesh = MBETextMesh(string: text, inRect: CGRect(x: CGFloat(label.position.x), y: CGFloat(label.position.y), width: size.width, height: size.height), withFontAtlas: fontAtlas, atSize: CGFloat(label.fontSize), device: device)
+        mesh = MBETextMesh(string: text, inRect: CGRect(x: 0, y: 0, width: size.width, height: size.height), withFontAtlas: fontAtlas, atSize: CGFloat(label.fontSize), device: device)
     }
 }
 

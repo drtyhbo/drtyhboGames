@@ -36,7 +36,7 @@ class CollisionManager {
                         gem.die()
                         gameState.incrementMultiplierBy(1)
                     } else {
-                        gem.velocity = lengthBetweenGemAndPlayer < 36 ? normalize(directionToPlayer) * 50 : float3(0, 0, 0)
+                        gem.velocity = lengthBetweenGemAndPlayer < 64 ? normalize(directionToPlayer) * 50 : float3(0, 0, 0)
                     }
                 }
             }

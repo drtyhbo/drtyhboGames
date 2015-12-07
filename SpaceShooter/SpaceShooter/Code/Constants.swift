@@ -31,6 +31,8 @@ class Constants {
             static let gravityRadius: Float = 10
             static let particleCount = 200
             static let particleSpeed: Float = 50
+            static let lightDuration: Float = 0.5
+            static let lightIntensity: Float = 50
         }
     }
 
@@ -44,16 +46,17 @@ class Constants {
 
     struct Cube {
         static let color = float4FromRed(246, green: 0, blue: 84)
+        static let speed: Float = 20
     }
 
     struct Seeker {
         static let color = float4FromRed(192, green: 184, blue: 27)
-        static let speed: Float = 15
+        static let speed: Float = 20
     }
 
     struct Flyer {
         static let color = float4FromRed(4, green: 202, blue: 254)
-        static let speed: Float = 15
+        static let speed: Float = 20
     }
 
     struct Gravity {
@@ -81,6 +84,8 @@ class Constants {
             static let gravityRadius: Float = 20
             static let particleCount = 1000
             static let particleSpeed: Float = 150
+            static let lightDuration: Float = 1
+            static let lightIntensity: Float = 100
         }
 
         struct Die {

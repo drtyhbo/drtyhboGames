@@ -71,15 +71,17 @@ class TouchHandler {
             if let touch = self.touches[touch] {
                 let direction = location - touch.initialLocation
                 var magnitude = length(direction)
-                let normalizedDirection = direction * (1 / magnitude)
+                if magnitude != 0 {
+                    let normalizedDirection = direction * (1 / magnitude)
 
-                if magnitude > maxDistance {
-                    magnitude = maxDistance
-                    touch.initialLocation = location - normalizedDirection * magnitude
+                    if magnitude > maxDistance {
+                        magnitude = maxDistance
+                        touch.initialLocation = location - normalizedDirection * magnitude
+                    }
+
+                    let finalDirection = normalizedDirection * magnitude
+                    delegate?.touchHandler(self, didMoveWithLocation: touch.initialLocation, direction: float2(finalDirection[0], -finalDirection[1]), forTouchType: touch.touchType)
                 }
-
-                let finalDirection = normalizedDirection * magnitude
-                delegate?.touchHandler(self, didMoveWithLocation: touch.initialLocation, direction: float2(finalDirection[0], -finalDirection[1]), forTouchType: touch.touchType)
             }
         }
     }

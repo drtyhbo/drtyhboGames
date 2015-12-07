@@ -60,7 +60,7 @@ class Ship: Entity {
         super.spawn()
         GridManager.sharedManager.grid.applyExplosiveForce(Constants.Player.Spawn.gravityForce, atPosition: position, withRadius: Constants.Player.Spawn.gravityRadius)
         ParticleManager.sharedManager.createExplosionAroundPosition(position, particleCount: Constants.Player.Spawn.particleCount, color: float3(1, 1, 1), speed: Constants.Player.Spawn.particleSpeed)
-        LightManager.sharedManager.addLightAtPosition(position, color: float3(1, 1, 1), duration: 2, intensity: 100)
+        LightManager.sharedManager.addLightAtPosition(position, color: float3(1, 1, 1), duration: Constants.Player.Spawn.lightDuration, intensity: Constants.Player.Spawn.lightIntensity)
     }
 
     override func die() {
