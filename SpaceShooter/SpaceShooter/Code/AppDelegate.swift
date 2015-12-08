@@ -6,6 +6,8 @@
 //  Copyright © 2015 drtyhbo productions. All rights reserved.
 //
 
+import Crashlytics
+import Fabric
 import UIKit
 
 @UIApplicationMain
@@ -15,7 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        Fabric.with([Crashlytics.self])
         cacheModels()
+
         return true
     }
 
