@@ -81,7 +81,11 @@ class TextRenderer: SceneRenderer {
         if let filePath = NSBundle.mainBundle().pathForResource("FontAtlas", ofType: "data"), fontAtlasData = NSData(contentsOfFile: filePath), archivedFontAtlas = NSKeyedUnarchiver.unarchiveObjectWithData(fontAtlasData) as? MBEFontAtlas {
             fontAtlas = archivedFontAtlas
         } else {
-            fontAtlas = MBEFontAtlas(font: UIFont.boldSystemFontOfSize(48), textureSize: fontTextureSize)
+            fontAtlas = MBEFontAtlas(font: UIFont(name: "SFDistantGalaxy", size: 64), textureSize: fontTextureSize)
+
+            let documentsDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+            let data = NSKeyedArchiver.archivedDataWithRootObject(fontAtlas)
+            data.writeToFile("\(documentsDirectory)/FontAtlas.data", atomically: true)
         }
 
         let textureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(.R8Unorm, width: fontTextureSize, height: fontTextureSize, mipmapped: false)

@@ -53,7 +53,7 @@ fragment half4 text_fragment(TransformedVertex vert [[stage_in]],
     // Sample the signed-distance field to find distance from this fragment to the glyph outline
     float sampleDistance = texture.sample(samplr, vert.texCoords).r;
     // Use local automatic gradients to find anti-aliased anisotropic edge width, cf. Gustavson 2012
-    float edgeWidth = 0.75 * length(float2(dfdx(sampleDistance), dfdy(sampleDistance)));
+    float edgeWidth = 0.75 * fwidth(sampleDistance);
     // Smooth the glyph edge by interpolating across the boundary in a band with the width determined above
     float insideness = smoothstep(edgeDistance - edgeWidth, edgeDistance + edgeWidth, sampleDistance);
     return half4(color.r, color.g, color.b, insideness * color.a);

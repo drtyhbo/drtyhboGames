@@ -14,6 +14,7 @@
 		9003E3CF1BFAEEAA001E3D33 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9003E3CE1BFAEEAA001E3D33 /* Random.swift */; };
 		901110971C16929200914FB9 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901110951C16929200914FB9 /* Fabric.framework */; };
 		901110981C16929200914FB9 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901110961C16929200914FB9 /* Crashlytics.framework */; };
+		901110A21C18910300914FB9 /* SFDistantGalaxy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 901110A11C18910300914FB9 /* SFDistantGalaxy.ttf */; };
 		9017753B1BD44CC700097B53 /* Matrix4.m in Sources */ = {isa = PBXBuildFile; fileRef = 9017753A1BD44CC700097B53 /* Matrix4.m */; };
 		901775471BD44CDB00097B53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9017753C1BD44CDB00097B53 /* AppDelegate.swift */; };
 		901775491BD44CDB00097B53 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9017753E1BD44CDB00097B53 /* Constants.swift */; };
@@ -28,7 +29,6 @@
 		901775651BD44E5100097B53 /* TouchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901775641BD44E5100097B53 /* TouchHandler.swift */; };
 		9017756B1BD458F100097B53 /* ship.obj in Resources */ = {isa = PBXBuildFile; fileRef = 901775691BD458F100097B53 /* ship.obj */; };
 		9017756D1BD45CA500097B53 /* RenderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9017756C1BD45CA500097B53 /* RenderManager.swift */; };
-		901EE7421BFCDF33008D92F2 /* FontAtlas.data in Resources */ = {isa = PBXBuildFile; fileRef = 901EE7411BFCDF33008D92F2 /* FontAtlas.data */; };
 		901EE7441BFF7149008D92F2 /* SpriteRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EE7431BFF7149008D92F2 /* SpriteRenderer.swift */; };
 		901EE74A1BFF7439008D92F2 /* Matrix4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EE7491BFF7439008D92F2 /* Matrix4.swift */; };
 		901EE74D1BFF884F008D92F2 /* SpriteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EE74C1BFF884F008D92F2 /* SpriteManager.swift */; };
@@ -38,6 +38,7 @@
 		901EE7551C00E637008D92F2 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EE7541C00E636008D92F2 /* UIImage.swift */; };
 		90475EED1C0BC5CA004F6E50 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90475EEC1C0BC5CA004F6E50 /* Scene.swift */; };
 		90475EEF1C0BD3A6004F6E50 /* MultipassFilterRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90475EEE1C0BD3A6004F6E50 /* MultipassFilterRenderer.swift */; };
+		905B73CE1C18933900A33072 /* FontAtlas.data in Resources */ = {isa = PBXBuildFile; fileRef = 905B73CD1C18933900A33072 /* FontAtlas.data */; };
 		9077E6F31BE864BA005A1478 /* EntitySpawner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9077E6F21BE864BA005A1478 /* EntitySpawner.swift */; };
 		908943271BE86BF700BC42D7 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908943261BE86BF700BC42D7 /* GameState.swift */; };
 		9089432B1BE8723200BC42D7 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9089432A1BE8723200BC42D7 /* Enemy.swift */; };
@@ -94,6 +95,7 @@
 		9003E3CE1BFAEEAA001E3D33 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Random.swift; path = SpaceShooter/Code/Random.swift; sourceTree = SOURCE_ROOT; };
 		901110951C16929200914FB9 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		901110961C16929200914FB9 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		901110A11C18910300914FB9 /* SFDistantGalaxy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SFDistantGalaxy.ttf; sourceTree = "<group>"; };
 		901775391BD44CC700097B53 /* Matrix4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix4.h; path = SpaceShooter/Frameworks/Matrix/Matrix4.h; sourceTree = SOURCE_ROOT; };
 		9017753A1BD44CC700097B53 /* Matrix4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Matrix4.m; path = SpaceShooter/Frameworks/Matrix/Matrix4.m; sourceTree = SOURCE_ROOT; };
 		9017753C1BD44CDB00097B53 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = SpaceShooter/Code/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
@@ -111,7 +113,6 @@
 		901775641BD44E5100097B53 /* TouchHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchHandler.swift; path = SpaceShooter/Code/TouchHandler.swift; sourceTree = SOURCE_ROOT; };
 		901775691BD458F100097B53 /* ship.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ship.obj; path = SpaceShooter/Resources/Models/ship.obj; sourceTree = SOURCE_ROOT; };
 		9017756C1BD45CA500097B53 /* RenderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RenderManager.swift; path = SpaceShooter/Code/RenderManager.swift; sourceTree = SOURCE_ROOT; };
-		901EE7411BFCDF33008D92F2 /* FontAtlas.data */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = FontAtlas.data; sourceTree = "<group>"; };
 		901EE7431BFF7149008D92F2 /* SpriteRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteRenderer.swift; sourceTree = "<group>"; };
 		901EE7491BFF7439008D92F2 /* Matrix4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix4.swift; sourceTree = "<group>"; };
 		901EE74C1BFF884F008D92F2 /* SpriteManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteManager.swift; sourceTree = "<group>"; };
@@ -121,6 +122,7 @@
 		901EE7541C00E636008D92F2 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		90475EEC1C0BC5CA004F6E50 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		90475EEE1C0BD3A6004F6E50 /* MultipassFilterRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipassFilterRenderer.swift; sourceTree = "<group>"; };
+		905B73CD1C18933900A33072 /* FontAtlas.data */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = FontAtlas.data; sourceTree = "<group>"; };
 		9077E6F21BE864BA005A1478 /* EntitySpawner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntitySpawner.swift; path = SpaceShooter/Code/Entities/EntitySpawner.swift; sourceTree = SOURCE_ROOT; };
 		908943261BE86BF700BC42D7 /* GameState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameState.swift; path = SpaceShooter/Code/GameState.swift; sourceTree = SOURCE_ROOT; };
 		9089432A1BE8723200BC42D7 /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
@@ -209,7 +211,8 @@
 		901EE7401BFCDF33008D92F2 /* Font */ = {
 			isa = PBXGroup;
 			children = (
-				901EE7411BFCDF33008D92F2 /* FontAtlas.data */,
+				905B73CD1C18933900A33072 /* FontAtlas.data */,
+				901110A11C18910300914FB9 /* SFDistantGalaxy.ttf */,
 			);
 			name = Font;
 			path = SpaceShooter/Resources/Font;
@@ -532,8 +535,9 @@
 				908943311BE87A7800BC42D7 /* seeker.obj in Resources */,
 				9003E3CD1BFA3836001E3D33 /* gem.obj in Resources */,
 				9089434C1BE89CED00BC42D7 /* gravity.obj in Resources */,
-				901EE7421BFCDF33008D92F2 /* FontAtlas.data in Resources */,
 				901775631BD44D5D00097B53 /* Main.storyboard in Resources */,
+				905B73CE1C18933900A33072 /* FontAtlas.data in Resources */,
+				901110A21C18910300914FB9 /* SFDistantGalaxy.ttf in Resources */,
 				9017756B1BD458F100097B53 /* ship.obj in Resources */,
 				901775621BD44D5D00097B53 /* LaunchScreen.storyboard in Resources */,
 				901775591BD44CFF00097B53 /* Assets.xcassets in Resources */,

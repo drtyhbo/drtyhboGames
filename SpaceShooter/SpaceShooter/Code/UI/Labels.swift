@@ -26,9 +26,11 @@ class Labels {
     init() {
         let size = Size(size: UIScreen.mainScreen().bounds.size)
         timeRemainingLabel = TextManager.sharedManager.createLabelAtPosition(float2(10, 10))
-        scoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width - 20, 10), alignment: [.Right])
 
-        multiplierLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width - 20, 30), alignment: [.Right])
+        scoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width - 20, 10), alignment: [.Right])
+        scoreLabel.fontSize = 25
+
+        multiplierLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width - 20, 35), alignment: [.Right])
         multiplierLabel.color = float3(Constants.Gem.color)
 
         sessionHighScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width - 20, Float(size.height) - 50), alignment: [.Right])

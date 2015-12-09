@@ -21,7 +21,7 @@ class GameManager {
                 return
             }
 
-//            labels.pausedLabel.alpha = isPaused ? 1 : 0
+            labels.pausedLabel.alpha = isPaused ? 1 : 0
             GameTimer.sharedTimer.pause(isPaused)
         }
     }
