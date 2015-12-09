@@ -38,6 +38,12 @@ struct ProjectedVertex {
     float4 color;
 };
 
+float easeOut(float p);
+float easeOut(float p) {
+    p = 1 - p;
+    return 1 - p * p * p;
+}
+
 vertex ProjectedVertex particle_vertex(
         const VertexIn vertexIn [[ stage_in ]],
         const device SharedUniforms* sharedUniforms [[ buffer(1) ]],
@@ -52,6 +58,7 @@ vertex ProjectedVertex particle_vertex(
     }
 
     float percentageCompleted = particles[iid].hiddenDate > 0 ? (1 - (particles[iid].hiddenDate - particleRendererUniforms[0].currentTime) / particles[iid].lifespan) : 0;
+    percentageCompleted = easeOut(percentageCompleted);
 
     float4 position = float4(vertexIn.position, 1);
     position[0] *= particles[iid].thickness;
@@ -66,7 +73,7 @@ vertex ProjectedVertex particle_vertex(
 
     ProjectedVertex projectedVertex;
     projectedVertex.position = sharedUniforms->projectionMatrix * sharedUniforms->worldMatrix * position;
-    projectedVertex.color = float4(particles[iid].color - (particles[iid].color * 0.5 * percentageCompleted), 1 - percentageCompleted);
+    projectedVertex.color = float4(particles[iid].color - (particles[iid].color * 0.5 * percentageCompleted), 1);
 
     return projectedVertex;
 }

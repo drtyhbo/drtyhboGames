@@ -82,6 +82,6 @@ class ParticleManager {
     }
 
     private func randomLifespan() -> Float {
-        return randomBetween0And1() * 1.5 + 0.5
+        return randomBetween0And1() * 1 + 0.5
     }
 }

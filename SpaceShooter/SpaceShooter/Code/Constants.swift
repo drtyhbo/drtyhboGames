@@ -30,7 +30,7 @@ class Constants {
             static let gravityForce: Float = 300
             static let gravityRadius: Float = 10
             static let particleCount = 200
-            static let particleSpeed: Float = 50
+            static let particleSpeed: Float = 30
             static let lightDuration: Float = 0.5
             static let lightIntensity: Float = 50
         }
@@ -83,14 +83,14 @@ class Constants {
             static let gravityForce: Float = 400
             static let gravityRadius: Float = 20
             static let particleCount = 1000
-            static let particleSpeed: Float = 150
+            static let particleSpeed: Float = 75
             static let lightDuration: Float = 1
             static let lightIntensity: Float = 100
         }
 
         struct Die {
             static let particleCount = 2000
-            static let particleSpeed: Float = 150
+            static let particleSpeed: Float = 75
         }
     }
 
@@ -107,7 +107,7 @@ class Constants {
 
             struct Explosion {
                 static let particleCount = 30
-                static let particleSpeed: Float = 10
+                static let particleSpeed: Float = 5
             }
         }
     }
