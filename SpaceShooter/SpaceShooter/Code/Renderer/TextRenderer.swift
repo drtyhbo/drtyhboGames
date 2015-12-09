@@ -49,7 +49,9 @@ private class TextRendererData {
         }
 
         let worldMatrix = Matrix4()
+        let labelScale = label.scale
         worldMatrix.translate(xTranslation, y: yTranslation, z: 0)
+        worldMatrix.scale(labelScale, y: labelScale, z: 1)
 
         let textRendererUniformsBuffer = textRendererUniformsBufferQueue.nextBuffer
         textRendererUniformsBuffer.copyData(orthoProjectionMatrix.raw(), size: Matrix4.size())
