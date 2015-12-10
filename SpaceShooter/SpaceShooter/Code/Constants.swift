@@ -29,8 +29,8 @@ class Constants {
         struct Die {
             static let gravityForce: Float = 300
             static let gravityRadius: Float = 10
-            static let particleCount = 200
-            static let particleSpeed: Float = 30
+            static let particleCount = 75
+            static let particleSpeed: Float = 40
             static let lightDuration: Float = 0.5
             static let lightIntensity: Float = 50
         }

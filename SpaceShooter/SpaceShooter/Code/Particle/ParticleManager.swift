@@ -45,7 +45,7 @@ class ParticleManager {
         for _ in 0..<particleCount {
             let colorMultiplier = Random.randomNumberBetween(-0.5, and: 0.5)
             let direction = normalize(float3(randomBetween0And1() - 0.5, randomBetween0And1() - 0.5, 0))
-            createTemporaryParticleAtPosition(position, direction: direction, speed: speed * 0.5 + randomBetween0And1() * (speed * 0.5), length: 3 + randomBetween0And1() * 4, color: color + color * colorMultiplier, lifespan: randomLifespan())
+            createTemporaryParticleAtPosition(position, direction: direction, speed: speed * 0.5 + randomBetween0And1() * (speed * 0.5), length: 15 + randomBetween0And1() * 5, color: color + color * colorMultiplier, lifespan: randomLifespan())
         }
     }
 
@@ -78,7 +78,7 @@ class ParticleManager {
     }
 
     private func randomLength() -> Float {
-        return Float(arc4random() % 20) / 5
+        return Float(arc4random() % 40) / 5
     }
 
     private func randomLifespan() -> Float {
