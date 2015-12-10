@@ -82,7 +82,7 @@ class Constants {
             static let spawnDuration: Float = 0.2
             static let gravityForce: Float = 400
             static let gravityRadius: Float = 20
-            static let particleCount = 1000
+            static let particleCount = 2000
             static let particleSpeed: Float = 75
             static let lightDuration: Float = 1
             static let lightIntensity: Float = 100
@@ -108,6 +108,8 @@ class Constants {
             struct Explosion {
                 static let particleCount = 30
                 static let particleSpeed: Float = 5
+                static let minLength: Float = 3
+                static let maxLength: Float = 5
             }
         }
     }

@@ -34,18 +34,18 @@ class ParticleManager {
         for var i = laserParticles.count - 1; i >= 0; i-- {
             laserParticles[i].updateWithDelta(delta)
             if !World.isPositionInside(laserParticles[i].position) {
-                createExplosionAroundPosition(laserParticles[i].position, particleCount: Constants.Particle.LaserParticle.Explosion.particleCount, color: float3(1, 1, 1), speed: Constants.Particle.LaserParticle.Explosion.particleSpeed)
+                createExplosionAroundPosition(laserParticles[i].position, particleCount: Constants.Particle.LaserParticle.Explosion.particleCount, color: float3(1, 1, 1), speed: Constants.Particle.LaserParticle.Explosion.particleSpeed, minLength: Constants.Particle.LaserParticle.Explosion.minLength, maxLength: Constants.Particle.LaserParticle.Explosion.maxLength)
                 LightManager.sharedManager.addLightAtPosition(laserParticles[i].position, color: float3(1, 1, 1), duration: 0.5, intensity: 10)
                 laserParticles.removeAtIndex(i)
             }
         }
     }
 
-    func createExplosionAroundPosition(position: float3, particleCount: Int, color: float3, speed: Float) {
+    func createExplosionAroundPosition(position: float3, particleCount: Int, color: float3, speed: Float, minLength: Float = 15, maxLength: Float = 20) {
         for _ in 0..<particleCount {
             let colorMultiplier = Random.randomNumberBetween(-0.5, and: 0.5)
             let direction = normalize(float3(randomBetween0And1() - 0.5, randomBetween0And1() - 0.5, 0))
-            createTemporaryParticleAtPosition(position, direction: direction, speed: speed * 0.5 + randomBetween0And1() * (speed * 0.5), length: 15 + randomBetween0And1() * 5, color: color + color * colorMultiplier, lifespan: randomLifespan())
+            createTemporaryParticleAtPosition(position, direction: direction, speed: speed * 0.5 + randomBetween0And1() * (speed * 0.5), length: minLength + randomBetween0And1() * (maxLength - minLength), color: color + color * colorMultiplier, lifespan: randomLifespan())
         }
     }
 
