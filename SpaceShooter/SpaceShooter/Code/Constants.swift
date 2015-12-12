@@ -26,6 +26,10 @@ class Constants {
     struct Enemy {
         static let lightIntensity: Float = 5
 
+        struct Spawn {
+            static let timeToSpawn: Float = 2
+        }
+
         struct Die {
             static let gravityForce: Float = 300
             static let gravityRadius: Float = 10
