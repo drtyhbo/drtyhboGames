@@ -73,7 +73,7 @@ vertex ProjectedVertex particle_vertex(
 
     ProjectedVertex projectedVertex;
     projectedVertex.position = sharedUniforms->projectionMatrix * sharedUniforms->worldMatrix * position;
-    projectedVertex.color = float4(particles[iid].color - (particles[iid].color * 0.5 * percentageCompleted), 0.8);
+    projectedVertex.color = float4(particles[iid].color - (particles[iid].color * 0.5 * percentageCompleted), 0.95);
 
     return projectedVertex;
 }

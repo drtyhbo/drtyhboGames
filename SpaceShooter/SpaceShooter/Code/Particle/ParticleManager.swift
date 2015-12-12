@@ -41,7 +41,7 @@ class ParticleManager {
         }
     }
 
-    func createExplosionAroundPosition(position: float3, particleCount: Int, color: float3, speed: Float, minLength: Float = 15, maxLength: Float = 20) {
+    func createExplosionAroundPosition(position: float3, particleCount: Int, color: float3, speed: Float, minLength: Float = 5, maxLength: Float = 20) {
         for _ in 0..<particleCount {
             let colorMultiplier = Random.randomNumberBetween(-0.5, and: 0.5)
             let direction = normalize(float3(randomBetween0And1() - 0.5, randomBetween0And1() - 0.5, 0))
@@ -53,7 +53,7 @@ class ParticleManager {
         for _ in 0..<particleCount {
             let randomAngle = (Int(arc4random()) % angle) - (angle / 2)
             let particleDirection = direction.rotateAroundY(Float(Double(randomAngle) * M_PI / 180))
-            createTemporaryParticleAtPosition(position, direction: particleDirection, speed: randomSpeed(10), length: randomLength(), color: float3(1, 1, 1), lifespan: randomLifespan())
+            createTemporaryParticleAtPosition(position, direction: particleDirection, speed: randomSpeed(10), length: 1 + randomBetween0And1() * 3, color: float3(1, 1, 1), lifespan: randomLifespan())
         }
     }
 
