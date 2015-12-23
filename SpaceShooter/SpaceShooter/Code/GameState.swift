@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import GameKit
 
 protocol GameStateDelegate: class {
     func gameStateRespawnPlayer(gameState: GameState)
@@ -112,6 +113,13 @@ class GameState {
         if gameTimeRemaining <= 0 && state != .GameOver && state != .FinalScore {
             sessionHighScore = max(score, sessionHighScore)
             allTimeHighScore = max(score, allTimeHighScore)
+
+            if score == allTimeHighScore {
+                let gkScore = GKScore(leaderboardIdentifier: "com.drtyhbo.SpaceShooter.HighScore")
+                gkScore.value = Int64(score)
+                GKScore.reportScores([gkScore], withCompletionHandler: nil)
+            }
+
             NSUserDefaults.standardUserDefaults().setInteger(allTimeHighScore, forKey: Constants.UserDefaults.maxScoreKey)
 
             state = .GameOver

@@ -84,6 +84,7 @@
 		90A0E5E01BDDB57D00D32723 /* ParticleShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5DF1BDDB57D00D32723 /* ParticleShader.metal */; };
 		90A0E5E31BDDF37000D32723 /* GridShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 90A0E5E21BDDF37000D32723 /* GridShader.metal */; };
 		90A1ED591C013B9A0057DE0F /* GameTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A1ED581C013B9A0057DE0F /* GameTimer.swift */; };
+		90BFE7EF1C2A600F00F1545A /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90BFE7EE1C2A600F00F1545A /* GameKit.framework */; };
 		90C3A5041C0CBFDD00F4A5DD /* LightManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C3A5031C0CBFDD00F4A5DD /* LightManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -174,6 +175,7 @@
 		90A0E5E11BDDB5B400D32723 /* Shared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Shared.h; path = SpaceShooter/Shaders/Shared.h; sourceTree = SOURCE_ROOT; };
 		90A0E5E21BDDF37000D32723 /* GridShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = GridShader.metal; path = SpaceShooter/Shaders/GridShader.metal; sourceTree = SOURCE_ROOT; };
 		90A1ED581C013B9A0057DE0F /* GameTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameTimer.swift; path = SpaceShooter/Code/GameTimer.swift; sourceTree = SOURCE_ROOT; };
+		90BFE7EE1C2A600F00F1545A /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		90C3A5031C0CBFDD00F4A5DD /* LightManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LightManager.swift; path = SpaceShooter/Code/LightManager.swift; sourceTree = SOURCE_ROOT; };
 		CBEB218B9767EBFAEE993A4B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD34105A1BBED4FE00638CAC /* Galaxy Blast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Galaxy Blast.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -188,6 +190,7 @@
 				374C72F98A964A493092E6D7 /* libPods.a in Frameworks */,
 				901110981C16929200914FB9 /* Crashlytics.framework in Frameworks */,
 				901110971C16929200914FB9 /* Fabric.framework in Frameworks */,
+				90BFE7EF1C2A600F00F1545A /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,6 +436,7 @@
 		DB6EC20ED62BBCC6840155CE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				90BFE7EE1C2A600F00F1545A /* GameKit.framework */,
 				901110951C16929200914FB9 /* Fabric.framework */,
 				901110961C16929200914FB9 /* Crashlytics.framework */,
 				CBEB218B9767EBFAEE993A4B /* libPods.a */,
@@ -505,6 +509,11 @@
 					DD3410591BBED4FE00638CAC = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = S4Y2T39EMH;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};

@@ -6,6 +6,7 @@
 //  Copyright © 2015 drtyhbo productions. All rights reserved.
 //
 
+import GameKit
 import Metal
 import QuartzCore
 import UIKit
@@ -41,6 +42,13 @@ class ViewController: UIViewController {
         shootingJoypad = sprite.createInstance()
 
         view.multipleTouchEnabled = true
+
+        GKLocalPlayer.localPlayer().authenticateHandler = {
+            viewController, error in
+            if let viewController = viewController {
+                self.presentViewController(viewController, animated: true, completion: nil)
+            }
+        }
     }
 
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
