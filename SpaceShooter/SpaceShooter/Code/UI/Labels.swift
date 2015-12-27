@@ -12,8 +12,6 @@ class Labels {
     let timeRemainingLabel: Label
     let scoreLabel: Label
     let multiplierLabel: Label
-    let sessionHighScoreLabel: Label
-    let allTimeHighScoreLabel: Label
 
     let pausedLabel: Label
 
@@ -32,9 +30,6 @@ class Labels {
 
         multiplierLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width - 20, 35), alignment: [.Right], shouldPulse: true)
         multiplierLabel.color = float3(Constants.Gem.color)
-
-        sessionHighScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width - 20, Float(size.height) - 50), alignment: [.Right])
-        allTimeHighScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width - 20, Float(size.height) - 30), alignment: [.Right])
 
         pausedLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, 10), alignment: [.Center])
         pausedLabel.text = "Paused"
@@ -90,8 +85,6 @@ class Labels {
                 timeRemainingLabel.text = formatTime(gameState.gameTimeRemaining)
                 scoreLabel.text = formatNumber(gameState.score)
                 multiplierLabel.text = "x \(formatNumber(gameState.multiplier))"
-                sessionHighScoreLabel.text = formatNumber(gameState.sessionHighScore)
-                allTimeHighScoreLabel.text = formatNumber(gameState.allTimeHighScore)
         }
     }
 
@@ -99,8 +92,6 @@ class Labels {
         timeRemainingLabel.alpha = alpha
         scoreLabel.alpha = alpha
         multiplierLabel.alpha = alpha
-        sessionHighScoreLabel.alpha = alpha
-        allTimeHighScoreLabel.alpha = alpha
     }
 
     private func setIntroLabelsAlpha(alpha: Float) {
