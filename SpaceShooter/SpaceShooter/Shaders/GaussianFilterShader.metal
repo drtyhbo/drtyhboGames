@@ -39,11 +39,11 @@ fragment float4 gaussianFilterFragment(
         sampler samplr [[ sampler(0) ]],
         texture2d<float, access::sample> texture [[ texture(0) ]]) {
     float4 sum = float4(0);
-    sum += texture.sample(samplr, vert.blurCoordinate0) * 0.204164;
-    sum += texture.sample(samplr, vert.blurCoordinate1) * 0.304005;
-    sum += texture.sample(samplr, vert.blurCoordinate2) * 0.304005;
-    sum += texture.sample(samplr, vert.blurCoordinate3) * 0.093913;
-    sum += texture.sample(samplr, vert.blurCoordinate4) * 0.093913;
+    sum += texture.sample(samplr, vert.blurCoordinate0) * 0.204164 * 1.2;
+    sum += texture.sample(samplr, vert.blurCoordinate1) * 0.304005 * 1.2;
+    sum += texture.sample(samplr, vert.blurCoordinate2) * 0.304005 * 1.2;
+    sum += texture.sample(samplr, vert.blurCoordinate3) * 0.093913 * 1.2;
+    sum += texture.sample(samplr, vert.blurCoordinate4) * 0.093913 * 1.2;
 
     return sum;
 }
