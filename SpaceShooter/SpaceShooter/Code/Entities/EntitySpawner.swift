@@ -21,7 +21,7 @@ class EntitySpawner {
         let timeSinceLastSpawn = GameTimer.sharedTimer.currentTime - lastSpawnTime
 
         let numberOfEnemies = EntityManager.sharedManager.numberOfEnemies
-        if totalEntitiesSpawned >= entitiesToSpawn && numberOfEnemies <= totalEntitiesSpawned / 4 && spawnReadyTime == nil {
+        if totalEntitiesSpawned >= entitiesToSpawn && numberOfEnemies <= totalEntitiesSpawned / 2 && spawnReadyTime == nil {
             spawnReadyTime = GameTimer.sharedTimer.currentTime
         }
 
@@ -29,7 +29,7 @@ class EntitySpawner {
             spawnReadyTime = nil
             entitiesToSpawn = Int(difficulty)
             totalEntitiesSpawned = 0
-            difficulty *= 1.25
+            difficulty *= 1.3
         }
 
         if entitiesToSpawn > totalEntitiesSpawned && timeSinceLastSpawn > 1 {

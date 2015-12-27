@@ -27,7 +27,7 @@ class Constants {
         static let lightIntensity: Float = 5
 
         struct Spawn {
-            static let timeToSpawn: Float = 2
+            static let timeToSpawn: Float = 3
         }
 
         struct Die {
@@ -124,7 +124,7 @@ class Constants {
 
     struct UI {
         static let gamePauseHelperTime: Float = 1
-        static let newHighScoreLabelColor = float3FromRed(4, green: 202, blue: 254)
+        static let highScoreLabelColor = float3FromRed(4, green: 202, blue: 254)
     }
 
     struct World {

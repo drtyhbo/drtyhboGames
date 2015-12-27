@@ -15,8 +15,8 @@ class Labels {
 
     let pausedLabel: Label
 
-    let threeMinutesLabel: Label
-    let getAHighScoreLabel: Label
+    let introLine1: Label
+    let introLine2: Label
 
     let yourScoreLabel: Label
     let finalScoreLabel: Label
@@ -36,13 +36,13 @@ class Labels {
         pausedLabel.fontSize = 30
         pausedLabel.alpha = 0
 
-        threeMinutesLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 - 15), alignment: [.Center, .Middle])
-        threeMinutesLabel.text = "You have 3 minutes"
-        threeMinutesLabel.fontSize = 25
+        introLine1 = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 - 15), alignment: [.Center, .Middle])
+        introLine1.text = "You have 3 minutes"
+        introLine1.fontSize = 25
 
-        getAHighScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 + 15), alignment: [.Center, .Middle])
-        getAHighScoreLabel.text = "Get a high score"
-        getAHighScoreLabel.fontSize = 25
+        introLine2 = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 + 15), alignment: [.Center, .Middle])
+        introLine2.text = "Get a high score"
+        introLine2.fontSize = 25
 
         yourScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 - 15), alignment: [.Center, .Middle])
         yourScoreLabel.text = "Your score"
@@ -58,22 +58,21 @@ class Labels {
     func updateWithGameState(gameState: GameState) {
         switch (gameState.state) {
             case .Intro:
-                setIntroLabelsAlpha(1)
+                setIntroLabelsAlpha(1, score: gameState.allTimeHighScore)
                 setFinalScoreLabelsAlpha(0)
 
             case .FinalScore:
                 setGameLabelsAlpha(0)
                 setFinalScoreLabelsAlpha(min(1, (5 - gameState.timeSinceLastStateChange) / 0.5))
 
-                let isHighScore = gameState.score >= gameState.sessionHighScore
                 if gameState.score >= gameState.allTimeHighScore {
                     yourScoreLabel.text = "New All-Time High Score!"
-                } else if gameState.score >= gameState.sessionHighScore {
-                    yourScoreLabel.text = "New High Score!"
+                    yourScoreLabel.color = Constants.UI.highScoreLabelColor
                 } else {
                     yourScoreLabel.text = "Your Score:"
+                    yourScoreLabel.color = float3(1, 1, 1)
                 }
-                yourScoreLabel.color = isHighScore ? Constants.UI.newHighScoreLabelColor : float3(1, 1, 1)
+
                 finalScoreLabel.text = formatNumber(gameState.score)
 
             default:
@@ -94,9 +93,15 @@ class Labels {
         multiplierLabel.alpha = alpha
     }
 
-    private func setIntroLabelsAlpha(alpha: Float) {
-        threeMinutesLabel.alpha = alpha
-        getAHighScoreLabel.alpha = alpha
+    private func setIntroLabelsAlpha(alpha: Float, score: Int = 0) {
+        introLine1.alpha = alpha
+        introLine2.alpha = alpha
+
+        if score > 0 {
+            introLine1.text = "Beat your previous high score:"
+            introLine2.text = "\(formatNumber(score))"
+            introLine2.color = Constants.UI.highScoreLabelColor
+        }
     }
 
     private func setFinalScoreLabelsAlpha(alpha: Float) {
