@@ -19,10 +19,6 @@ func float4FromRed(red: Float, green: Float, blue: Float) -> float4 {
 class Constants {
     static let numberOfInflightFrames = 3
 
-    struct Game {
-        static let duration: Float = 180
-    }
-
     struct Enemy {
         static let lightIntensity: Float = 5
 

@@ -11,7 +11,6 @@ import GameKit
 
 protocol GameStateDelegate: class {
     func gameStateRespawnPlayer(gameState: GameState)
-    func gameStateGameOver(gameState: GameState)
 }
 
 class GameState {
@@ -36,15 +35,19 @@ class GameState {
             timeOfStateChange = GameTimer.sharedTimer.currentTime
 
             if state == .MainPlayerDestroyed {
-                entitySpawner.makeEasier()
+                allTimeHighScore = max(score, allTimeHighScore)
+
+                if score == allTimeHighScore {
+                    let gkScore = GKScore(leaderboardIdentifier: "com.drtyhbo.SpaceShooter.HighScore")
+                    gkScore.value = Int64(score)
+                    GKScore.reportScores([gkScore], withCompletionHandler: nil)
+                }
+
+                NSUserDefaults.standardUserDefaults().setInteger(allTimeHighScore, forKey: Constants.UserDefaults.maxScoreKey)
             } else if state == .GameOver {
                 entitySpawner.reset()
             }
         }
-    }
-
-    var gameTimeRemaining: Float {
-        return max(0, Constants.Game.duration - gameTimeElapsed)
     }
 
     var gameTimeElapsed: Float {
@@ -90,10 +93,7 @@ class GameState {
                 entitySpawner.maybeSpawn()
 
             case .MainPlayerDestroyed:
-                if timeSinceLastStateChange > 2 {
-                    delegate?.gameStateRespawnPlayer(self)
-                    state = .MainPlayerSpawing
-                }
+                state = .GameOver
 
             case .GameOver:
                 if timeSinceLastStateChange > 2 {
@@ -108,22 +108,6 @@ class GameState {
                     gameStartTime = GameTimer.sharedTimer.currentTime
                     state = .Intro
                 }
-        }
-
-        if gameTimeRemaining <= 0 && state != .GameOver && state != .FinalScore {
-            sessionHighScore = max(score, sessionHighScore)
-            allTimeHighScore = max(score, allTimeHighScore)
-
-            if score == allTimeHighScore {
-                let gkScore = GKScore(leaderboardIdentifier: "com.drtyhbo.SpaceShooter.HighScore")
-                gkScore.value = Int64(score)
-                GKScore.reportScores([gkScore], withCompletionHandler: nil)
-            }
-
-            NSUserDefaults.standardUserDefaults().setInteger(allTimeHighScore, forKey: Constants.UserDefaults.maxScoreKey)
-
-            state = .GameOver
-            delegate?.gameStateGameOver(self)
         }
     }
 

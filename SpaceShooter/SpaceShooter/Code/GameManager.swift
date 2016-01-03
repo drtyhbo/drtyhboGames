@@ -78,7 +78,6 @@ class GameManager {
 
         if let player = player {
             camera.pointToEntity(player)
-            camera.constrainToWorld()
 
             if gameState.state == .FinalScore && player.isAlive {
                 player.die()
@@ -100,14 +99,6 @@ extension GameManager: GameStateDelegate {
             player!.load()
             player!.spawn()
             EntityManager.sharedManager.addEntity(player!)
-        }
-    }
-
-    func gameStateGameOver(gameState: GameState) {
-        for entity in EntityManager.sharedManager.entities {
-            if !(entity is Ship) {
-                entity.die()
-            }
         }
     }
 }

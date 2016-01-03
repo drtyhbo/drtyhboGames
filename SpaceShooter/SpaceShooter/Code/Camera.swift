@@ -46,9 +46,4 @@ class Camera {
         position[0] = entity.position[0]
         position[1] = entity.position[1]
     }
-
-    func constrainToWorld() {
-        position[0] = min(15, max(-15, position[0]))
-        position[1] = min(20, max(-20, position[1]))
-    }
 }

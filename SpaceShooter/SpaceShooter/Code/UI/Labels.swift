@@ -9,49 +9,56 @@
 import Foundation
 
 class Labels {
-    let timeRemainingLabel: Label
     let scoreLabel: Label
     let multiplierLabel: Label
 
     let pausedLabel: Label
 
-    let introLine1: Label
-    let introLine2: Label
+    let getAHighScoreLabel: Label
+    let beatYourHighScoreLabel: Label
+    let highScoreLabel: Label
 
     let yourScoreLabel: Label
     let finalScoreLabel: Label
 
     init() {
         let size = Size(size: UIScreen.mainScreen().bounds.size)
-        timeRemainingLabel = TextManager.sharedManager.createLabelAtPosition(float2(10, 10))
 
-        scoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width - 20, 10), alignment: [.Right], shouldPulse: true)
-        scoreLabel.fontSize = 25
+        scoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, 10), alignment: [.Center], shouldPulse: true)
+        scoreLabel.fontSize = 35
 
-        multiplierLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width - 20, 35), alignment: [.Right], shouldPulse: true)
+        multiplierLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, 50), alignment: [.Center], shouldPulse: true)
         multiplierLabel.color = float3(Constants.Gem.color)
 
-        pausedLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, 10), alignment: [.Center])
+        pausedLabel = TextManager.sharedManager.createLabelAtPosition(float2(10, 10), alignment: [.Left])
         pausedLabel.text = "Paused"
         pausedLabel.fontSize = 30
         pausedLabel.alpha = 0
 
-        introLine1 = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 - 15), alignment: [.Center, .Middle])
-        introLine1.text = "You have 3 minutes"
-        introLine1.fontSize = 25
+        getAHighScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2), alignment: [.Center, .Middle])
+        getAHighScoreLabel.text = "Get a high score"
+        getAHighScoreLabel.fontSize = 35
+        getAHighScoreLabel.color = Constants.UI.highScoreLabelColor
+        getAHighScoreLabel.alpha = 0
 
-        introLine2 = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 + 15), alignment: [.Center, .Middle])
-        introLine2.text = "Get a high score"
-        introLine2.fontSize = 25
+        beatYourHighScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 - 20), alignment: [.Center, .Middle])
+        beatYourHighScoreLabel.text = "Beat your high score:"
+        beatYourHighScoreLabel.fontSize = 25
+        beatYourHighScoreLabel.alpha = 0
 
-        yourScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 - 15), alignment: [.Center, .Middle])
+        highScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 + 20), alignment: [.Center, .Middle])
+        highScoreLabel.fontSize = 35
+        highScoreLabel.color = Constants.UI.highScoreLabelColor
+        highScoreLabel.alpha = 0
+
+        yourScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 - 20), alignment: [.Center, .Middle])
         yourScoreLabel.text = "Your score"
         yourScoreLabel.fontSize = 25
         yourScoreLabel.alpha = 0
 
-        finalScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 + 15), alignment: [.Center, .Middle])
+        finalScoreLabel = TextManager.sharedManager.createLabelAtPosition(float2(size.width / 2, size.height / 2 + 20), alignment: [.Center, .Middle])
         finalScoreLabel.text = "0"
-        finalScoreLabel.fontSize = 25
+        finalScoreLabel.fontSize = 35
         finalScoreLabel.alpha = 0
     }
 
@@ -66,11 +73,11 @@ class Labels {
                 setFinalScoreLabelsAlpha(min(1, (5 - gameState.timeSinceLastStateChange) / 0.5))
 
                 if gameState.score >= gameState.allTimeHighScore {
-                    yourScoreLabel.text = "New All-Time High Score!"
-                    yourScoreLabel.color = Constants.UI.highScoreLabelColor
+                    yourScoreLabel.text = "New High Score:"
+                    finalScoreLabel.color = Constants.UI.highScoreLabelColor
                 } else {
                     yourScoreLabel.text = "Your Score:"
-                    yourScoreLabel.color = float3(1, 1, 1)
+                    finalScoreLabel.color = float3(1, 1, 1)
                 }
 
                 finalScoreLabel.text = formatNumber(gameState.score)
@@ -81,26 +88,23 @@ class Labels {
                 setIntroLabelsAlpha(0)
                 setFinalScoreLabelsAlpha(0)
 
-                timeRemainingLabel.text = formatTime(gameState.gameTimeRemaining)
                 scoreLabel.text = formatNumber(gameState.score)
-                multiplierLabel.text = "x \(formatNumber(gameState.multiplier))"
+                multiplierLabel.text = "x\(formatNumber(gameState.multiplier))"
         }
     }
 
     private func setGameLabelsAlpha(alpha: Float) {
-        timeRemainingLabel.alpha = alpha
         scoreLabel.alpha = alpha
         multiplierLabel.alpha = alpha
     }
 
     private func setIntroLabelsAlpha(alpha: Float, score: Int = 0) {
-        introLine1.alpha = alpha
-        introLine2.alpha = alpha
+        getAHighScoreLabel.alpha = alpha > 0 ? (score > 0 ? 0 : alpha) : 0
+        beatYourHighScoreLabel.alpha = alpha > 0 ? (score > 0 ? alpha : 0) : 0
+        highScoreLabel.alpha = alpha > 0 ? (score > 0 ? alpha : 0) : 0
 
         if score > 0 {
-            introLine1.text = "Beat your previous high score:"
-            introLine2.text = "\(formatNumber(score))"
-            introLine2.color = Constants.UI.highScoreLabelColor
+            highScoreLabel.text = "\(formatNumber(score))"
         }
     }
 
