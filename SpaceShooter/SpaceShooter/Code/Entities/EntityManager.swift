@@ -42,24 +42,26 @@ class EntityManager {
 
     func updateWithDelta(delta: Float) {
         for (name, var entities) in entitiesByName {
-            for var i = entities.count - 1; i >= 0; i-- {
-                let entity = entities[i]
+          if entities.count > 0 {
+            for i in (0...entities.count-1).reversed() {
+                  let entity = entities[i]
 
-                if !(entity is Gem) && !(entity is Gravity) && entity.state == .Alive {
-                    entity.position += PhysicsManager.sharedManager.calculateForcesAtPosition(entity.position) * delta
-                }
+                  if !(entity is Gem) && !(entity is Gravity) && entity.state == .Alive {
+                    entity.position += PhysicsManager.sharedManager.calculateForcesAtPosition(position: entity.position) * delta
+                  }
 
-                entity.updateWithDelta(delta)
-                if entity.state == .Dead {
-                    entities.removeAtIndex(i)
-                }
-            }
-            entitiesByName[name] = entities
-        }
+              entity.updateWithDelta(delta: delta)
+                  if entity.state == .Dead {
+                    entities.remove(at: i)
+                  }
+              }
+              entitiesByName[name] = entities
+          }
+      }
     }
 
     func hasEntityWithName(name: String) -> Bool {
-        return entitiesByName[name]?.count > 0
+      return entitiesByName[name]!.count > 0
     }
 
     func destroyEnemiesAroundPosition(position: float3, withRadius radius: Float) {

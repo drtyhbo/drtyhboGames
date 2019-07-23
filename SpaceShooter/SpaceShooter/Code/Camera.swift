@@ -24,21 +24,21 @@ class Camera {
     var position: float3 = float3(0, 0, 100)
 
     var projectionMatrix: Matrix4 {
-        let bounds = UIScreen.mainScreen().bounds
+      let bounds = UIScreen.main.bounds
         return Matrix4.makePerspectiveViewAngle(viewAngle, aspectRatio: Float(bounds.size.width / bounds.size.height), nearZ: nearZ, farZ: farZ)
     }
 
     var worldMatrix: Matrix4 {
         let worldMatrix = Matrix4()
-        worldMatrix.translate(-position[0], y: -position[1], z: -position[2])
-        return worldMatrix
+      worldMatrix!.translate(-position[0], y: -position[1], z: -position[2])
+      return worldMatrix!
     }
 
     var cameraUniforms: CameraUniforms {
         return CameraUniforms(projectionMatrix: projectionMatrix, worldMatrix: worldMatrix)
     }
 
-    private let viewAngle = Matrix4.degreesToRad(35)
+  private let viewAngle = Matrix4.degrees(toRad: 35)
     private let nearZ: Float = 0.01
     private let farZ: Float = 1000
 

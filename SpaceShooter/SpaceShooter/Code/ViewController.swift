@@ -33,44 +33,44 @@ class ViewController: UIViewController {
         
         setupMetal()
 
-        displayLink = UIScreen.mainScreen().displayLinkWithTarget(self, selector: "nextFrame:")
+      displayLink = UIScreen.main.displayLink(withTarget: self, selector: #selector(self.nextFrame(displayLink:)))
         displayLink.frameInterval = 1
-        displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
+      displayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.default)
 
-        let sprite = SpriteManager.sharedManager.createSpriteWithSize(float2(100, 100))
+      let sprite = SpriteManager.sharedManager.createSpriteWithSize(size: float2(100, 100))
         movementJoypad = sprite.createInstance()
         shootingJoypad = sprite.createInstance()
 
-        view.multipleTouchEnabled = true
+      view.isMultipleTouchEnabled = true
 
-        GKLocalPlayer.localPlayer().authenticateHandler = {
+      GKLocalPlayer.local.authenticateHandler = {
             viewController, error in
             if let viewController = viewController {
-                self.presentViewController(viewController, animated: true, completion: nil)
+              self.present(viewController, animated: true, completion: nil)
             }
         }
     }
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
-        touchHandler.touchesBegan(touches)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+      super.touchesBegan(touches, with: event)
+      touchHandler.touchesBegan(touches: touches)
     }
 
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesMoved(touches, withEvent: event)
-        touchHandler.touchesMoved(touches)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+      super.touchesMoved(touches, with: event)
+      touchHandler.touchesMoved(touches: touches)
     }
 
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        super.touchesCancelled(touches, withEvent: event)
+    override func touchesCancelled(_ touches: Set<UITouch>?, with event: UIEvent?) {
+      super.touchesCancelled(touches!, with: event)
         if let touches = touches {
-            touchHandler.touchesEnded(touches)
+          touchHandler.touchesEnded(touches: touches)
         }
     }
 
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
-        touchHandler.touchesEnded(touches)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+      super.touchesEnded(touches, with: event)
+      touchHandler.touchesEnded(touches: touches)
     }
 
     private func setupMetal() {
@@ -83,14 +83,14 @@ class ViewController: UIViewController {
         metalLayer.frame = view.layer.frame
         view.layer.addSublayer(metalLayer)
 
-        GameManager.sharedManager.setupWithDevice(device, renderManager: RenderManager(device: device, metalLayer: metalLayer))
+      GameManager.sharedManager.setupWithDevice(device: device, renderManager: RenderManager(device: device, metalLayer: metalLayer))
     }
     
     @objc private func nextFrame(displayLink: CADisplayLink) {
         let isPaused = touchHandler.numTouches == 0 && EntityManager.sharedManager.numberOfEnemies > 0
-        handlePause(isPaused)
+      handlePause(isPaused: isPaused)
 
-        GameManager.sharedManager.nextFrameWithTimestamp(displayLink.timestamp)
+      GameManager.sharedManager.nextFrameWithTimestamp(timestamp: displayLink.timestamp)
     }
 
     private func handlePause(isPaused: Bool) {
@@ -106,9 +106,9 @@ class ViewController: UIViewController {
         }
 
         if let pauseDate = pauseDate {
-            let timeSincePause = Float(NSDate().timeIntervalSinceDate(pauseDate))
+          let timeSincePause = Float(NSDate().timeIntervalSince(pauseDate as Date))
             if timeSincePause > Constants.UI.gamePauseHelperTime {
-                let screenSize = float2(Float(UIScreen.mainScreen().bounds.width), Float(UIScreen.mainScreen().bounds.height))
+              let screenSize = float2(Float(UIScreen.main.bounds.width), Float(UIScreen.main.bounds.height))
                 movementJoypad.position = float2(20, screenSize[1] - 20 - movementJoypad.size[1])
                 shootingJoypad.position = float2(screenSize[0] - 20 - movementJoypad.size[0], screenSize[1] - 20 - movementJoypad.size[1])
 
@@ -126,7 +126,7 @@ class ViewController: UIViewController {
     }
 
     private func showJoypadForTouchType(touchType: TouchHandler.TouchType, atLocation location: float2) {
-        let joypadSpriteInstance = getJoypadSpriteInstanceFromTouchType(touchType)
+      let joypadSpriteInstance = getJoypadSpriteInstanceFromTouchType(touchType: touchType)
         joypadSpriteInstance.position = location - (joypadSpriteInstance.size * 0.5)
         joypadSpriteInstance.alpha = 1
     }
@@ -134,18 +134,18 @@ class ViewController: UIViewController {
 
 extension ViewController: TouchHandlerDelegate {
     func touchHandler(touchHandler: TouchHandler, didBeginTouchWithLocation location: float2, forTouchType touchType: TouchHandler.TouchType) {
-        showJoypadForTouchType(touchType, atLocation: location)
+      showJoypadForTouchType(touchType: touchType, atLocation: location)
     }
 
     func touchHandler(touchHandler: TouchHandler, didMoveWithLocation location: float2, direction: float2, forTouchType touchType: TouchHandler.TouchType) {
         if let player = GameManager.sharedManager.player {
             if touchType == .Movement {
-                player.setVelocity(float3(direction, 0))
+              player.setVelocity(velocity: float3(direction, 0))
             } else {
-                player.setShootingDirection(float3(direction, 0))
+              player.setShootingDirection(shootingDirection: float3(direction, 0))
             }
 
-            showJoypadForTouchType(touchType, atLocation: location)
+          showJoypadForTouchType(touchType: touchType, atLocation: location)
         }
     }
 
@@ -157,7 +157,7 @@ extension ViewController: TouchHandlerDelegate {
                 player.stopShooting()
             }
 
-            getJoypadSpriteInstanceFromTouchType(touchType).alpha = 0
+          getJoypadSpriteInstanceFromTouchType(touchType: touchType).alpha = 0
         }
     }
 }

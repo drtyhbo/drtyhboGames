@@ -14,7 +14,7 @@ class Gravity: Enemy {
     }
 
     override var scale: vector_float3 {
-        return float3(max(1, Float(health) / 5))
+      return float3(repeating: max(1, Float(health) / 5))
     }
 
     private var force: PhysicsManager.Force?
@@ -30,31 +30,31 @@ class Gravity: Enemy {
     }
 
     override func updateWithDelta(delta: Float) {
-        super.updateWithDelta(delta)
+      super.updateWithDelta(delta: delta)
 
         if isActive && force == nil {
             force = PhysicsManager.Force(type: .Attractive, strength: Constants.Gravity.gravityForce, position: position)
-            PhysicsManager.sharedManager.setForce(force!)
+          PhysicsManager.sharedManager.setForce(force: force!)
         }
 
         let explosiveForce = state == .Alive ? min(1, Float(timeSinceLastState) / 2) * 25 : 0
-        GridManager.sharedManager.grid.applyExplosiveForce(explosiveForce, atPosition: position, withRadius: 10)
+      GridManager.sharedManager.grid.applyExplosiveForce(force: explosiveForce, atPosition: position, withRadius: 10)
     }
 
     override func die() {
         super.die()
 
         PhysicsManager.sharedManager.removeForce()
-        GridManager.sharedManager.grid.applyExplosiveForce(Constants.Gravity.Die.gravityForce, atPosition: position, withRadius: Constants.Gravity.Die.gravityRadius)
+      GridManager.sharedManager.grid.applyExplosiveForce(force: Constants.Gravity.Die.gravityForce, atPosition: position, withRadius: Constants.Gravity.Die.gravityRadius)
 
-        EntityManager.sharedManager.destroyEnemiesAroundPosition(position, withRadius: Constants.Gravity.Die.gravityRadius)
+      EntityManager.sharedManager.destroyEnemiesAroundPosition(position: position, withRadius: Constants.Gravity.Die.gravityRadius)
     }
 
     override func damage() {
         super.damage()
 
         if GameTimer.sharedTimer.currentTime - lastEmissionTime > 0.25 {
-            ParticleManager.sharedManager.createExplosionAroundPosition(position, particleCount: Constants.Gravity.Damage.particleCount, color: float3(color[0], color[1], color[2]), speed: Constants.Gravity.Damage.particleSpeed)
+          ParticleManager.sharedManager.createExplosionAroundPosition(position: position, particleCount: Constants.Gravity.Damage.particleCount, color: float3(color[0], color[1], color[2]), speed: Constants.Gravity.Damage.particleSpeed)
             lastEmissionTime = GameTimer.sharedTimer.currentTime
         }
     }
@@ -65,7 +65,7 @@ class Gravity: Enemy {
         enemy.die()
 
         if health < Constants.Gravity.health * 2 {
-            giveHealth(0.5)
+          giveHealth(health: 0.5)
         }
     }
 }

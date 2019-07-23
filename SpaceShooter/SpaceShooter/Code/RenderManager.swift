@@ -8,9 +8,11 @@
 
 import Foundation
 import MetalPerformanceShaders
+import Metal
+import QuartzCore
 
 class RenderManager {
-    private let inflightSemaphore = dispatch_semaphore_create(Constants.numberOfInflightFrames)
+  private let inflightSemaphore = DispatchSemaphore(value: Constants.numberOfInflightFrames)
     private let commandQueue: MTLCommandQueue
     private let device: MTLDevice
     private let metalLayer: CAMetalLayer
@@ -35,7 +37,7 @@ class RenderManager {
         self.device = device
         self.metalLayer = metalLayer
 
-        commandQueue = device.newCommandQueue()
+      commandQueue = device.makeCommandQueue()!
 
         cameraUniformsBufferQueue = BufferQueue(device: device, length: CameraUniforms.size)
 
@@ -52,64 +54,66 @@ class RenderManager {
     }
 
     func beginFrame() {
-        dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER)
-
+      inflightSemaphore.wait(timeout: .distantFuture)
+      
         drawable = metalLayer.nextDrawable()
         if drawable == nil {
             return
         }
 
-        commandBuffer = commandQueue.commandBuffer()
+      commandBuffer = commandQueue.makeCommandBuffer()
         commandBuffer.addCompletedHandler{ [weak self] commandBuffer in
             if let strongSelf = self {
-                dispatch_semaphore_signal(strongSelf.inflightSemaphore)
+              strongSelf.inflightSemaphore.signal()
             }
             return
         }
     }
 
     func endFrame() {
-        commandBuffer.presentDrawable(drawable)
+      commandBuffer.present(drawable)
         commandBuffer.commit()
     }
 
     func renderScene(scene: Scene) {
         let cameraUniforms = scene.camera.cameraUniforms
         let cameraUniformsBuffer = cameraUniformsBufferQueue.nextBuffer
-        cameraUniformsBuffer.copyData(cameraUniforms.projectionMatrix.raw(), size: Matrix4.size())
-        cameraUniformsBuffer.copyData(cameraUniforms.worldMatrix.raw(), size: Matrix4.size())
-        scene.cameraUniformsBuffer = cameraUniformsBuffer
+      
+      cameraUniformsBuffer.copyData(data: cameraUniforms.projectionMatrix.raw(), size: Matrix4.size())
+      cameraUniformsBuffer.copyData(data: cameraUniforms.worldMatrix.raw(), size: Matrix4.size())
+      scene.cameraUniformsBuffer = cameraUniformsBuffer
 
-        let textureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(MTLPixelFormat.BGRA8Unorm, width: drawable.texture.width, height: drawable.texture.height, mipmapped: false)
-        let outputTexture = device.newTextureWithDescriptor(textureDescriptor)
-        clearTexture(drawable.texture)
+      let textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: MTLPixelFormat.bgra8Unorm, width: drawable.texture.width, height: drawable.texture.height, mipmapped: false)
+      textureDescriptor.usage = [.renderTarget,.shaderRead]
+      let outputTexture = device.makeTexture(descriptor: textureDescriptor)
+      clearTexture(texture: drawable.texture)
 
-        gridRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
-        entityRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
-        particleRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
+      gridRenderer.renderScene(scene: scene, toCommandBuffer: commandBuffer, outputTexture: outputTexture!)
+      entityRenderer.renderScene(scene: scene, toCommandBuffer: commandBuffer, outputTexture: outputTexture!)
+      particleRenderer.renderScene(scene: scene, toCommandBuffer: commandBuffer, outputTexture: outputTexture!)
 
-        applyBloomFilterToTexture(outputTexture, outputTexture: drawable.texture, commandBuffer: commandBuffer)
+      applyBloomFilterToTexture(texture: outputTexture!, outputTexture: drawable.texture, commandBuffer: commandBuffer)
 
-        textRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
-        spriteRenderer.renderScene(scene, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
+      textRenderer.renderScene(scene: scene, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
+      spriteRenderer.renderScene(scene: scene, toCommandBuffer: commandBuffer, outputTexture: drawable.texture)
     }
 
     private func clearTexture(texture: MTLTexture) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = texture
-        renderPassDescriptor.colorAttachments[0].loadAction = .Clear
+      renderPassDescriptor.colorAttachments[0].loadAction = .clear
         renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 0)
-        renderPassDescriptor.colorAttachments[0].storeAction = .Store
+      renderPassDescriptor.colorAttachments[0].storeAction = .store
 
-        let commandEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)
-        commandEncoder.endEncoding()
+      let commandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
+      commandEncoder!.endEncoding()
     }
 
     private func applyBloomFilterToTexture(texture: MTLTexture, outputTexture: MTLTexture, commandBuffer: MTLCommandBuffer) {
-        let highPassTexture = highPassFilter.renderToCommandEncoder(commandBuffer, inputTexture: texture)
-        let gaussianTexture = gaussianFilter.renderToCommandEncoder(commandBuffer, inputTexture: highPassTexture)
+      let highPassTexture = highPassFilter.renderToCommandEncoder(commandBuffer: commandBuffer, inputTexture: texture)
+      let gaussianTexture = gaussianFilter.renderToCommandEncoder(commandBuffer: commandBuffer, inputTexture: highPassTexture)
 
-        gaussianBlendFilter.renderToCommandEncoder(commandBuffer, inputTexture: gaussianTexture, outputTexture: texture)
-        bloomBlendFilter.renderToCommandEncoder(commandBuffer, inputTexture: texture, outputTexture: outputTexture)
+      gaussianBlendFilter.renderToCommandEncoder(commandBuffer: commandBuffer, inputTexture: gaussianTexture, outputTexture: texture)
+      bloomBlendFilter.renderToCommandEncoder(commandBuffer: commandBuffer, inputTexture: texture, outputTexture: outputTexture)
     }
 }

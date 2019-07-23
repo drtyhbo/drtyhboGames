@@ -23,17 +23,17 @@ class BlendFilter: FilterRenderer {
     }
 
     override func customizeRenderPassDescriptor(renderPassDescriptor: MTLRenderPassDescriptor) {
-        renderPassDescriptor.colorAttachments[0].loadAction = .Load
+      renderPassDescriptor.colorAttachments[0].loadAction = .load
     }
 
     override func customizePipelineDescriptor(pipelineDescriptor: MTLRenderPipelineDescriptor) {
-        pipelineDescriptor.colorAttachments[0].blendingEnabled = true
-        pipelineDescriptor.colorAttachments[0].writeMask = .All
-        pipelineDescriptor.colorAttachments[0].sourceRGBBlendFactor = .SourceAlpha
-        pipelineDescriptor.colorAttachments[0].destinationRGBBlendFactor = blendType == .Default ? .OneMinusSourceAlpha : .DestinationAlpha
-        pipelineDescriptor.colorAttachments[0].rgbBlendOperation = .Add
-        pipelineDescriptor.colorAttachments[0].sourceAlphaBlendFactor = .SourceAlpha
-        pipelineDescriptor.colorAttachments[0].destinationAlphaBlendFactor = blendType == .Default ? .OneMinusSourceAlpha : .DestinationAlpha
-        pipelineDescriptor.colorAttachments[0].alphaBlendOperation = .Add
+      pipelineDescriptor.colorAttachments[0].isBlendingEnabled = true
+      pipelineDescriptor.colorAttachments[0].writeMask = .all
+      pipelineDescriptor.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
+      pipelineDescriptor.colorAttachments[0].destinationRGBBlendFactor = blendType == .Default ? .oneMinusSourceAlpha : .destinationAlpha
+      pipelineDescriptor.colorAttachments[0].rgbBlendOperation = .add
+      pipelineDescriptor.colorAttachments[0].sourceAlphaBlendFactor = .sourceAlpha
+      pipelineDescriptor.colorAttachments[0].destinationAlphaBlendFactor = blendType == .Default ? .oneMinusSourceAlpha : .destinationAlpha
+      pipelineDescriptor.colorAttachments[0].alphaBlendOperation = .add
     }
 }

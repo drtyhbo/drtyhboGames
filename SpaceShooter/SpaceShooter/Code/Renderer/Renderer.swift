@@ -24,20 +24,20 @@ class Renderer {
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
         pipelineDescriptor.vertexFunction = vertexFunction
         pipelineDescriptor.fragmentFunction = fragmentFunction
-        pipelineDescriptor.colorAttachments[0].pixelFormat = .BGRA8Unorm
+      pipelineDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
         if alphaBlending {
-            pipelineDescriptor.colorAttachments[0].blendingEnabled = true
-            pipelineDescriptor.colorAttachments[0].writeMask = .All
-            pipelineDescriptor.colorAttachments[0].sourceRGBBlendFactor = .SourceAlpha
-            pipelineDescriptor.colorAttachments[0].destinationRGBBlendFactor = .OneMinusSourceAlpha
-            pipelineDescriptor.colorAttachments[0].rgbBlendOperation = .Add
-            pipelineDescriptor.colorAttachments[0].sourceAlphaBlendFactor = .SourceAlpha
-            pipelineDescriptor.colorAttachments[0].destinationAlphaBlendFactor = .OneMinusSourceAlpha
-            pipelineDescriptor.colorAttachments[0].alphaBlendOperation = .Add
+          pipelineDescriptor.colorAttachments[0].isBlendingEnabled = true
+          pipelineDescriptor.colorAttachments[0].writeMask = .all
+          pipelineDescriptor.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
+          pipelineDescriptor.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
+          pipelineDescriptor.colorAttachments[0].rgbBlendOperation = .add
+          pipelineDescriptor.colorAttachments[0].sourceAlphaBlendFactor = .sourceAlpha
+          pipelineDescriptor.colorAttachments[0].destinationAlphaBlendFactor = .oneMinusSourceAlpha
+          pipelineDescriptor.colorAttachments[0].alphaBlendOperation = .add
         }
         pipelineDescriptor.vertexDescriptor = vertexDescriptor
 
-        customizePipelineDescriptor(pipelineDescriptor)
+      customizePipelineDescriptor(pipelineDescriptor: pipelineDescriptor)
 
         return pipelineDescriptor
     }

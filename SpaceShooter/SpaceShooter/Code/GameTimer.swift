@@ -12,7 +12,7 @@ class GameTimer {
     static let sharedTimer = GameTimer()
 
     var currentTime: Float {
-        return lastStoredTime + (isPaused ? 0 : Float(NSDate().timeIntervalSinceDate(lastUpdatedDate)))
+      return lastStoredTime + (isPaused ? 0 : Float(NSDate().timeIntervalSince(lastUpdatedDate as Date)))
     }
 
     private var isPaused = false
@@ -21,7 +21,7 @@ class GameTimer {
 
     func pause(shouldPause: Bool) {
         if shouldPause {
-            lastStoredTime += Float(NSDate().timeIntervalSinceDate(lastUpdatedDate))
+          lastStoredTime += Float(NSDate().timeIntervalSince(lastUpdatedDate as Date))
             isPaused = true
         } else {
             lastUpdatedDate = NSDate()

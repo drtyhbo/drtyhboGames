@@ -40,7 +40,7 @@ func max(first: float3, _ second: float3) -> float3 {
 }
 
 extension float4 {
-    static let size = sizeof(Float) * 4
+    static let size = MemoryLayout<Float>.size * 4
 
     init(_ xyz: float3, _ w: Float) {
         self.init(x: xyz.x, y: xyz.y, z: xyz.z, w: w)
@@ -52,7 +52,7 @@ extension float4 {
 }
 
 struct Vertex {
-    static let size = sizeof(Float) * 6
+    static let size = MemoryLayout<Float>.size * 6
 
     var position: float3
     var normal: float3
@@ -63,16 +63,16 @@ struct Vertex {
 
     static func vertexDescriptor() -> MTLVertexDescriptor {
         let vertexDescriptor = MTLVertexDescriptor()
-        vertexDescriptor.attributes[0].format = .Float3
+      vertexDescriptor.attributes[0].format = .float3
         vertexDescriptor.attributes[0].bufferIndex = 0
         vertexDescriptor.attributes[0].offset = 0
 
-        vertexDescriptor.attributes[1].format = .Float3
+      vertexDescriptor.attributes[1].format = .float3
         vertexDescriptor.attributes[1].bufferIndex = 0
-        vertexDescriptor.attributes[1].offset = 3 * sizeof(Float)
+        vertexDescriptor.attributes[1].offset = 3 * MemoryLayout<Float>.size
 
-        vertexDescriptor.layouts[0].stride = sizeof(Float) * 6
-        vertexDescriptor.layouts[0].stepFunction = .PerVertex
+        vertexDescriptor.layouts[0].stride = MemoryLayout<Float>.size * 6
+      vertexDescriptor.layouts[0].stepFunction = .perVertex
 
         return vertexDescriptor
     }

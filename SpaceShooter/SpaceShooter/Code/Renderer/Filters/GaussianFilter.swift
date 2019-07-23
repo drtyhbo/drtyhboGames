@@ -21,7 +21,7 @@ private class DirectionalBlurFilter: FilterRenderer {
 
     init(device: MTLDevice, commandQueue: MTLCommandQueue, direction: BlurDirection) {
         self.direction = direction
-        offsetsBufferQueue = BufferQueue(device: device, length: sizeof(Float) * 2)
+        offsetsBufferQueue = BufferQueue(device: device, length: MemoryLayout<Float>.size * 2)
 
         super.init(device: device, commandQueue: commandQueue, vertexFunction: "gaussianFilterVertex", fragmentFunction: "gaussianFilterFragment", alphaBlending: false)
     }
@@ -30,9 +30,9 @@ private class DirectionalBlurFilter: FilterRenderer {
 
     override func customizeCommandEncoder(commandEncoder: MTLRenderCommandEncoder, inputTexture: MTLTexture) {
         let offsetsBuffer = offsetsBufferQueue.nextBuffer
-        offsetsBuffer.copyData((direction == .Horizontal ? [1.0 / Float(inputTexture.width), 0] : [0, 1.0 / Float(inputTexture.height)]) as [Float], size: sizeof(Float) * 2)
+      offsetsBuffer.copyData(data: (direction == .Horizontal ? [1.0 / Float(inputTexture.width), 0] : [0, 1.0 / Float(inputTexture.height)]) as [Float], size: MemoryLayout<Float>.size * 2)
 
-        commandEncoder.setVertexBuffer(offsetsBuffer.buffer, offset: 0, atIndex: 2)
+      commandEncoder.setVertexBuffer(offsetsBuffer.buffer, offset: 0, index: 2)
     }
 }
 
@@ -52,7 +52,7 @@ class GaussianFilter: MultipassFilterRenderer {
     // MARK: Overrides
 
     override func renderToCommandEncoder(commandBuffer: MTLCommandBuffer, inputTexture: MTLTexture) -> MTLTexture {
-        let horizontalBlurTexture = horizontalBlurFilter.renderToCommandEncoder(commandBuffer, inputTexture: inputTexture)
-        return verticalBlurFilter.renderToCommandEncoder(commandBuffer, inputTexture: horizontalBlurTexture)
+      let horizontalBlurTexture = horizontalBlurFilter.renderToCommandEncoder(commandBuffer: commandBuffer, inputTexture: inputTexture)
+      return verticalBlurFilter.renderToCommandEncoder(commandBuffer: commandBuffer, inputTexture: horizontalBlurTexture)
     }
 }

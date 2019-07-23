@@ -3,6 +3,8 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '9.0'
 inhibit_all_warnings!
 
-xcodeproj ‘SpaceShooter’
+project ‘SpaceShooter’
 
-pod 'RegExCategories', '~> 1.0'
+target 'SpaceShooter' do
+  pod 'RegExCategories', '~> 1.0'
+end

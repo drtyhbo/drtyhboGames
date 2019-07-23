@@ -16,7 +16,7 @@ class Buffer {
         self.buffer = buffer
     }
 
-    func copyData(data: UnsafePointer<Void>, size: Int) {
+    func copyData(data: UnsafeRawPointer, size: Int) {
         if currentOffset + size > buffer.length {
             fatalError("copyData exceeds buffer length.")
         }
@@ -44,7 +44,7 @@ class BufferQueue {
 
     init(device: MTLDevice, length: Int) {
         for _ in 0..<Constants.numberOfInflightFrames {
-            buffers.append(Buffer(buffer: device.newBufferWithLength(length, options: MTLResourceOptions(rawValue: 0))))
+          buffers.append(Buffer(buffer: device.makeBuffer(length: length, options: MTLResourceOptions(rawValue: 0))!))
         }
     }
 }

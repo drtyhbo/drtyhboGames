@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		374C72F98A964A493092E6D7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CBEB218B9767EBFAEE993A4B /* libPods.a */; };
+		84F0EA33618B15FCC1120A44 /* libPods-SpaceShooter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 808E390C7808E38DDEF8E13E /* libPods-SpaceShooter.a */; };
 		9003E3C91BFA3145001E3D33 /* Gem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9003E3C81BFA3145001E3D33 /* Gem.swift */; };
 		9003E3CB1BFA3465001E3D33 /* CollisionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9003E3CA1BFA3465001E3D33 /* CollisionManager.swift */; };
 		9003E3CD1BFA3836001E3D33 /* gem.obj in Resources */ = {isa = PBXBuildFile; fileRef = 9003E3CC1BFA3836001E3D33 /* gem.obj */; };
@@ -89,7 +89,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		67F922FF32923BB5D444C69A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		01E86B0548FAF33A78CA0CCF /* Pods-SpaceShooter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpaceShooter.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpaceShooter/Pods-SpaceShooter.release.xcconfig"; sourceTree = "<group>"; };
+		808E390C7808E38DDEF8E13E /* libPods-SpaceShooter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SpaceShooter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9003E3C81BFA3145001E3D33 /* Gem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gem.swift; sourceTree = "<group>"; };
 		9003E3CA1BFA3465001E3D33 /* CollisionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollisionManager.swift; path = SpaceShooter/Code/CollisionManager.swift; sourceTree = SOURCE_ROOT; };
 		9003E3CC1BFA3836001E3D33 /* gem.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = gem.obj; path = SpaceShooter/Resources/Models/gem.obj; sourceTree = SOURCE_ROOT; };
@@ -177,9 +178,8 @@
 		90A1ED581C013B9A0057DE0F /* GameTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameTimer.swift; path = SpaceShooter/Code/GameTimer.swift; sourceTree = SOURCE_ROOT; };
 		90BFE7EE1C2A600F00F1545A /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		90C3A5031C0CBFDD00F4A5DD /* LightManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LightManager.swift; path = SpaceShooter/Code/LightManager.swift; sourceTree = SOURCE_ROOT; };
-		CBEB218B9767EBFAEE993A4B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB07C6EB3D0893BC446621F4 /* Pods-SpaceShooter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpaceShooter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpaceShooter/Pods-SpaceShooter.debug.xcconfig"; sourceTree = "<group>"; };
 		DD34105A1BBED4FE00638CAC /* Galaxy Blast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Galaxy Blast.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FBD7D7931B909184E586AF86 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,10 +187,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				374C72F98A964A493092E6D7 /* libPods.a in Frameworks */,
 				901110981C16929200914FB9 /* Crashlytics.framework in Frameworks */,
 				901110971C16929200914FB9 /* Fabric.framework in Frameworks */,
 				90BFE7EF1C2A600F00F1545A /* GameKit.framework in Frameworks */,
+				84F0EA33618B15FCC1120A44 /* libPods-SpaceShooter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,11 +424,11 @@
 			path = Matrix;
 			sourceTree = "<group>";
 		};
-		A66A83788AB05B57EFF115FF /* Pods */ = {
+		BAAF211A4A510F4D6DE86890 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FBD7D7931B909184E586AF86 /* Pods.debug.xcconfig */,
-				67F922FF32923BB5D444C69A /* Pods.release.xcconfig */,
+				BB07C6EB3D0893BC446621F4 /* Pods-SpaceShooter.debug.xcconfig */,
+				01E86B0548FAF33A78CA0CCF /* Pods-SpaceShooter.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -439,7 +439,7 @@
 				90BFE7EE1C2A600F00F1545A /* GameKit.framework */,
 				901110951C16929200914FB9 /* Fabric.framework */,
 				901110961C16929200914FB9 /* Crashlytics.framework */,
-				CBEB218B9767EBFAEE993A4B /* libPods.a */,
+				808E390C7808E38DDEF8E13E /* libPods-SpaceShooter.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -449,8 +449,8 @@
 			children = (
 				DD34105C1BBED4FE00638CAC /* SpaceShooter */,
 				DD34105B1BBED4FE00638CAC /* Products */,
-				A66A83788AB05B57EFF115FF /* Pods */,
 				DB6EC20ED62BBCC6840155CE /* Frameworks */,
+				BAAF211A4A510F4D6DE86890 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -481,11 +481,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD34106C1BBED4FE00638CAC /* Build configuration list for PBXNativeTarget "SpaceShooter" */;
 			buildPhases = (
-				C58E2D106304C30AA46B63D0 /* Check Pods Manifest.lock */,
+				D6AF06FC043A1B4F2A4BF191 /* [CP] Check Pods Manifest.lock */,
 				DD3410561BBED4FE00638CAC /* Sources */,
 				DD3410571BBED4FE00638CAC /* Frameworks */,
 				DD3410581BBED4FE00638CAC /* Resources */,
-				695D638FF05097C20A862787 /* Copy Pods Resources */,
 				901110941C16925700914FB9 /* ShellScript */,
 			);
 			buildRules = (
@@ -508,7 +507,7 @@
 				TargetAttributes = {
 					DD3410591BBED4FE00638CAC = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = S4Y2T39EMH;
+						DevelopmentTeam = CGP2H2AE4D;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 1;
@@ -522,6 +521,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -557,21 +557,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		695D638FF05097C20A862787 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		901110941C16925700914FB9 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -585,19 +570,26 @@
 			shellPath = /bin/sh;
 			shellScript = "./Fabric.framework/run e674e45d375a2920c9126d7b8369bf49af69be42 913b49b9701fe57c9ec79e76e0c2855e338f795c6063304ac5ea32725d4103d8";
 		};
-		C58E2D106304C30AA46B63D0 /* Check Pods Manifest.lock */ = {
+		D6AF06FC043A1B4F2A4BF191 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SpaceShooter-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -737,6 +729,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -774,6 +767,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -781,12 +775,13 @@
 		};
 		DD34106D1BBED4FE00638CAC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FBD7D7931B909184E586AF86 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = BB07C6EB3D0893BC446621F4 /* Pods-SpaceShooter.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = CGP2H2AE4D;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -811,11 +806,12 @@
 		};
 		DD34106E1BBED4FE00638CAC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 67F922FF32923BB5D444C69A /* Pods.release.xcconfig */;
+			baseConfigurationReference = 01E86B0548FAF33A78CA0CCF /* Pods-SpaceShooter.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = CGP2H2AE4D;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

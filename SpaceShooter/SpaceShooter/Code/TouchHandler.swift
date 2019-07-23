@@ -41,14 +41,14 @@ class TouchHandler {
 
     func touchesBegan(touches: Set<UITouch>) {
         for touch in touches {
-            let location = locationFromTouch(touch)
-            let touchType = touchTypeFromLocation(location)
+          let location = locationFromTouch(touch: touch)
+          let touchType = touchTypeFromLocation(location: location)
             if touchesByType[touchType] == nil {
                 self.touches[touch] = Touch(touchType: touchType, initialLocation: location)
                 touchesByType[touchType] = self.touches[touch]
-                delegate?.touchHandler(self, didBeginTouchWithLocation: location, forTouchType: touchType)
+              delegate?.touchHandler(touchHandler: self, didBeginTouchWithLocation: location, forTouchType: touchType)
 
-                numTouches++
+                numTouches += 1
             }
         }
     }
@@ -56,18 +56,18 @@ class TouchHandler {
     func touchesEnded(touches: Set<UITouch>) {
         for touch in touches {
             if let touchType = self.touches[touch]?.touchType {
-                touchesByType.removeValueForKey(touchType)
-                self.touches.removeValueForKey(touch)
-                delegate?.touchHandler(self, didEndForTouchType: touchType)
+              touchesByType.removeValue(forKey: touchType)
+              self.touches.removeValue(forKey: touch)
+              delegate?.touchHandler(touchHandler: self, didEndForTouchType: touchType)
 
-                numTouches--
+                numTouches -= 1
             }
         }
     }
 
     func touchesMoved(touches: Set<UITouch>) {
         for touch in touches {
-            let location = locationFromTouch(touch)
+          let location = locationFromTouch(touch: touch)
             if let touch = self.touches[touch] {
                 let direction = location - touch.initialLocation
                 var magnitude = length(direction)
@@ -80,14 +80,14 @@ class TouchHandler {
                     }
 
                     let finalDirection = normalizedDirection * magnitude
-                    delegate?.touchHandler(self, didMoveWithLocation: touch.initialLocation, direction: float2(finalDirection[0], -finalDirection[1]), forTouchType: touch.touchType)
+                  delegate?.touchHandler(touchHandler: self, didMoveWithLocation: touch.initialLocation, direction: float2(finalDirection[0], -finalDirection[1]), forTouchType: touch.touchType)
                 }
             }
         }
     }
 
     private func locationFromTouch(touch: UITouch) -> float2 {
-        let location = touch.locationInView(nil)
+      let location = touch.location(in: nil)
         return float2(Float(location.x), Float(location.y))
     }
 
@@ -96,7 +96,7 @@ class TouchHandler {
     }
 
     private func touchTypeFromLocation(location: float2) -> TouchType {
-        let halfScreenWidth = Float(UIScreen.mainScreen().bounds.width / 2)
+      let halfScreenWidth = Float(UIScreen.main.bounds.width / 2)
         return location[0] <= halfScreenWidth ? .Movement : .Shooting
     }
 }

@@ -18,15 +18,15 @@ class Gem: Entity {
                 ageScale = 1 - (age - fadeOutAge) / Constants.Gem.fadeOutOver
             }
 
-            return float3(ageScale * Constants.Gem.scale)
+          return float3(repeating: ageScale * Constants.Gem.scale)
         } else {
-            return float3(0)
+          return float3(repeating: 0)
         }
     }
 
-    var velocity: float3 = float3(0)
+  var velocity: float3 = float3(repeating: 0)
 
-    private var rotationSpeed: float3 = float3(0)
+  private var rotationSpeed: float3 = float3(repeating: 0)
     private var spawnTime: Float
     private var age: Float {
         return GameTimer.sharedTimer.currentTime - spawnTime
@@ -43,7 +43,7 @@ class Gem: Entity {
     }
 
     override func updateWithDelta(delta: Float) {
-        super.updateWithDelta(delta)
+      super.updateWithDelta(delta: delta)
 
         rotation += rotationSpeed * delta
         position += velocity * delta

@@ -10,16 +10,16 @@ import Foundation
 
 class PhysicsManager {
     class Force {
-        enum Type {
+        enum ForceType {
             case Attractive
             case Repulsive
         }
 
-        let type: Type
+        let type: ForceType
         var strength: Float
         let position: float3
 
-        init(type: Type, strength: Float, position: float3) {
+        init(type: ForceType, strength: Float, position: float3) {
             self.type = type
             self.strength = strength
             self.position = position

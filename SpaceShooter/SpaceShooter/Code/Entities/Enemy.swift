@@ -10,7 +10,7 @@ import Foundation
 
 class Enemy: Entity {
     override var scale: vector_float3 {
-        return float3(1)
+      return float3(repeating: 1)
     }
 
     override var intensity: Float {
@@ -45,23 +45,23 @@ class Enemy: Entity {
 
     override func die() {
         super.die()
-        GridManager.sharedManager.grid.applyExplosiveForce(Constants.Enemy.Die.gravityForce, atPosition: position, withRadius: Constants.Enemy.Die.gravityRadius)
-        ParticleManager.sharedManager.createExplosionAroundPosition(position, particleCount: Constants.Enemy.Die.particleCount, color: float3(color[0], color[1], color[2]), speed: Constants.Enemy.Die.particleSpeed)
-        LightManager.sharedManager.addLightAtPosition(position, color: float3(color), duration: Constants.Enemy.Die.lightDuration, intensity: Constants.Enemy.Die.lightIntensity)
+      GridManager.sharedManager.grid.applyExplosiveForce(force: Constants.Enemy.Die.gravityForce, atPosition: position, withRadius: Constants.Enemy.Die.gravityRadius)
+      ParticleManager.sharedManager.createExplosionAroundPosition(position: position, particleCount: Constants.Enemy.Die.particleCount, color: float3(color[0], color[1], color[2]), speed: Constants.Enemy.Die.particleSpeed)
+      LightManager.sharedManager.addLightAtPosition(position: position, color: float3(color), duration: Constants.Enemy.Die.lightDuration, intensity: Constants.Enemy.Die.lightIntensity)
 
         if health <= 0 {
             for _ in 0..<gemCount {
-                let randomOffset = float3(Random.randomNumberBetween(-3, and: 3), Random.randomNumberBetween(-3, and: 3), 0)
+              let randomOffset = float3(Random.randomNumberBetween(lowerBound: -3, and: 3), Random.randomNumberBetween(lowerBound: -3, and: 3), 0)
                 let gem = Gem(position: position + randomOffset)
                 gem.load()
                 gem.spawn()
-                EntityManager.sharedManager.addEntity(gem)
+              EntityManager.sharedManager.addEntity(entity: gem)
             }
         }
     }
 
     func damage() {
-        health--
+        health -= 1
         if health <= 0 {
             die()
         }

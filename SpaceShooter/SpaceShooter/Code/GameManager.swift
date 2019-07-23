@@ -22,7 +22,7 @@ class GameManager {
             }
 
             labels.pausedLabel.alpha = isPaused ? 1 : 0
-            GameTimer.sharedTimer.pause(isPaused)
+          GameTimer.sharedTimer.pause(shouldPause: isPaused)
         }
     }
     private var timeSincePaused = NSDate()
@@ -50,34 +50,34 @@ class GameManager {
         lastFrameTimestamp = timestamp
 
         renderManager.beginFrame()
-        gameUpdate(isPaused ? 0 : delta)
+      gameUpdate(delta: isPaused ? 0 : delta)
         renderManager.endFrame()
     }
 
     private func gameUpdate(delta: Float) {
         autoreleasepool {
-            gameState.updateWithDelta(delta)
+          gameState.updateWithDelta(delta: delta)
             if gameState.state != .Intro {
-                updateGameWithDelta(delta)
+              updateGameWithDelta(delta: delta)
             }
 
-            labels.updateWithGameState(gameState)
+          labels.updateWithGameState(gameState: gameState)
             render()
         }
     }
 
     private func updateGameWithDelta(delta: Float) {
-        gameState.updateWithDelta(delta)
+      gameState.updateWithDelta(delta: delta)
 
-        collisionManager.testCollisionsWithPlayer(player, gameState: gameState)
+      collisionManager.testCollisionsWithPlayer(player: player, gameState: gameState)
 
-        LightManager.sharedManager.updateWithDelta(delta)
-        EntityManager.sharedManager.updateWithDelta(delta)
-        ParticleManager.sharedManager.updateWithDelta(delta)
-        GridManager.sharedManager.grid.updateWithDelta(delta)
+      LightManager.sharedManager.updateWithDelta(delta: delta)
+      EntityManager.sharedManager.updateWithDelta(delta: delta)
+      ParticleManager.sharedManager.updateWithDelta(delta: delta)
+      GridManager.sharedManager.grid.updateWithDelta(delta: delta)
 
         if let player = player {
-            camera.pointToEntity(player)
+          camera.pointToEntity(entity: player)
 
             if gameState.state == .FinalScore && player.isAlive {
                 player.die()
@@ -87,8 +87,8 @@ class GameManager {
 
     private func render() {
         let scene = Scene(camera: camera)
-        scene.calculateLightsFromEntities(EntityManager.sharedManager.entities, laserParticles: ParticleManager.sharedManager.laserParticles)
-        renderManager.renderScene(scene)
+      scene.calculateLightsFromEntities(entities: EntityManager.sharedManager.entities, laserParticles: ParticleManager.sharedManager.laserParticles)
+      renderManager.renderScene(scene: scene)
     }
 }
 
@@ -98,7 +98,7 @@ extension GameManager: GameStateDelegate {
             player = Ship()
             player!.load()
             player!.spawn()
-            EntityManager.sharedManager.addEntity(player!)
+          EntityManager.sharedManager.addEntity(entity: player!)
         }
     }
 }

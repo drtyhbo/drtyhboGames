@@ -34,15 +34,15 @@ class SpriteRenderer: SceneRenderer {
             SpriteVertex(position: float3(1, 0, 0), texCoords: float2(1, 0)),
             SpriteVertex(position: float3(1, 1, 0), texCoords: float2(1, 1)),
             SpriteVertex(position: float3(0, 1, 0), texCoords: float2(0, 1))]
-        vertexBuffer = device.newBufferWithBytes(vertices, length: SpriteVertex.size * 4, options: MTLResourceOptions(rawValue: 0))
+      vertexBuffer = device.makeBuffer(bytes: vertices, length: SpriteVertex.size * 4, options: MTLResourceOptions(rawValue: 0))!
 
         let indices: [UInt16] = [0, 1, 2, 0, 2, 3]
-        indexBuffer = device.newBufferWithBytes(indices, length: sizeof(UInt16) * 6, options: MTLResourceOptions(rawValue: 0))
+      indexBuffer = device.makeBuffer(bytes: indices, length: MemoryLayout<UInt16>.size * 6, options: MTLResourceOptions(rawValue: 0))!
 
-        sharedUniformsBuffer = device.newBufferWithBytes(Matrix4.makeOrthoWithScreenSize().raw(), length: Matrix4.size(), options: MTLResourceOptions(rawValue: 0))
+      sharedUniformsBuffer = device.makeBuffer(bytes: Matrix4.makeOrthoWithScreenSize().raw(), length: Matrix4.size(), options: MTLResourceOptions(rawValue: 0))!
         perInstanceUniformsBufferQueue = BufferQueue(device: device, length: Matrix4.size() * maxSprites)
 
-        spriteTexture = UIImage.circleWithRadius(100, lineWidth: 5, color: UIColor(red: 1, green: 1, blue: 1, alpha: 1)).createMTLTextureForDevice(device)
+      spriteTexture = UIImage.circleWithRadius(radius: 100, lineWidth: 5, color: UIColor(red: 1, green: 1, blue: 1, alpha: 1)).createMTLTextureForDevice(device: device)
 
         super.init(device: device, commandQueue: commandQueue)
 
@@ -52,8 +52,8 @@ class SpriteRenderer: SceneRenderer {
     override func renderScene(scene: Scene, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = outputTexture
-        renderPassDescriptor.colorAttachments[0].loadAction = .Load
-        renderPassDescriptor.colorAttachments[0].storeAction = .Store
+      renderPassDescriptor.colorAttachments[0].loadAction = .load
+      renderPassDescriptor.colorAttachments[0].storeAction = .store
 
         let perInstanceUniformsBuffer = perInstanceUniformsBufferQueue.nextBuffer
         for sprite in SpriteManager.sharedManager.sprites {
@@ -67,59 +67,59 @@ class SpriteRenderer: SceneRenderer {
 
                 // This is going to be horribly inefficient should we dramatically increase the
                 // number of sprites.
-                perInstanceUniformsBuffer.copyData(instance.modelMatrix.raw(), size: Matrix4.size())
-                perInstanceUniformsBuffer.copyData(&instance.alpha, size: sizeof(Float))
+              perInstanceUniformsBuffer.copyData(data: instance.modelMatrix.raw(), size: Matrix4.size())
+              perInstanceUniformsBuffer.copyData(data: &instance.alpha, size: MemoryLayout<Float>.size)
 
-                instanceCount++
+                instanceCount += 1
             }
 
             if instanceCount > 0 {
-                let commandEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)
-                commandEncoder.setRenderPipelineState(pipelineState)
+              let commandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
+                commandEncoder!.setRenderPipelineState(pipelineState)
 
-                commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, atIndex: 0)
-                commandEncoder.setVertexBuffer(sharedUniformsBuffer, offset: 0, atIndex: 1)
-                commandEncoder.setVertexBuffer(perInstanceUniformsBuffer.buffer, offset: perInstanceUniformsBufferOffset, atIndex: 2)
+              commandEncoder!.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+              commandEncoder!.setVertexBuffer(sharedUniformsBuffer, offset: 0, index: 1)
+              commandEncoder!.setVertexBuffer(perInstanceUniformsBuffer.buffer, offset: perInstanceUniformsBufferOffset, index: 2)
 
-                commandEncoder.setFragmentTexture(spriteTexture, atIndex: 0)
-                commandEncoder.setFragmentSamplerState(samplerState, atIndex: 0)
+              commandEncoder!.setFragmentTexture(spriteTexture, index: 0)
+              commandEncoder!.setFragmentSamplerState(samplerState, index: 0)
 
-                commandEncoder.drawIndexedPrimitives(.Triangle, indexCount: 6, indexType: .UInt16, indexBuffer: indexBuffer, indexBufferOffset: 0, instanceCount: instanceCount)
+              commandEncoder!.drawIndexedPrimitives(type: .triangle, indexCount: 6, indexType: .uint16, indexBuffer: indexBuffer, indexBufferOffset: 0, instanceCount: instanceCount)
 
-                commandEncoder.endEncoding()
+                commandEncoder!.endEncoding()
             }
         }
     }
 
     private func setup() {
-        let defaultLibrary = device.newDefaultLibrary()!
-        let vertexFunction = defaultLibrary.newFunctionWithName("sprite_vertex")!
-        let fragmentFunction = defaultLibrary.newFunctionWithName("sprite_fragment")!
+      let defaultLibrary = device.makeDefaultLibrary()!
+      let vertexFunction = defaultLibrary.makeFunction(name: "sprite_vertex")!
+      let fragmentFunction = defaultLibrary.makeFunction(name: "sprite_fragment")!
 
         let vertexDescriptor = MTLVertexDescriptor()
-        vertexDescriptor.attributes[0].format = .Float3
+      vertexDescriptor.attributes[0].format = .float3
         vertexDescriptor.attributes[0].bufferIndex = 0
         vertexDescriptor.attributes[0].offset = 0
 
-        vertexDescriptor.attributes[1].format = .Float2
+      vertexDescriptor.attributes[1].format = .float2
         vertexDescriptor.attributes[1].bufferIndex = 0
-        vertexDescriptor.attributes[1].offset = sizeof(Float) * 4
+        vertexDescriptor.attributes[1].offset = MemoryLayout<Float>.size * 4
 
         vertexDescriptor.layouts[0].stride = SpriteVertex.size
-        vertexDescriptor.layouts[0].stepFunction = .PerVertex
+      vertexDescriptor.layouts[0].stepFunction = .perVertex
 
-        let pipelineDescriptor = pipelineDescriptorWithVertexFunction(vertexFunction, fragmentFunction: fragmentFunction, vertexDescriptor: vertexDescriptor, alphaBlending: true)
+      let pipelineDescriptor = pipelineDescriptorWithVertexFunction(vertexFunction: vertexFunction, fragmentFunction: fragmentFunction, vertexDescriptor: vertexDescriptor, alphaBlending: true)
         do {
-            pipelineState = try device.newRenderPipelineStateWithDescriptor(pipelineDescriptor)
+          pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
         } catch let error {
             print (error)
         }
 
         let samplerDescriptor = MTLSamplerDescriptor()
-        samplerDescriptor.minFilter = .Nearest;
-        samplerDescriptor.magFilter = .Linear;
-        samplerDescriptor.sAddressMode = .ClampToZero;
-        samplerDescriptor.tAddressMode = .ClampToZero;
-        samplerState = device.newSamplerStateWithDescriptor(samplerDescriptor)
+      samplerDescriptor.minFilter = .nearest;
+      samplerDescriptor.magFilter = .linear;
+      samplerDescriptor.sAddressMode = .clampToZero;
+      samplerDescriptor.tAddressMode = .clampToZero;
+      samplerState = device.makeSamplerState(descriptor: samplerDescriptor)
     }
 }
