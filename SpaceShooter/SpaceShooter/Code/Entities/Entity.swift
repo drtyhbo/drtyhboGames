@@ -25,7 +25,7 @@ class Entity {
     var scale: vector_float3 {
         return [1, 1, 1]
     }
-    var color: float4 = float4(1)
+  var color: float4 = float4(repeating: 1)
 
     var intensity: Float {
         return 5
@@ -52,10 +52,10 @@ class Entity {
 
     private var modelMatrix: Matrix4 {
         let matrix = Matrix4()
-        matrix.translate(position[0], y: position[1], z: position[2])
-        matrix.rotateAroundX(rotation[0], y: rotation[1], z: rotation[2])
-        matrix.scale(scale[0], y: scale[1], z: scale[2])
-        return matrix
+      matrix!.translate(position[0], y: position[1], z: position[2])
+        matrix!.rotateAroundX(rotation[0], y: rotation[1], z: rotation[2])
+        matrix!.scale(scale[0], y: scale[1], z: scale[2])
+      return matrix!
     }
 
     init(name: String) {
@@ -63,7 +63,7 @@ class Entity {
     }
 
     func load() -> Bool {
-        if let model = ModelLoader.sharedLoader.loadWithName(name) {
+      if let model = ModelLoader.sharedLoader.loadWithName(name: name) {
             self.model = model
             return true
         } else {
@@ -79,9 +79,9 @@ class Entity {
         modelViewMatrix.multiplyLeft(worldMatrix)
 
         let normalMatrix = modelViewMatrix.copy()
-        normalMatrix.invertAndTranspose()
+        normalMatrix!.invertAndTranspose()
 
-        return PerInstanceUniforms(modelViewMatrix: modelViewMatrix, normalMatrix: normalMatrix, color: color)
+      return PerInstanceUniforms(modelViewMatrix: modelViewMatrix, normalMatrix: normalMatrix!, color: color)
     }
 
     func spawn() {

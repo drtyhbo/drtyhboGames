@@ -9,7 +9,7 @@
 import Foundation
 
 struct Light {
-    static let size = 7 * sizeof(Float)
+    static let size = 7 * MemoryLayout<Float>.size
 
     let position: float3
     let color: float3
@@ -48,11 +48,13 @@ class LightManager {
     func updateWithDelta(delta: Float) {
         let currentTime = GameTimer.sharedTimer.currentTime
 
-        for var i = updatableLights.count - 1; i >= 0; i-- {
+      if updatableLights.count > 0 {
+        for i in (0...updatableLights.count-1).reversed() {
             if currentTime > updatableLights[i].startTime + updatableLights[i].duration {
-                updatableLights.removeAtIndex(i)
+                updatableLights.remove(at: i)
             }
         }
+      }
     }
 
     func getLights() -> [Light] {

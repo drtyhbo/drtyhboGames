@@ -43,9 +43,9 @@ class ModelLoader {
         }
 
         do {
-            if let filePath = NSBundle.mainBundle().pathForResource(name, ofType: "obj") {
+          if let filePath = Bundle.main.path(forResource: name, ofType: "obj") {
                 let objFile = try String(contentsOfFile: filePath)
-                if let model = parseObjFile(objFile) {
+            if let model = parseObjFile(objFile: objFile) {
                     modelCache[name] = model
                     return model
                 }
@@ -58,12 +58,12 @@ class ModelLoader {
 
     private func vertexFromVertexLine(line: String) -> float3 {
         let pieces = line.split(whitespaceRegex)
-        return float3(pieces[1].floatValue!, pieces[2].floatValue!, pieces[3].floatValue!)
+      return float3((pieces![1] as AnyObject).floatValue!, (pieces![2] as AnyObject).floatValue!, (pieces![3] as AnyObject).floatValue!)
     }
 
     private func normalFromVertexNormalLine(line: String) -> float3 {
         let pieces = line.split(whitespaceRegex)
-        return float3(pieces[1].floatValue!, pieces[2].floatValue!, pieces[3].floatValue!)
+      return float3((pieces![1] as AnyObject).floatValue!, (pieces![2] as AnyObject).floatValue!, (pieces![3] as AnyObject).floatValue!)
     }
 
     private func convertFromFileVertices(fileVertices: [float3], fileNormals: [float3], faceTriplets: [String]) -> ([Vertex], [UInt16]) {
@@ -77,7 +77,7 @@ class ModelLoader {
             } else {
                 let index = UInt16(vertices.count)
                 indexLookup[faceTriplet] = index
-                vertices.append(vertexFromFaceTriplet(faceTriplet, vertices: fileVertices, normals: fileNormals))
+              vertices.append(vertexFromFaceTriplet(triplet: faceTriplet, vertices: fileVertices, normals: fileNormals))
                 indices.append(index)
             }
         }
@@ -86,7 +86,7 @@ class ModelLoader {
     }
 
     private func vertexFromFaceTriplet(triplet: String, vertices: [float3], normals: [float3]) -> Vertex {
-        let pieces = triplet.componentsSeparatedByString("/").map({ Int(($0 as NSString).intValue) })
+      let pieces = triplet.components(separatedBy: "/").map({ Int(($0 as NSString).intValue) })
         let vertex = Vertex(position: vertices[pieces[0] - 1], normal: normals[pieces[2] - 1])
         return vertex
     }
@@ -95,29 +95,29 @@ class ModelLoader {
         var fileVertices: [float3] = []
         var fileNormals: [float3] = []
         var faceTriplets: [String] = []
-        var minVertex: float3 = float3(FLT_MAX)
-        var maxVertex: float3 = float3(FLT_MIN)
-        for line in objFile.componentsSeparatedByString("\n") {
+      var minVertex: float3 = float3(repeating: FLT_MAX)
+      var maxVertex: float3 = float3(repeating: FLT_MIN)
+      for line in objFile.components(separatedBy: "\n") {
             if line.isMatch(commentRegex) {
                 continue
             }
 
             if line.isMatch(vertexRegex) {
-                let vertex = vertexFromVertexLine(line)
+              let vertex = vertexFromVertexLine(line: line)
                 minVertex = min(minVertex, vertex)
                 maxVertex = max(maxVertex, vertex)
                 fileVertices.append(vertex)
             } else if line.isMatch(vertexNormalRegex) {
-                fileNormals.append(normalFromVertexNormalLine(line))
+              fileNormals.append(normalFromVertexNormalLine(line: line))
             } else if line.isMatch(faceRegex) {
                 let pieces = line.split(whitespaceRegex)
 
                 var faceIndices: [String] = []
-                for index in 1..<pieces.count {
-                    faceIndices.append(pieces[index] as! String)
+              for index in 1..<pieces!.count {
+                faceIndices.append(pieces![index] as! String)
                 }
 
-                for index in 1..<pieces.count - 2 {
+              for index in 1..<pieces!.count - 2 {
                     faceTriplets += [faceIndices[0], faceIndices[index], faceIndices[index + 1]]
                 }
             }
@@ -129,7 +129,7 @@ class ModelLoader {
             fileVertices[i][2] -= minVertex[2] + (maxVertex[2] - minVertex[2]) / 2
         }
 
-        let (vertices, indices) = convertFromFileVertices(fileVertices, fileNormals: fileNormals, faceTriplets: faceTriplets)
+      let (vertices, indices) = convertFromFileVertices(fileVertices: fileVertices, fileNormals: fileNormals, faceTriplets: faceTriplets)
 
         return Model(vertices: vertices, indices: indices)
     }

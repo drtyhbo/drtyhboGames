@@ -13,7 +13,7 @@ func float3FromRed(red: Float, green: Float, blue: Float) -> float3 {
 }
 
 func float4FromRed(red: Float, green: Float, blue: Float) -> float4 {
-    return float4(float3FromRed(red, green: green, blue: blue), 1)
+  return float4(float3FromRed(red: red, green: green, blue: blue), 1)
 }
 
 class Constants {
@@ -37,7 +37,7 @@ class Constants {
     }
 
     struct Gem {
-        static let color = float4FromRed(177, green: 53, blue: 208)
+      static let color = float4FromRed(red: 177, green: 53, blue: 208)
         static let rotationSpeed = float3(2, 2, 2)
         static let scale: Float = 0.5
         static let lifespan: Float = 10
@@ -45,17 +45,17 @@ class Constants {
     }
 
     struct Cube {
-        static let color = float4FromRed(246, green: 0, blue: 84)
+      static let color = float4FromRed(red: 246, green: 0, blue: 84)
         static let speed: Float = 20
     }
 
     struct Seeker {
-        static let color = float4FromRed(192, green: 184, blue: 27)
+      static let color = float4FromRed(red: 192, green: 184, blue: 27)
         static let speed: Float = 20
     }
 
     struct Flyer {
-        static let color = float4FromRed(4, green: 202, blue: 254)
+      static let color = float4FromRed(red: 4, green: 202, blue: 254)
         static let speed: Float = 20
     }
 
@@ -120,7 +120,7 @@ class Constants {
 
     struct UI {
         static let gamePauseHelperTime: Float = 1
-        static let highScoreLabelColor = float3FromRed(4, green: 202, blue: 254)
+      static let highScoreLabelColor = float3FromRed(red: 4, green: 202, blue: 254)
     }
 
     struct World {
@@ -128,7 +128,7 @@ class Constants {
     }
 
     struct Metal {
-        static let pixelFormat = MTLPixelFormat.BGRA8Unorm
+      static let pixelFormat = MTLPixelFormat.bgra8Unorm
     }
 
     struct UserDefaults {

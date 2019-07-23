@@ -25,17 +25,17 @@ class ParticleRenderer: SceneRenderer {
     private var particleRendererUniformsQueue: BufferQueue!
 
     override init(device: MTLDevice, commandQueue: MTLCommandQueue) {
-        vertexBuffer = device.newBufferWithLength(sizeof(Float) * 12, options: MTLResourceOptions(rawValue: 0))
+      vertexBuffer = device.makeBuffer(length: MemoryLayout<Float>.size * 12, options: MTLResourceOptions(rawValue: 0))
         let vertices: [Float] = [-0.5, 0.5, 0, 1, 0.5, 0.5, 0, 1, 0.5, -0.5, 0, 0.5, -0.5, -0.5, 0, 0.5]
-        memcpy(vertexBuffer.contents(), vertices, sizeof(Float) * 16)
+        memcpy(vertexBuffer.contents(), vertices, MemoryLayout<Float>.size * 16)
 
-        indexBuffer = device.newBufferWithLength(sizeof(UInt16) * 6, options: MTLResourceOptions(rawValue: 0))
+      indexBuffer = device.makeBuffer(length: MemoryLayout<UInt16>.size * 6, options: MTLResourceOptions(rawValue: 0))
         let indices: [UInt16] = [0, 1, 2, 0, 2, 3]
-        memcpy(indexBuffer.contents(), indices, sizeof(UInt16) * 6)
+        memcpy(indexBuffer.contents(), indices, MemoryLayout<UInt16>.size * 6)
 
-        particlesBufferQueue = BufferQueue(device: device, length: sizeof(Particle) * ParticleManager.maxParticles)
-        laserParticlesBufferQueue = BufferQueue(device: device, length: sizeof(Particle) * ParticleManager.maxParticles)
-        particleRendererUniformsQueue = BufferQueue(device: device, length: sizeof(ParticleRendererUniforms))
+        particlesBufferQueue = BufferQueue(device: device, length: MemoryLayout<Particle>.size * ParticleManager.maxParticles)
+        laserParticlesBufferQueue = BufferQueue(device: device, length: MemoryLayout<Particle>.size * ParticleManager.maxParticles)
+        particleRendererUniformsQueue = BufferQueue(device: device, length: MemoryLayout<ParticleRendererUniforms>.size)
 
         super.init(device: device, commandQueue: commandQueue)
 
@@ -45,68 +45,69 @@ class ParticleRenderer: SceneRenderer {
     override func renderScene(scene: Scene, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         var particleRendererUniforms = ParticleRendererUniforms(currentTime: GameTimer.sharedTimer.currentTime)
         let particleRendererUniformsBuffer = particleRendererUniformsQueue.nextBuffer
-        particleRendererUniformsBuffer.copyData(&particleRendererUniforms, size: sizeof(ParticleRendererUniforms))
+      particleRendererUniformsBuffer.copyData(data: &particleRendererUniforms, size: MemoryLayout<ParticleRendererUniforms>.size)
 
         if ParticleManager.sharedManager.particles.count > 0 {
             let particlesBuffer = particlesBufferQueue.nextBuffer
-            particlesBuffer.copyData(ParticleManager.sharedManager.particles, size: sizeof(Particle) * ParticleManager.sharedManager.particles.count)
+          particlesBuffer.copyData(data: ParticleManager.sharedManager.particles, size: MemoryLayout<Particle>.size * ParticleManager.sharedManager.particles.count)
 
-            renderParticlesWithBuffer(particlesBuffer, particleRendererUniformsBuffer: particleRendererUniformsBuffer, cameraUniformsBuffer: scene.cameraUniformsBuffer!, numberOfParticles: ParticleManager.sharedManager.particles.count, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
+          renderParticlesWithBuffer(particlesBuffer: particlesBuffer, particleRendererUniformsBuffer: particleRendererUniformsBuffer, cameraUniformsBuffer: scene.cameraUniformsBuffer!, numberOfParticles: ParticleManager.sharedManager.particles.count, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
         }
 
         if ParticleManager.sharedManager.laserParticles.count > 0 {
             let laserParticlesBuffer = laserParticlesBufferQueue.nextBuffer
-            laserParticlesBuffer.copyData(ParticleManager.sharedManager.laserParticles, size: sizeof(Particle) * ParticleManager.sharedManager.laserParticles.count)
+          laserParticlesBuffer.copyData(data: ParticleManager.sharedManager.laserParticles, size: MemoryLayout<Particle>.size * ParticleManager.sharedManager.laserParticles.count)
 
-            renderParticlesWithBuffer(laserParticlesBuffer, particleRendererUniformsBuffer: particleRendererUniformsBuffer, cameraUniformsBuffer: scene.cameraUniformsBuffer!, numberOfParticles: ParticleManager.sharedManager.laserParticles.count, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
+          renderParticlesWithBuffer(particlesBuffer: laserParticlesBuffer, particleRendererUniformsBuffer: particleRendererUniformsBuffer, cameraUniformsBuffer: scene.cameraUniformsBuffer!, numberOfParticles: ParticleManager.sharedManager.laserParticles.count, toCommandBuffer: commandBuffer, outputTexture: outputTexture)
         }
     }
 
     private func renderParticlesWithBuffer(particlesBuffer: Buffer, particleRendererUniformsBuffer: Buffer, cameraUniformsBuffer: Buffer, numberOfParticles: Int, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = outputTexture
-        renderPassDescriptor.colorAttachments[0].loadAction = .Load
-        renderPassDescriptor.colorAttachments[0].storeAction = .Store
+      renderPassDescriptor.colorAttachments[0].loadAction = .load
+      renderPassDescriptor.colorAttachments[0].storeAction = .store
 
-        let commandEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)
-        commandEncoder.setDepthStencilState(depthStencilState)
-        commandEncoder.setRenderPipelineState(pipelineState)
+      let commandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
+      // TODO: another no depth stencil attachment issue...
+        // commandEncoder!.setDepthStencilState(depthStencilState)
+        commandEncoder!.setRenderPipelineState(pipelineState)
 
-        commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, atIndex: 0)
-        commandEncoder.setVertexBuffer(cameraUniformsBuffer.buffer, offset: 0, atIndex: 1)
-        commandEncoder.setVertexBuffer(particlesBuffer.buffer, offset: 0, atIndex: 2)
-        commandEncoder.setVertexBuffer(particleRendererUniformsBuffer.buffer, offset: 0, atIndex: 3)
-        commandEncoder.drawIndexedPrimitives(.Triangle, indexCount: 6, indexType: .UInt16, indexBuffer: indexBuffer, indexBufferOffset: 0, instanceCount: numberOfParticles)
-        commandEncoder.endEncoding()
+      commandEncoder!.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+      commandEncoder!.setVertexBuffer(cameraUniformsBuffer.buffer, offset: 0, index: 1)
+      commandEncoder!.setVertexBuffer(particlesBuffer.buffer, offset: 0, index: 2)
+      commandEncoder!.setVertexBuffer(particleRendererUniformsBuffer.buffer, offset: 0, index: 3)
+      commandEncoder!.drawIndexedPrimitives(type: .triangle, indexCount: 6, indexType: .uint16, indexBuffer: indexBuffer, indexBufferOffset: 0, instanceCount: numberOfParticles)
+        commandEncoder!.endEncoding()
     }
 
     private func setup() {
-        let defaultLibrary = device.newDefaultLibrary()!
-        let vertexFunction = defaultLibrary.newFunctionWithName("particle_vertex")!
-        let fragmentFunction = defaultLibrary.newFunctionWithName("particle_fragment")!
+      let defaultLibrary = device.makeDefaultLibrary()!
+      let vertexFunction = defaultLibrary.makeFunction(name: "particle_vertex")!
+      let fragmentFunction = defaultLibrary.makeFunction(name: "particle_fragment")!
 
         let vertexDescriptor = MTLVertexDescriptor()
-        vertexDescriptor.attributes[0].format = .Float3
+      vertexDescriptor.attributes[0].format = .float3
         vertexDescriptor.attributes[0].bufferIndex = 0
         vertexDescriptor.attributes[0].offset = 0
 
-        vertexDescriptor.attributes[1].format = .Float
+      vertexDescriptor.attributes[1].format = .float
         vertexDescriptor.attributes[1].bufferIndex = 0
-        vertexDescriptor.attributes[1].offset = sizeof(Float) * 3
+        vertexDescriptor.attributes[1].offset = MemoryLayout<Float>.size * 3
 
-        vertexDescriptor.layouts[0].stride = sizeof(Float) * 4
-        vertexDescriptor.layouts[0].stepFunction = .PerVertex
+        vertexDescriptor.layouts[0].stride = MemoryLayout<Float>.size * 4
+      vertexDescriptor.layouts[0].stepFunction = .perVertex
 
-        let pipelineDescriptor = pipelineDescriptorWithVertexFunction(vertexFunction, fragmentFunction: fragmentFunction, vertexDescriptor: vertexDescriptor, alphaBlending: true)
+      let pipelineDescriptor = pipelineDescriptorWithVertexFunction(vertexFunction: vertexFunction, fragmentFunction: fragmentFunction, vertexDescriptor: vertexDescriptor, alphaBlending: true)
         do {
-            pipelineState = try device.newRenderPipelineStateWithDescriptor(pipelineDescriptor)
+          pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
         } catch let error {
             print (error)
         }
 
         let depthStencilDescriptor = MTLDepthStencilDescriptor()
-        depthStencilDescriptor.depthCompareFunction = .Less
-        depthStencilDescriptor.depthWriteEnabled = true
-        depthStencilState = device.newDepthStencilStateWithDescriptor(depthStencilDescriptor)
+      depthStencilDescriptor.depthCompareFunction = .less
+      depthStencilDescriptor.isDepthWriteEnabled = true
+      depthStencilState = device.makeDepthStencilState(descriptor: depthStencilDescriptor)
     }
 }

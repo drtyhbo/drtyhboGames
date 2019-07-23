@@ -4,7 +4,13 @@ PODS:
 DEPENDENCIES:
   - RegExCategories (~> 1.0)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - RegExCategories
+
 SPEC CHECKSUMS:
   RegExCategories: e68befacacd5bda853c88f70ec745cb2d0cfb89c
 
-COCOAPODS: 0.38.2
+PODFILE CHECKSUM: 73b736db021decd4cd5e6aa8dcec1464b268f6ca
+
+COCOAPODS: 1.5.3

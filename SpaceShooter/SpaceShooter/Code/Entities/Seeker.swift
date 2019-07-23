@@ -35,6 +35,6 @@ class Seeker: Enemy {
             rotation += float3(Float(M_PI)) * delta
         }
 
-        super.updateWithDelta(delta)
+      super.updateWithDelta(delta: delta)
     }
 }

@@ -26,9 +26,10 @@ class TextureQueue {
     private var currentTexture = 0
 
     init(device: MTLDevice, width: Int, height: Int) {
-        let textureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(Constants.Metal.pixelFormat, width: width, height: height, mipmapped: false)
+      let textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: Constants.Metal.pixelFormat, width: width, height: height, mipmapped: false)
+      textureDescriptor.usage = [.renderTarget,.shaderRead]
         for _ in 0..<Constants.numberOfInflightFrames {
-            textures.append(Texture(texture: device.newTextureWithDescriptor(textureDescriptor)))
+          textures.append(Texture(texture: device.makeTexture(descriptor: textureDescriptor)!))
         }
     }
 }

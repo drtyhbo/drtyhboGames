@@ -37,8 +37,8 @@ class EntityRenderer: SceneRenderer {
 
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = outputTexture
-        renderPassDescriptor.colorAttachments[0].loadAction = .Load
-        renderPassDescriptor.colorAttachments[0].storeAction = .Store
+      renderPassDescriptor.colorAttachments[0].loadAction = .load
+      renderPassDescriptor.colorAttachments[0].storeAction = .store
 
         let perInstanceUniformsBuffer = perInstanceUniformsBufferQueue.nextBuffer
         let vertexBuffer = vertexBufferQueue.nextBuffer
@@ -58,29 +58,30 @@ class EntityRenderer: SceneRenderer {
                 currentModel = entity.model
             }
 
-            let perInstanceUniforms = entity.calculatePerInstanceMatricesWithWorldMatrix(scene.camera.worldMatrix)
-            perInstanceUniformsBuffer.copyData(perInstanceUniforms.modelViewMatrix.raw(), size: Matrix4.size())
-            perInstanceUniformsBuffer.copyData(perInstanceUniforms.normalMatrix.raw(), size: Matrix4.size())
-            perInstanceUniformsBuffer.copyData(perInstanceUniforms.color.raw(), size: float4.size)
-            entityCount++
+          let perInstanceUniforms = entity.calculatePerInstanceMatricesWithWorldMatrix(worldMatrix: scene.camera.worldMatrix)
+          perInstanceUniformsBuffer.copyData(data: perInstanceUniforms.modelViewMatrix.raw(), size: Matrix4.size())
+          perInstanceUniformsBuffer.copyData(data: perInstanceUniforms.normalMatrix.raw(), size: Matrix4.size())
+          perInstanceUniformsBuffer.copyData(data: perInstanceUniforms.color.raw(), size: float4.size)
+            entityCount += 1
 
             if i == entities.count - 1 || entities[i + 1].name != entityName {
                 let vertexBufferOffset = vertexBuffer.currentOffset
                 let indexBufferOffset = indexBuffer.currentOffset
 
-                vertexBuffer.copyData(currentModel!.vertexData, size: currentModel!.vertices.count * Vertex.size)
-                indexBuffer.copyData(currentModel!.indices, size: currentModel!.indices.count * sizeof(UInt16))
+              vertexBuffer.copyData(data: currentModel!.vertexData, size: currentModel!.vertices.count * Vertex.size)
+              indexBuffer.copyData(data: currentModel!.indices, size: currentModel!.indices.count * MemoryLayout<UInt16>.size)
 
-                let commandEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)
-                commandEncoder.setCullMode(.Back)
-                commandEncoder.setFrontFacingWinding(.CounterClockwise)
-                commandEncoder.setDepthStencilState(depthStencilState)
-                commandEncoder.setRenderPipelineState(pipelineState)
-                commandEncoder.setVertexBuffer(vertexBuffer.buffer, offset: vertexBufferOffset, atIndex: 0)
-                commandEncoder.setVertexBuffer(scene.cameraUniformsBuffer!.buffer, offset: 0, atIndex: 1)
-                commandEncoder.setVertexBuffer(perInstanceUniformsBuffer.buffer, offset: perInstanceUniformsBufferOffset, atIndex: 2)
-                commandEncoder.drawIndexedPrimitives(.Triangle, indexCount: currentModel!.indices.count, indexType: .UInt16, indexBuffer: indexBuffer.buffer, indexBufferOffset: indexBufferOffset, instanceCount: entityCount)
-                commandEncoder.endEncoding()
+              let commandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
+              commandEncoder!.setCullMode(.back)
+              commandEncoder!.setFrontFacing(.counterClockwise)
+              // TODO: Again no depth attachment... hmm
+              // commandEncoder!.setDepthStencilState(depthStencilState)
+              commandEncoder!.setRenderPipelineState(pipelineState)
+              commandEncoder!.setVertexBuffer(vertexBuffer.buffer, offset: vertexBufferOffset, index: 0)
+              commandEncoder!.setVertexBuffer(scene.cameraUniformsBuffer!.buffer, offset: 0, index: 1)
+              commandEncoder!.setVertexBuffer(perInstanceUniformsBuffer.buffer, offset: perInstanceUniformsBufferOffset, index: 2)
+              commandEncoder!.drawIndexedPrimitives(type: .triangle, indexCount: currentModel!.indices.count, indexType: .uint16, indexBuffer: indexBuffer.buffer, indexBufferOffset: indexBufferOffset, instanceCount: entityCount)
+                commandEncoder!.endEncoding()
 
                 entityCount = 0
                 perInstanceUniformsBufferOffset = perInstanceUniformsBuffer.currentOffset
@@ -89,20 +90,20 @@ class EntityRenderer: SceneRenderer {
     }
 
     private func setup() {
-        let defaultLibrary = device.newDefaultLibrary()!
-        let vertexFunction = defaultLibrary.newFunctionWithName("basic_vertex")!
-        let fragmentFunction = defaultLibrary.newFunctionWithName("basic_fragment")!
+      let defaultLibrary = device.makeDefaultLibrary()!
+      let vertexFunction = defaultLibrary.makeFunction(name: "basic_vertex")!
+      let fragmentFunction = defaultLibrary.makeFunction(name: "basic_fragment")!
 
-        let pipelineDescriptor = pipelineDescriptorWithVertexFunction(vertexFunction, fragmentFunction: fragmentFunction, vertexDescriptor: Vertex.vertexDescriptor(), alphaBlending: true)
+      let pipelineDescriptor = pipelineDescriptorWithVertexFunction(vertexFunction: vertexFunction, fragmentFunction: fragmentFunction, vertexDescriptor: Vertex.vertexDescriptor(), alphaBlending: true)
         do {
-            pipelineState = try device.newRenderPipelineStateWithDescriptor(pipelineDescriptor)
+          pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
         } catch let error {
             print (error)
         }
 
         let depthStencilDescriptor = MTLDepthStencilDescriptor()
-        depthStencilDescriptor.depthCompareFunction = .Less
-        depthStencilDescriptor.depthWriteEnabled = true
-        depthStencilState = device.newDepthStencilStateWithDescriptor(depthStencilDescriptor)
+      depthStencilDescriptor.depthCompareFunction = .less
+      depthStencilDescriptor.isDepthWriteEnabled = true
+      depthStencilState = device.makeDepthStencilState(descriptor: depthStencilDescriptor)
     }
 }

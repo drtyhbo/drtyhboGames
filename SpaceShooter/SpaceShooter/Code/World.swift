@@ -9,7 +9,7 @@
 import Foundation
 
 class World {
-    struct CollisionTypes: OptionSetType {
+    struct CollisionTypes: OptionSet {
         let rawValue: UInt
         static let None = CollisionTypes(rawValue: 0)
         static let Left = CollisionTypes(rawValue: 1 << 0)

@@ -38,7 +38,7 @@ class Cube: Enemy {
 
             position += velocity * delta
 
-            let collision = World.doesCollide(self)
+          let collision = World.doesCollide(entity: self)
             if collision.contains(.Left) || collision.contains(.Right) {
                 velocity = float3(velocity[0] * -1, velocity[1], 0)
             }
@@ -49,6 +49,6 @@ class Cube: Enemy {
 
         rotation += rotationSpeed * delta
 
-        super.updateWithDelta(delta)
+      super.updateWithDelta(delta: delta)
     }
 }

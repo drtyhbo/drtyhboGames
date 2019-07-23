@@ -26,8 +26,8 @@ class Grid {
         let mass2: Int
     }
 
-    private(set) var pointMasses:[PointMass] = []
-    private(set) var indices: [UInt16] = []
+    public var pointMasses:[PointMass] = []
+    public var indices: [UInt16] = []
 
     private var springs: [Spring] = []
     private var spacing: Float
@@ -56,10 +56,10 @@ class Grid {
         for row in 0..<numberOfRows {
             for column in 0..<numberOfColumns {
                 if column < numberOfColumns - 1 {
-                    addSpring(row * numberOfColumns + column, mass2: row * numberOfColumns + column + 1)
+                  addSpring(mass1: row * numberOfColumns + column, mass2: row * numberOfColumns + column + 1)
                 }
                 if row < numberOfRows - 1 {
-                    addSpring(row * numberOfColumns + column, mass2: (row + 1) * numberOfColumns + column)
+                  addSpring(mass1: row * numberOfColumns + column, mass2: (row + 1) * numberOfColumns + column)
                 }
             }
         }
@@ -79,14 +79,15 @@ class Grid {
             }
 
             let velocityDelta = pointMasses[spring.mass2].velocity - pointMasses[spring.mass1].velocity
-            let force = 4 * normalize(positionDelta) * (currentLength - spacing) - velocityDelta * 0.05
+            let npd = 4 * normalize(positionDelta)
+            let force = npd * (currentLength - spacing) - velocityDelta * 0.05
 
-            pointMasses[spring.mass1].applyForce(-force)
-            pointMasses[spring.mass2].applyForce(force)
+          pointMasses[spring.mass1].applyForce(force: -force)
+          pointMasses[spring.mass2].applyForce(force: force)
         }
 
         for i in 0..<pointMasses.count {
-            pointMasses[i].updateWithDelta(delta)
+          pointMasses[i].updateWithDelta(delta: delta)
         }
     }
 
@@ -96,8 +97,9 @@ class Grid {
             let direction = pointMass.position - position
             let distanceSquared = length_squared(direction)
             if distanceSquared < radius * radius {
-                pointMasses[i].applyForce(100 * force * direction * (1 / (10000 + distanceSquared)))
-                pointMasses[i].increaseDampingBy(0.6)
+              let force = 100 * force * direction * (1 / (10000 + distanceSquared))
+              pointMasses[i].applyForce(force: force)
+              pointMasses[i].increaseDampingBy(factor: 0.6)
             }
         }
     }

@@ -40,10 +40,10 @@ class GameState {
                 if score == allTimeHighScore {
                     let gkScore = GKScore(leaderboardIdentifier: "com.drtyhbo.SpaceShooter.HighScore")
                     gkScore.value = Int64(score)
-                    GKScore.reportScores([gkScore], withCompletionHandler: nil)
+                  GKScore.report([gkScore], withCompletionHandler: nil)
                 }
 
-                NSUserDefaults.standardUserDefaults().setInteger(allTimeHighScore, forKey: Constants.UserDefaults.maxScoreKey)
+              UserDefaults.standard.set(allTimeHighScore, forKey: Constants.UserDefaults.maxScoreKey)
             } else if state == .GameOver {
                 entitySpawner.reset()
             }
@@ -69,7 +69,7 @@ class GameState {
     private var timeOfStateChange = GameTimer.sharedTimer.currentTime
 
     init() {
-        allTimeHighScore = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.maxScoreKey) as? Int ?? 0
+      allTimeHighScore = UserDefaults.standard.object(forKey: Constants.UserDefaults.maxScoreKey) as? Int ?? 0
     }
 
     func updateWithDelta(delta: Float) {
@@ -81,7 +81,7 @@ class GameState {
 
             case .GameStart:
                 gameStartTime = GameTimer.sharedTimer.currentTime
-                delegate?.gameStateRespawnPlayer(self)
+                delegate?.gameStateRespawnPlayer(gameState: self)
                 state = .MainPlayerSpawing
 
             case .MainPlayerSpawing:

@@ -24,12 +24,12 @@ struct Particle {
     private var rotationMatrix: matrix_float4x4 = float4x4(1).cmatrix
 
     mutating func updateWithDelta(delta: Float) {
-        let physicsForce = PhysicsManager.sharedManager.calculateForcesAtPosition(position) * delta
+      let physicsForce = PhysicsManager.sharedManager.calculateForcesAtPosition(position: position) * delta
         position += (physicsForce + direction * speed) * delta
     }
 
     mutating func activateTemporaryWithPosition(position: float3, direction: float3, speed: Float, length: Float, color: float3, lifespan: Float) {
-        activateWithPosition(position, direction: direction, speed: speed, length: length, thickness: Constants.Particle.TemporaryParticle.thickness, color: color)
+      activateWithPosition(position: position, direction: direction, speed: speed, length: length, thickness: Constants.Particle.TemporaryParticle.thickness, color: color)
 
         self.lifespan = lifespan
         hiddenTime = GameTimer.sharedTimer.currentTime + min(lifespan, Constants.Particle.TemporaryParticle.maxAge)
@@ -37,7 +37,7 @@ struct Particle {
     }
 
     mutating func activateLaserWithPosition(position: float3, direction: float3, speed: Float, length: Float, color: float3) {
-        activateWithPosition(position, direction: direction, speed: speed, length: length, thickness: Constants.Particle.LaserParticle.thickness, color: color)
+      activateWithPosition(position: position, direction: direction, speed: speed, length: length, thickness: Constants.Particle.LaserParticle.thickness, color: color)
     }
 
     private mutating func activateWithPosition(position: float3, direction: float3, speed: Float, length: Float, thickness: Float, color: float3) {

@@ -9,7 +9,7 @@
 import Foundation
 
 class Flyer: Enemy {
-    enum Type {
+  enum `Type` {
         case Vertical
         case Horizontal
     }
@@ -41,7 +41,7 @@ class Flyer: Enemy {
 
         if isActive {
             position += velocity * delta
-            let collision = World.doesCollide(self)
+          let collision = World.doesCollide(entity: self)
             if collision.contains(.Left) || collision.contains(.Right) {
                 direction[0] *= -1
             }
@@ -51,6 +51,6 @@ class Flyer: Enemy {
             rotation[type == .Horizontal ? 0 : 1] += Float(M_PI) * delta
         }
 
-        super.updateWithDelta(delta)
+      super.updateWithDelta(delta: delta)
     }
 }

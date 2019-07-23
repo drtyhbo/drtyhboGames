@@ -10,7 +10,7 @@ import Foundation
 
 class GridRenderer: SceneRenderer {
     private struct GridUniforms {
-        static let size = sizeof(Int)
+        static let size = MemoryLayout<Int>.size
 
         let numLights: Int
 
@@ -29,11 +29,11 @@ class GridRenderer: SceneRenderer {
     private var lightsBufferQueue: BufferQueue!
 
     override init(device: MTLDevice, commandQueue: MTLCommandQueue) {
-        gridVertexBufferQueue = BufferQueue(device: device, length: sizeof(PointMass) * 4000)
-        gridIndexBufferQueue = BufferQueue(device: device, length: sizeof(UInt16) * 6000)
+        gridVertexBufferQueue = BufferQueue(device: device, length: MemoryLayout<PointMass>.size * 4000)
+        gridIndexBufferQueue = BufferQueue(device: device, length: MemoryLayout<UInt16>.size * 6000)
 
         gridUniformsBufferQueue = BufferQueue(device: device, length: GridUniforms.size)
-        lightsBufferQueue = BufferQueue(device: device, length: EntityManager.maxEntities * 3 * sizeof(Float))
+        lightsBufferQueue = BufferQueue(device: device, length: EntityManager.maxEntities * 3 * MemoryLayout<Float>.size)
 
         super.init(device: device, commandQueue: commandQueue)
 
@@ -43,66 +43,69 @@ class GridRenderer: SceneRenderer {
     override func renderScene(scene: Scene, toCommandBuffer commandBuffer: MTLCommandBuffer, outputTexture: MTLTexture) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = outputTexture
-        renderPassDescriptor.colorAttachments[0].loadAction = .Load
-        renderPassDescriptor.colorAttachments[0].storeAction = .Store
+        renderPassDescriptor.colorAttachments[0].loadAction = .load
+        renderPassDescriptor.colorAttachments[0].storeAction = .store
 
-        let commandEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)
-        commandEncoder.setDepthStencilState(depthStencilState)
-        commandEncoder.setRenderPipelineState(pipelineState)
+      let commandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
+        // TODO: renderPassDescriptor does not set a depthAttachment, but originally we did set a depthstencilstate below...
+        // commandEncoder!.setDepthStencilState(depthStencilState)
+        commandEncoder!.setRenderPipelineState(pipelineState)
 
         let grid = GridManager.sharedManager.grid
 
         let vertexBuffer = gridVertexBufferQueue.nextBuffer
-        vertexBuffer.copyData(grid.pointMasses, size: sizeof(PointMass) * grid.pointMasses.count)
+      
+        let gridPointMassesPtr = UnsafeRawPointer(&grid.pointMasses).assumingMemoryBound(to: PointMass.self)
+        vertexBuffer.copyData(data: gridPointMassesPtr, size: MemoryLayout<PointMass>.size * grid.pointMasses.count)
 
         let indexBuffer = gridIndexBufferQueue.nextBuffer
-        indexBuffer.copyData(grid.indices, size: sizeof(UInt16) * grid.indices.count)
+        indexBuffer.copyData(data: grid.indices, size: MemoryLayout<UInt16>.size * grid.indices.count)
 
         let gridUniformsBuffer = gridUniformsBufferQueue.nextBuffer
         let gridUniforms = GridUniforms(numLights: scene.lights.count)
-        gridUniformsBuffer.copyData(gridUniforms.raw(), size: GridUniforms.size)
+        gridUniformsBuffer.copyData(data: gridUniforms.raw(), size: GridUniforms.size)
 
         let lightsBuffer = lightsBufferQueue.nextBuffer
         for light in scene.lights {
-            lightsBuffer.copyData(light.floatBuffer, size: Light.size)
+          lightsBuffer.copyData(data: light.floatBuffer, size: Light.size)
         }
 
-        commandEncoder.setVertexBuffer(vertexBuffer.buffer, offset: 0, atIndex: 0)
-        commandEncoder.setVertexBuffer(scene.cameraUniformsBuffer!.buffer, offset: 0, atIndex: 1)
-        commandEncoder.setVertexBuffer(gridUniformsBuffer.buffer, offset: 0, atIndex: 2)
-        commandEncoder.setVertexBuffer(lightsBuffer.buffer, offset: 0, atIndex: 3)
-        commandEncoder.drawIndexedPrimitives(.Line, indexCount: grid.indices.count, indexType: .UInt16, indexBuffer: indexBuffer.buffer, indexBufferOffset: 0)
-        commandEncoder.endEncoding()
+      commandEncoder!.setVertexBuffer(vertexBuffer.buffer, offset: 0, index: 0)
+      commandEncoder!.setVertexBuffer(scene.cameraUniformsBuffer!.buffer, offset: 0, index: 1)
+      commandEncoder!.setVertexBuffer(gridUniformsBuffer.buffer, offset: 0, index: 2)
+      commandEncoder!.setVertexBuffer(lightsBuffer.buffer, offset: 0, index: 3)
+      commandEncoder!.drawIndexedPrimitives(type: .line, indexCount: grid.indices.count, indexType: .uint16, indexBuffer: indexBuffer.buffer, indexBufferOffset: 0)
+        commandEncoder!.endEncoding()
     }
 
     private func setup() {
-        let defaultLibrary = device.newDefaultLibrary()!
-        let vertexFunction = defaultLibrary.newFunctionWithName("grid_vertex")
-        let fragmentFunction = defaultLibrary.newFunctionWithName("grid_fragment")
+      let defaultLibrary = device.makeDefaultLibrary()!
+      let vertexFunction = defaultLibrary.makeFunction(name: "grid_vertex")
+      let fragmentFunction = defaultLibrary.makeFunction(name: "grid_fragment")
 
         let vertexDescriptor = MTLVertexDescriptor()
-        vertexDescriptor.attributes[0].format = .Float2
+      vertexDescriptor.attributes[0].format = .float2
         vertexDescriptor.attributes[0].bufferIndex = 0
         vertexDescriptor.attributes[0].offset = 0
 
-        vertexDescriptor.layouts[0].stride = sizeof(PointMass)
-        vertexDescriptor.layouts[0].stepFunction = .PerVertex
+        vertexDescriptor.layouts[0].stride = MemoryLayout<PointMass>.size
+      vertexDescriptor.layouts[0].stepFunction = .perVertex
 
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
         pipelineDescriptor.vertexFunction = vertexFunction
         pipelineDescriptor.fragmentFunction = fragmentFunction
-        pipelineDescriptor.colorAttachments[0].pixelFormat = .BGRA8Unorm
+      pipelineDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
         pipelineDescriptor.vertexDescriptor = vertexDescriptor
 
         do {
-            pipelineState = try device.newRenderPipelineStateWithDescriptor(pipelineDescriptor)
+          pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
         } catch let error {
             print (error)
         }
 
         let depthStencilDescriptor = MTLDepthStencilDescriptor()
-        depthStencilDescriptor.depthCompareFunction = .Less
-        depthStencilDescriptor.depthWriteEnabled = true
-        depthStencilState = device.newDepthStencilStateWithDescriptor(depthStencilDescriptor)
+      depthStencilDescriptor.depthCompareFunction = .less
+      depthStencilDescriptor.isDepthWriteEnabled = true
+      depthStencilState = device.makeDepthStencilState(descriptor: depthStencilDescriptor)
     }
 }

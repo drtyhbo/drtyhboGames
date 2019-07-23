@@ -49,8 +49,8 @@ class EntitySpawner {
                 }
                 entity.load()
                 entity.spawn()
-                World.positionEntityInWorld(entity)
-                EntityManager.sharedManager.addEntity(entity)
+              World.positionEntityInWorld(entity: entity)
+              EntityManager.sharedManager.addEntity(entity: entity)
             }
             totalEntitiesSpawned += spawnSize
         }

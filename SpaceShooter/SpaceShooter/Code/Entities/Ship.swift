@@ -42,31 +42,31 @@ class Ship: Entity {
 
         if speed > 0 {
             let sprayDirection = -direction
-            ParticleManager.sharedManager.createSprayFromPosition(position, inDirection: sprayDirection, withAngle: 45, particleCount: 2)
+          ParticleManager.sharedManager.createSprayFromPosition(position: position, inDirection: sprayDirection, withAngle: 45, particleCount: 2)
         }
 
         if isShooting && (GameTimer.sharedTimer.currentTime - lastShotTime) > 0.1 {
-            ParticleManager.sharedManager.shootLaserFromPosition(position, inDirection: shootingDirection.rotateAroundY((shotAngle * 2).degreesToRadians()))
+          ParticleManager.sharedManager.shootLaserFromPosition(position: position, inDirection: shootingDirection.rotateAroundY(radians: (shotAngle * 2).degreesToRadians()))
             lastShotTime = GameTimer.sharedTimer.currentTime
             shotAngle = shotAngle * -1
         }
 
-        World.constraintEntityToWorld(self)
+      World.constraintEntityToWorld(entity: self)
 
-        super.updateWithDelta(delta)
+      super.updateWithDelta(delta: delta)
     }
 
     override func spawn() {
         super.spawn()
-        GridManager.sharedManager.grid.applyExplosiveForce(Constants.Player.Spawn.gravityForce, atPosition: position, withRadius: Constants.Player.Spawn.gravityRadius)
-        ParticleManager.sharedManager.createExplosionAroundPosition(position, particleCount: Constants.Player.Spawn.particleCount, color: float3(1, 1, 1), speed: Constants.Player.Spawn.particleSpeed)
-        LightManager.sharedManager.addLightAtPosition(position, color: float3(1, 1, 1), duration: Constants.Player.Spawn.lightDuration, intensity: Constants.Player.Spawn.lightIntensity)
+      GridManager.sharedManager.grid.applyExplosiveForce(force: Constants.Player.Spawn.gravityForce, atPosition: position, withRadius: Constants.Player.Spawn.gravityRadius)
+      ParticleManager.sharedManager.createExplosionAroundPosition(position: position, particleCount: Constants.Player.Spawn.particleCount, color: float3(1, 1, 1), speed: Constants.Player.Spawn.particleSpeed)
+      LightManager.sharedManager.addLightAtPosition(position: position, color: float3(1, 1, 1), duration: Constants.Player.Spawn.lightDuration, intensity: Constants.Player.Spawn.lightIntensity)
     }
 
     override func die() {
         super.die()
-        GridManager.sharedManager.grid.applyExplosiveForce(400, atPosition: position, withRadius: 30)
-        ParticleManager.sharedManager.createExplosionAroundPosition(position, particleCount: Constants.Player.Die.particleCount, color: float3(1, 1, 1), speed: Constants.Player.Die.particleSpeed)
+      GridManager.sharedManager.grid.applyExplosiveForce(force: 400, atPosition: position, withRadius: 30)
+      ParticleManager.sharedManager.createExplosionAroundPosition(position: position, particleCount: Constants.Player.Die.particleCount, color: float3(1, 1, 1), speed: Constants.Player.Die.particleSpeed)
     }
 
     func setVelocity(velocity: float3) {
